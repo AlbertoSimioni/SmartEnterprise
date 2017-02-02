@@ -1,23 +1,11 @@
 var TopicStream = require('./models/topic');
 
-var TopicFilters = require('./models/topicFilters');
-
-TopicStream.find(function (err, topics) {
-    // if there is an error retrieving, send the error. nothing after res.send(err) will execute
-    if (err) {
-        console.log(err);
-    }
-    TopicFilters.updateActiveTopics(topics);
-});
-
 function getTopics(res) {
     TopicStream.find(function (err, topics) {
-
         // if there is an error retrieving, send the error. nothing after res.send(err) will execute
         if (err) {
             res.send(err);
         }
-        TopicFilters.updateActiveTopics(topics);
         res.json(topics); // return all topics in JSON format
     });
 };

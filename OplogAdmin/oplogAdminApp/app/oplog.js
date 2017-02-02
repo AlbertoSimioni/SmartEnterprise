@@ -1,15 +1,38 @@
 
+var TopicStream = require('./models/topic');
+
 var TopicFilters = require('./models/topicFilters');
+
+
+//TOPICS list initiliziation at the start of the program. The topics are retrieved from the database.
+TopicStream.find(function (err, topics) {
+    // if there is an error retrieving, send the error. 
+    if (err) {
+        console.log(err);
+    }
+    TopicFilters.updateActiveTopics(topics);
+});
 
 module.exports = function (oplog,sock) {
 
 	//new oplog entry event
 	oplog.on('op', function (data) {
 
-		//Check if topic is inside the allowed topics or has to be filtered
-	 	var topics = TopicFilters.getActiveTopics();
-		var filtered = true;
+		//Check if topic is inside the allowed topics or has to be filtere
 		var nsSplit = data.ns.split(".",2);
+		//Check if the oplog operation is an update on the collection of the topic filters.
+		//in case we need to update the topic list.
+		if(nsSplit[1] == "topicstreams"){
+			TopicStream.find(function (err, topics) {
+    // if there is an error retrieving, send the error. 
+			    if (err) {
+			        console.log(err);
+			    }
+			    TopicFilters.updateActiveTopics(topics);
+			});
+		}
+		var topics = TopicFilters.getActiveTopics();
+		var filtered = true;
 	    if(nsSplit.length ==2){
 	    	for (var i = 0; i < topics.coll.length && filtered; i++) {
 	    		if(nsSplit[1] == topics.coll[i]){

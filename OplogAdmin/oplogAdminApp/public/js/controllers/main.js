@@ -20,7 +20,6 @@ angular.module('topicController', [])
 			$scope.topics.forEach(function(topic) {
 			     if($scope.formData.text == topic.text){ alreadyPresent = true;}
 			});
-			console.log(alreadyPresent);
 			$scope.alreadyPresent = alreadyPresent;
 		};
 
