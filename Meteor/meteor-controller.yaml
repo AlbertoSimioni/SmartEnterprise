@@ -1,0 +1,27 @@
+---
+kind: ReplicationController
+apiVersion: v1
+metadata:
+  name: meteor-controller
+  labels:
+    name: meteor
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        name: meteor
+    spec:
+      containers:
+      - name: meteor
+        image: asimioni/my-meteor
+        ports:
+        - name: http-server
+          containerPort: 80
+        env:
+        - name: MONGO_URL
+          value: mongodb://mongo-replica-node-0:27017,mongo-replica-node-1:27017,mongo-replica-node-2:27017/dbName?replicaSet=my_replica_set&readPreference=primaryPreferred&w=majority
+        - name: ROOT_URL
+          value: http://localhost
+        - name: MONGO_OPLOG_URL
+          value: mongodb://mongo-replica-node-0,mongo-replica-node-1,mongo-replica-node-2/local?authSource=admin&replicaSet=my_replica_set
