@@ -1,0 +1,22 @@
+---
+kind: ReplicationController
+apiVersion: v1
+metadata:
+  name: oplog-admin-controller
+  labels:
+    name: oplog-admin
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        name: oplog-admin
+    spec:
+      containers:
+      - name: oplog-admin
+        image: asimioni/oplogadmin
+        ports:
+        - name: http-server
+          containerPort: 8080
+        - name: zeromq
+          containerPort: 3000
