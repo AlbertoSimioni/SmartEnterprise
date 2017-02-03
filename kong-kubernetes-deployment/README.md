@@ -1,3 +1,6 @@
+# [KONG][website-url] :heavy_plus_sign: [Kubernetes Deployment](http://kubernetes.io/)
+
+[![][kong-logo]][website-url]
 
 Kong can easily be provisioned to Kubernetes cluster using the following steps:
 
