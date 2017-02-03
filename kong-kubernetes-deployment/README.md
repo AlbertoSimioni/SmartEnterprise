@@ -53,21 +53,22 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
 
 3. **Using Kong:**
 
-To add a new microservice 
+	To add a new microservice 
 
-``bash
-$ curl -i -X POST \
-  --url http://10.67.20.12:30001/apis/ \
-  --data 'name=<microservicename>' \
-  --data 'upstream_url=http://<kubernetes-service>.default.svc.cluster.local:8080/' \
-  --data 'request_path=/<microservicename>/' \
-  --data 'strip_request_path=true' 
-```
-Where the ip 10.67.20.12 corresponds to a private node IP of one of the nodes running kubernetes.
-<microservicename> is an arbitrary name for your microservice
-<kubernetes-service> is the name of  the kubernetes service that manages the entrypoints to the desired microservice. To find the name of the service run "kubectl svc" on the kubernetes master node
+	```bash
+	$ curl -i -X POST \
+	  --url http://10.67.20.12:30001/apis/ \
+	  --data 'name=<microservicename>' \
+	  --data 'upstream_url=http://<kubernetes-service>.default.svc.cluster.local:8080/' \
+	  --data 'request_path=/<microservicename>/' \
+	  --data 'strip_request_path=true' 
+	```
 
-For other operation read the documentation: https://getkong.org/docs/0.9.x/admin-api/
+	Where the ip 10.67.20.12 corresponds to a private node IP of one of the nodes running kubernetes.
+	<microservicename> is an arbitrary name for your microservice
+	<kubernetes-service> is the name of  the kubernetes service that manages the entrypoints to the desired microservice. To find the name of the service run "kubectl svc" on the kubernetes master node
+
+	For other operations read the official Kong documentation: https://getkong.org/docs/0.9.x/admin-api/
 
 
 [kong-logo]: http://i.imgur.com/4jyQQAZ.png
