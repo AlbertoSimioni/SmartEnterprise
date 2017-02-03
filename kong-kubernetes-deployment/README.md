@@ -47,18 +47,28 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
     you can test Kong:
 
     ```bash
-    $ curl <A NODE PRIVETE IP>:30001
+    $ curl <A NODE PRIVATE IP>:30001
     $ curl <EXTERNAL_IP>:30008
     ```
 
 3. **Using Kong:**
 
-    Quickly learn how to use Kong with the [5-minute Quickstart](/docs/latest/getting-started/quickstart).
+To add a new microservice 
 
+``bash
+$ curl -i -X POST \
+  --url http://10.67.20.12:30001/apis/ \
+  --data 'name=<microservicename>' \
+  --data 'upstream_url=http://<kubernetes-service>.default.svc.cluster.local:8080/' \
+  --data 'request_path=/<microservicename>/' \
+  --data 'strip_request_path=true' 
+```
+Where the ip 10.67.20.12 corresponds to a private node IP of one of the nodes running kubernetes.
+<microservicename> is an arbitrary name for your microservice
+<kubernetes-service> is the name of  the kubernetes service that manages the entrypoints to the desired microservice. To find the name of the service run "kubectl svc" on the kubernetes master node
 
-## Enterprise Support
+For other operation read the documentation: https://getkong.org/docs/0.9.x/admin-api/
 
-Support, Demo, Training, API Certifications and Consulting available at http://getkong.org/enterprise.
 
 [kong-logo]: http://i.imgur.com/4jyQQAZ.png
 [website-url]: https://getkong.org/
