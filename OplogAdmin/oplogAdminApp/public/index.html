@@ -70,18 +70,20 @@
 		<!-- FORM TO CREATE TOPICS -->
 		<div id="topic-form" class="row">
 			<div class="col-sm-8 col-sm-offset-2 text-center">
+				<div> The topic has to be written as "database.collection" or "collection", no more than one dot has to be in the string.
+				</div> 
 				<form>
 					<div class="form-group">
 
 						<!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
-						<input type="text" class="form-control input-lg text-center" placeholder="New topic" ng-model="formData.text" ng-change="checkPresence()">
+						<input type="text" class="form-control input-lg text-center" placeholder="New topic" ng-model="formData.text" ng-change="checkError()">
 					</div>
 
 					<!-- createTopic() WILL CREATE NEW TOPICS -->
 					<button type="submit" class="btn btn-primary btn-lg" ng-click="createTopic()">Add</button>
 				</form>
-				<div class="alert alert-danger" ng-show="alreadyPresent">
-				  <strong>Error!</strong> The topic is already in the list.
+				<div class="alert alert-danger" ng-show="error">
+				  <strong>Error!</strong> {{errorText}}.
 				</div>
 			</div>
 		</div>

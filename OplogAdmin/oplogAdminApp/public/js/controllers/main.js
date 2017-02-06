@@ -4,7 +4,9 @@ angular.module('topicController', [])
 	.controller('mainController', ['$scope','$http','Topics', function($scope, $http, Topics) {
 		$scope.formData = {};
 		$scope.loading = true;
-		$scope.alreadyPresent = false;
+		$scope.error = false;
+		$scope.errorText = "";
+
 
 		// GET =====================================================================
 		// when landing on the page, get all topics and show them
@@ -15,12 +17,25 @@ angular.module('topicController', [])
 				$scope.loading = false;
 			});
 
-		$scope.checkPresence = function(){
+		$scope.checkError = function(){
 			var alreadyPresent = false;
+			$scope.error = false;
+			$scope.errorText = "";
 			$scope.topics.forEach(function(topic) {
 			     if($scope.formData.text == topic.text){ alreadyPresent = true;}
 			});
-			$scope.alreadyPresent = alreadyPresent;
+
+			if(alreadyPresent){
+				$scope.error = true;
+				$scope.errorText = "The topic is already in the list.";
+				//return;
+			}
+			var splits = $scope.formData.text.split(".")
+			if(splits.length > 2){
+				$scope.error = true;
+				$scope.errorText = "Too many dots";
+				//return;
+			}
 		};
 
 		$scope.stopTopic = function(id) {
@@ -51,7 +66,7 @@ angular.module('topicController', [])
 			});
 			// validate the formData to make sure that something is there
 			// if form is empty, nothing will happen
-			if (($scope.formData.text != undefined) && !alreadyPresent) {
+			if (($scope.formData.text != undefined) && !alreadyPresent && ($scope.formData.text.split(".").length < 3)) {
 				$scope.loading = true;
 
 				// call the create function from our service (returns a promise object)

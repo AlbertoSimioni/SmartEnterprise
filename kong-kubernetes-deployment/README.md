@@ -65,7 +65,7 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
 	```
 
 	Where the ip `10.67.20.12` corresponds to a private node IP of one of the nodes running kubernetes.
-	`microservicename` is an arbitrary name for your microservice
+	`microservicename` is an arbitrary name for your microservice.
 	`kubernetes-service` is the name of  the kubernetes service that manages the entrypoints to the desired microservice. To find the name of the service run "kubectl svc" on the kubernetes master node
 
 	For other operations read the official Kong documentation: https://getkong.org/docs/0.9.x/admin-api/
