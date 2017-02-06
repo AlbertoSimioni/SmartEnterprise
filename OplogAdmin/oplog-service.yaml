@@ -7,8 +7,17 @@ spec:
   ports:
   - port: 8080
     targetPort: http-server
-    nodePort: 30006
     name: http
+  selector:
+    name: oplog-admin
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: oplog-output-data
+spec:
+  ports:
   - port: 3000
     targetPort: zeromq
     nodePort: 30010
