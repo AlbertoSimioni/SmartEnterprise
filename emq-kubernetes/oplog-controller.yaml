@@ -1,0 +1,22 @@
+---
+kind: ReplicationController
+apiVersion: v1
+metadata:
+  name: emqttd-controller
+  labels:
+    name: emqttd
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: eqmttd
+    spec:
+      containers:
+      - name: emqttd
+        image: 10.67.20.19:5000/emqttd
+        ports:
+        - name: mqtt
+          containerPort: 1883
+        - name: dashboard
+          containerPort: 18083
