@@ -1,0 +1,10 @@
+{
+  "name": "MS-example",
+  "version": "0.0.1",
+  "description": "Example of a microservice",
+  "author": "Alberto Simioni <simioni.alberto@gmail.com>",
+  "main": "client.js",
+  "dependencies": {
+    "mqtt": "2.4.0"
+  }
+}
