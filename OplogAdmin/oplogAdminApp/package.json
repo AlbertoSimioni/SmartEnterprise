@@ -1,9 +1,9 @@
 {
-  "name": "node-todo",
+  "name": "MongoDB-Stream-Generator",
   "version": "0.0.1",
-  "description": "Simple todo application.",
+  "description": "Application that manages the generation of the data stream by reading the new data inside MongoDB",
   "main": "server.js",
-  "author": "Scotch",
+  "author": "Alberto Simioni",
   "dependencies": {
     "body-parser": "^1.4.3",
     "express": "^4.13.4",
