@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: oplog-admin
-        image: asimioni/oplogadmin
+        image: 10.67.20.19:5000/oplogadmin
         ports:
         - name: http-server
           containerPort: 8080

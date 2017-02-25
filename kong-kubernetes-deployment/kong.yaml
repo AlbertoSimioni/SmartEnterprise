@@ -51,7 +51,8 @@ spec:
     spec:
       containers:
       - name: kong
-        image: mashape/kong:cassandra3
+        image: 10.67.20.19:5000/kong
+        #image: mashape/kong:cassandra3
         env:
           - name: KONG_DATABASE
             value: postgres

@@ -11,6 +11,6 @@ spec:
     spec:
       containers:
       - name: node-web-app
-        image: asimioni/node-web-app
+        image: 10.67.20.19:5000/node-web-app
         ports:
         - containerPort: 8080

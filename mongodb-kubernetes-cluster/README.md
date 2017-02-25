@@ -75,16 +75,10 @@ To start a 3 node mongo rs, run
 
 For example: node.js
 ```
-var connectionString = 'mongodb://mongo-replica-svc-a:27017,mongo-replica-svc-b:27017,mongo-replica-svc-c:27017/your_db?replicaSet=my_replica_set' +
+var connectionString = 'mongodb://mongo-replica-node-0:27017,mongo-replica-node-1:27017,mongo-replica-node-2:27017/your_db?replicaSet=my_replica_set&readPreference=primaryPreferred&w=majority' +
 
 MongoClient.connect(connectionString, callback)
 ```
-
-### Issue
-
-Update: The bug has been fixed since k8s v1.2.4.
-Note: Before Kubernetes v1.2.4 has a [bug](https://github.com/kubernetes/kubernetes/issues/19930) that a pod cannot connect to itself via its service's cluster IP. I used `headless` services, which means all services do not have cluster IP and can be accessed only inside K8s cluster through service name like `mongo-replica-svc-a`. E.g. `mongodb://service-name:27017/test`
-* If the number of replica set members are even, you may add a mongodb arbiter to create an "imbalance" (optional).
 
 # MongoDB sharded cluster
 
