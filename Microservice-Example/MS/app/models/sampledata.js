@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 
-module.exports = mongoose.model('TopicStream', {
+//The sample data has two fields, one of the type String and one of type Boolean
+module.exports = mongoose.model('SampleData', {
     text: {
         type: String,
         default: ''

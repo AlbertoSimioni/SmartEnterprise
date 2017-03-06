@@ -1,60 +1,60 @@
-var TopicStream = require('./models/topic');
+var SampleData = require('./models/sampledata');
 
-function getTopics(res) {
-    TopicStream.find(function (err, topics) {
+function getSampleDatas(res) {
+    SampleData.find(function (err, sampledatas) {
         // if there is an error retrieving, send the error. nothing after res.send(err) will execute
         if (err) {
             res.send(err);
         }
-        res.json(topics); // return all topics in JSON format
+        res.json(sampledatas); // return all sampledatas in JSON format
     });
 };
 
 module.exports = function (app) {
 
     // api ---------------------------------------------------------------------
-    // get all topics
-    app.get('/api/topics', function (req, res) {
-        // use mongoose to get all topics in the database
-        getTopics(res);
+    // get all sampledatas
+    app.get('/api/sampledatas', function (req, res) {
+        // use mongoose to get all sampledatas in the database
+        getSampleDatas(res);
     });
 
-    // create topic and send back all topics after creation
-    app.post('/api/topics', function (req, res) {
+    // create sampledata and send back all sampledatas after creation
+    app.post('/api/sampledatas', function (req, res) {
 
-        // create a topic, information comes from AJAX request from Angular
-        TopicStream.create({
+        // create a sampledata, information comes from AJAX request from Angular
+        SampleData.create({
             text: req.body.text,
             status: true,
             done: false
-        }, function (err, topic) {
+        }, function (err, sampledata) {
             if (err)
                 res.send(err);
 
-            // get and return all the topics after you create another
-            getTopics(res);
+            // get and return all the sampledatas after you create another
+            getSampleDatas(res);
         });
 
     });
 
-    app.put('/api/topics/:topic_id', function (req, res){
-        TopicStream.update({ _id: req.params.topic_id }, { $set: { status: req.body.status}}, function (err, topic) {
+    app.put('/api/sampledatas/:sampledata_id', function (req, res){
+        SampleData.update({ _id: req.params.sampledata_id }, { $set: { status: req.body.status}}, function (err, sampledata) {
             if (err)
                 res.send(err);
 
-            getTopics(res);
+            getSampleDatas(res);
         });
     });
 
-    // delete a topic
-    app.delete('/api/topics/:topic_id', function (req, res) {
-        TopicStream.remove({
-            _id: req.params.topic_id
-        }, function (err, topic) {
+    // delete a sampledata
+    app.delete('/api/sampledatas/:sampledata_id', function (req, res) {
+        SampleData.remove({
+            _id: req.params.sampledata_id
+        }, function (err, sampledata) {
             if (err)
                 res.send(err);
 
-            getTopics(res);
+            getSampleDatas(res);
         });
     });
 

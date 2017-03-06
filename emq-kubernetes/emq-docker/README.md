@@ -14,16 +14,6 @@ cd emq_docker
 docker build -t emq:latest . 
 ```
 
-### Run emqttd
-
-Execute some command under this docker image
-
-``docker run --rm -ti -v `pwd`:$(somewhere) emq/$(image) $(somecommand)``
-
-For example
-
-``docker run --rm -ti --name emq -p 18083:18083 -p 1883:1883 emq:latest``
-
 ### Configuration
 
 Use the environment variable to configure the EMQ docker container
@@ -57,7 +47,6 @@ Use the environment variable to configure the EMQ docker container
 
 For example, set mqtt tcp port to 1883
 
-``docker run --rm -ti --name emq -e "EMQ_TCP_PORT=1883" -p 18083:18083 -p 1883:1883 emq:latest``
 
 #### EMQ Loaded Plugins Configuration
 
