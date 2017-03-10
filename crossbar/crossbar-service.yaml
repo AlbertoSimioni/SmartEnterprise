@@ -1,0 +1,16 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: crossbar-service
+spec:
+  ports:
+  - port: 8080
+    targetPort: ws
+    nodePort: 30006
+    name: ws
+  selector:
+    name: crossbar
+  type: NodePort
+  externalIPs:
+    - 147.162.226.101
