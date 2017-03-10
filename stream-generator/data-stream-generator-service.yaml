@@ -2,20 +2,20 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: oplog-admin
+  name: data-stream-configuration-interface
 spec:
   ports:
   - port: 8080
     targetPort: http-server
     name: http
   selector:
-    name: oplog-admin
+    name: data-stream-generator
 ---
 
 kind: Service
 apiVersion: v1
 metadata:
-  name: oplog-output-data
+  name: data-stream-generator
 spec:
   ports:
   - port: 3000
@@ -23,7 +23,7 @@ spec:
     nodePort: 30010
     name: zeromq
   selector:
-    name: oplog-admin
+    name: data-stream-generator
   sessionAffinity: ClientIP
   type: NodePort
   externalIPs:

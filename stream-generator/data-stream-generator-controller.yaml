@@ -2,19 +2,19 @@
 kind: ReplicationController
 apiVersion: v1
 metadata:
-  name: oplog-admin-controller
+  name: data-stream-generator-controller
   labels:
-    name: oplog-admin
+    name: data-stream-generator
 spec:
   replicas: 2
   template:
     metadata:
       labels:
-        name: oplog-admin
+        name: data-stream-generator
     spec:
       containers:
       - name: oplog-admin
-        image: 10.67.20.19:5000/oplogadmin
+        image: 10.67.20.19:5000/data-stream-generator
         ports:
         - name: http-server
           containerPort: 8080

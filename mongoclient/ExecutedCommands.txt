@@ -1,0 +1,12 @@
+curl -i -X POST \
+	  --url http://10.67.20.12:30001/apis/ \
+	  --data 'name=mongoclient' \
+	  --data 'upstream_url=http://mongoclient.default.svc.cluster.local:3000/' \
+	  --data 'request_host=mongoclient' \
+	  --data 'strip_request_path=true'
+
+
+
+curl -X POST http://10.67.20.12:30001/apis/mongoclient/plugins \
+    --data "name=basic-auth" \
+    --data "config.hide_credentials=true"

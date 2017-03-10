@@ -1,0 +1,15 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: mongoclient
+spec:
+  ports:
+  - port: 3000
+    targetPort: http-server
+    nodePort: 30005
+  selector:
+    name: mongoclient
+  type: NodePort
+  externalIPs:
+    - 147.162.226.101

@@ -1,0 +1,27 @@
+---
+kind: ReplicationController
+apiVersion: v1
+metadata:
+  name: mongoclient
+  labels:
+    name: mongoclient
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: mongoclient
+    spec:
+      containers:
+      - name: mongoclient
+        image: mongoclient/mongoclient
+        ports:
+        - name: http-server
+          containerPort: 3000
+        env: 
+        - name: MONGOCLIENT_AUTH
+          value: 'true'
+        - name: MONGOCLIENT_USERNAME
+          value: 'SmartEnterprise'
+        - name: MONGOCLIENT_PASSWORD
+          value: 'q2bZ7ZgQEcy7uMnc'
