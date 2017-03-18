@@ -1,0 +1,16 @@
+{
+  "name": "client-side-simulation",
+  "version": "0.0.1",
+  "description": "timing collector",
+  "author": "Alberto Simioni <simioni.alberto@gmail.com>",
+  "main": "simulation.js",
+  "scripts": {
+      "start": "node simulation.js"
+  },
+  "dependencies": {
+     "unirest":"0.5.1",
+     "autobahn":"0.11.2",
+     "node-datetime": "1.0.0"
+  }
+}
+
