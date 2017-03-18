@@ -10,9 +10,9 @@ var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var autobahn = require('autobahn');
 
-
 // configuration ===============================================================
 mongoose.connect(database.mongoUrl);  // Connect to local MongoDB instance. A remoteUrl is also available (modulus.io)
+
 
 app.use(express.static('./public'));    // set the static files location /public/img will be /img for users
 app.use(morgan('dev')); // log every request to the console
@@ -24,9 +24,12 @@ app.use(methodOverride('X-HTTP-Method-Override')); // override with the X-HTTP-M
 // routes ======================================================================
 require('./app/routes.js')(app);
 
+
+
 // listen (start app with node server.js) ======================================
 app.listen(port);
 console.log("Microservice listening on port " + port);
+
 
 
 
@@ -41,15 +44,16 @@ connection.onopen = function (session) {
    //
    var counter = 0;
    setInterval(function () {
-
       // PUBLISH an event
       //
       session.publish('com.example.oncounter', [counter]);
       console.log("published to 'oncounter' with counter " + counter);
-
       counter += 1;
    }, 1000);
 };
+
+
+
 
 
 connection.open();
