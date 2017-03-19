@@ -1,0 +1,13 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: availabilities
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: availabilities
+  minReplicas: 1
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 50

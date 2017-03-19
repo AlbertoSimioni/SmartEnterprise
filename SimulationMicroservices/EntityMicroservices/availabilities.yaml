@@ -1,16 +1,16 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: metrics-collector
+  name: availabilities
 spec:
   template:
     metadata:
       labels:
-        app: metrics-collector
+        app: availabilities
     spec:
       containers:
-      - name: metrics-collector
-        image: asimioni/metrics-collector
+      - name: availabilities
+        image: asimioni/availabilities
         resources:
           requests:
             cpu: "500m"
@@ -22,7 +22,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: metrics-collector
+  name: availabilities
 spec:
   ports:
   - port: 8080
@@ -30,4 +30,4 @@ spec:
     protocol: TCP
     name: http
   selector:
-    app: metrics-collector
+    app: availabilities
