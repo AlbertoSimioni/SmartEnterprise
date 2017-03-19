@@ -22,7 +22,7 @@ module.exports = function (app) {
         //SOME WORK
 
 
-        for (i = 0; i < 1000000000; i++) { 
+        for (i = 0; i < 1000000; i++) { 
         }
 
         
@@ -31,6 +31,7 @@ module.exports = function (app) {
         //console.log(msElapsed);
         var hrstart2 = process.hrtime();
         console.log(msElapsed);
+        //unirest.post('http://metrics-collector:8080/timingSample')
         unirest.post('http://localhost:8080/timingSample')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')

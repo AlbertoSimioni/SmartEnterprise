@@ -26,20 +26,3 @@ require('./app/routes.js')(app);
 app.listen(port);
 console.log("Microservice listening on port " + port);
 
-
-
-/*
-var hrstart = process.hrtime();
-var dt = datetime.create();
-var datestring = dt.format('Y-m-d H:M:S').replace(' ','T');
-
-
-unirest.post('http://localhost:8080/timingSample')
-.headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-.send({ "simID": "sim1", "opID": "op3", "step" : 2, "timing" : 0.40 ,"serviceName": "serv1", "apiName": "/data","date":datestring})
-.end();
-
-var hrend = process.hrtime(hrstart);
-
-console.log(hrend[0]*1000 + hrend[1]/1000000);
-*/
