@@ -34,7 +34,8 @@ function timeout() {
         // create a recursive loop.
         tickCounter = tickCounter +1;
 
-        unirest.get('http://localhost:8090/availability/lol')
+        unirest.get('http://147.162.226.101:30008/availabilities/availability/lol')
+        //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .send({ "simID": "sim1", "opID": "op"+tickCounter, "step" : 0})
         .end(function(response){
