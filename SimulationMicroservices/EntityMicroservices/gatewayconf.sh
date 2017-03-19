@@ -1,0 +1,1 @@
+curl -i -X POST --url http://10.67.20.12:30001/apis/  --data 'name=availabilities' --data 'upstream_url=http://availabilities.default.svc.cluster.local:8080/'  --data 'request_path=/availabilities/'  --data 'strip_request_path=true' 
