@@ -1,15 +1,55 @@
 var TimingData = require('./models/timingdata');
-var TimingDataService = require('./models/timingdataservice');
+//var TimingDataService = require('./models/timingdataservice');
+
+
+var documents = [];
+
+timeout();
+
+function timeout() {
+    setTimeout(function () {
+
+
+    if(documents.length > 0){
+        insertDB();
+    }
+    timeout();
+
+    }, 5000);
+}
+
+
+
+function insertDB(){
+    TimingData.collection.insert(documents, 
+        function(err,docs){
+            if(err){console.log("err3");}
+        });
+    documents = [];
+}
 
 
 module.exports = function (app) {
-
+    
     // create sampledata and send back all sampledatas after creation
     app.post('/timingSample', function (req, res) {
         //parms: simID, opID, step, timing, serviceName
         var simID = req.body.simID;
         var opID = req.body.opID;
         var step = req.body.step;
+        var log = {}
+        log.simulationID = req.body.simID;
+        log.serviceName = req.body.serviceName;
+        log.apiName = req.body.apiName;
+        log.start = req.body.date;
+        log.step = req.body.step;
+        log.timing = req.body.timing;
+        log.operationID = req.body.opID;
+        documents.push(log);
+        res.send("ok").end();
+
+
+        /*
         // create a sampledata, information comes from AJAX request from Angular
         TimingData.findOne({'simulationID': simID, 'operationID': opID}, function(err,timing){
             if(err) { console.log("err1")
@@ -63,7 +103,8 @@ module.exports = function (app) {
                     })
                 }
             }
-        })
-        res.send("ok").end();
+        })*/
+
     });
+
 };
