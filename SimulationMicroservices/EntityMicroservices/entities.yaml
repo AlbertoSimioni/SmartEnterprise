@@ -1,0 +1,578 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: availabilities
+spec:
+  template:
+    metadata:
+      labels:
+        app: availabilities
+    spec:
+      containers:
+      - name: availabilities
+        image: asimioni/availabilities
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: availabilities
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: availabilities
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: catalogs
+spec:
+  template:
+    metadata:
+      labels:
+        app: catalogs
+    spec:
+      containers:
+      - name: catalogs
+        image: asimioni/catalogs
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: 500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalogs
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: catalogs
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: products
+spec:
+  template:
+    metadata:
+      labels:
+        app: products
+    spec:
+      containers:
+      - name: products
+        image: asimioni/products
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: 500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: products
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: products
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: providers
+spec:
+  template:
+    metadata:
+      labels:
+        app: providers
+    spec:
+      containers:
+      - name: providers
+        image: asimioni/providers
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: 500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: providers
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: providers
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: clients
+spec:
+  template:
+    metadata:
+      labels:
+        app: clients
+    spec:
+      containers:
+      - name: clients
+        image: asimioni/clients
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: 500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: clients
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: clients
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: operators
+spec:
+  template:
+    metadata:
+      labels:
+        app: operators
+    spec:
+      containers:
+      - name: operators
+        image: asimioni/operators
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: 500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: operatos
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: operators
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: purchasingorders
+spec:
+  template:
+    metadata:
+      labels:
+        app: purchasingorders
+    spec:
+      containers:
+      - name: purchasingorders
+        image: asimioni/purchasingorders
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: 500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: purchasingorders
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: purchasingorders
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: salesorders
+spec:
+  template:
+    metadata:
+      labels:
+        app: salesorders
+    spec:
+      containers:
+      - name: salesorders
+        image: asimioni/salesorders
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: 500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: salesorders
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: salesorders
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: warehouses
+spec:
+  template:
+    metadata:
+      labels:
+        app: warehouses
+    spec:
+      containers:
+      - name: warehouses
+        image: asimioni/warehouses
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: 500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: warehouses
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: warehouses
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: routes
+spec:
+  template:
+    metadata:
+      labels:
+        app: routes
+    spec:
+      containers:
+      - name: routes
+        image: asimioni/routes
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: 500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: routes
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: routes
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: trips
+spec:
+  template:
+    metadata:
+      labels:
+        app: trips
+    spec:
+      containers:
+      - name: trips
+        image: asimioni/trips
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: 500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: trips
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: trips
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: wares
+spec:
+  template:
+    metadata:
+      labels:
+        app: wares
+    spec:
+      containers:
+      - name: wares
+        image: asimioni/wares
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: 500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wares
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: wares
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: loadingplans
+spec:
+  template:
+    metadata:
+      labels:
+        app: loadingplans
+    spec:
+      containers:
+      - name: loadingplans
+        image: asimioni/loadingplans
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: 500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: loadingplans
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: loadingplans
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: unloadingplans
+spec:
+  template:
+    metadata:
+      labels:
+        app: unloadingplans
+    spec:
+      containers:
+      - name: loadingplans
+        image: asimioni/unloadingplans
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: 500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: unloadingplans
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: unloadingplans
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: paymentsin
+spec:
+  template:
+    metadata:
+      labels:
+        app: paymentsin
+    spec:
+      containers:
+      - name: paymentsin
+        image: asimioni/paymentsin
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: 500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: paymentsin
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: paymentsin
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: paymentsout
+spec:
+  template:
+    metadata:
+      labels:
+        app: paymentsout
+    spec:
+      containers:
+      - name: paymentsout
+        image: asimioni/paymentsout
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: 500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: paymentsout
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: paymentsout
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: invoices
+spec:
+  template:
+    metadata:
+      labels:
+        app: invoices
+    spec:
+      containers:
+      - name: invoices
+        image: asimioni/invoices
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: 500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: invoices
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: invoices
+---
