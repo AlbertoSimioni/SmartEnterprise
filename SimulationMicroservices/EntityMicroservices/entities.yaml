@@ -49,7 +49,7 @@ spec:
           requests:
             cpu: "250m"
           limits:
-            cpu: 500m"
+            cpu: "500m"
         ports:
         - containerPort: 8080
 ---
@@ -83,7 +83,7 @@ spec:
           requests:
             cpu: "250m"
           limits:
-            cpu: 500m"
+            cpu: "500m"
         ports:
         - containerPort: 8080
 ---
@@ -117,7 +117,7 @@ spec:
           requests:
             cpu: "250m"
           limits:
-            cpu: 500m"
+            cpu: "500m"
         ports:
         - containerPort: 8080
 ---
@@ -151,7 +151,7 @@ spec:
           requests:
             cpu: "250m"
           limits:
-            cpu: 500m"
+            cpu: "500m"
         ports:
         - containerPort: 8080
 ---
@@ -185,7 +185,7 @@ spec:
           requests:
             cpu: "250m"
           limits:
-            cpu: 500m"
+            cpu: "500m"
         ports:
         - containerPort: 8080
 ---
@@ -219,7 +219,7 @@ spec:
           requests:
             cpu: "250m"
           limits:
-            cpu: 500m"
+            cpu: "500m"
         ports:
         - containerPort: 8080
 ---
@@ -253,7 +253,7 @@ spec:
           requests:
             cpu: "250m"
           limits:
-            cpu: 500m"
+            cpu: "500m"
         ports:
         - containerPort: 8080
 ---
@@ -287,7 +287,7 @@ spec:
           requests:
             cpu: "250m"
           limits:
-            cpu: 500m"
+            cpu: "500m"
         ports:
         - containerPort: 8080
 ---
@@ -321,7 +321,7 @@ spec:
           requests:
             cpu: "250m"
           limits:
-            cpu: 500m"
+            cpu: "500m"
         ports:
         - containerPort: 8080
 ---
@@ -355,7 +355,7 @@ spec:
           requests:
             cpu: "250m"
           limits:
-            cpu: 500m"
+            cpu: "500m"
         ports:
         - containerPort: 8080
 ---
@@ -389,7 +389,7 @@ spec:
           requests:
             cpu: "250m"
           limits:
-            cpu: 500m"
+            cpu: "500m"
         ports:
         - containerPort: 8080
 ---
@@ -423,7 +423,7 @@ spec:
           requests:
             cpu: "250m"
           limits:
-            cpu: 500m"
+            cpu: "500m"
         ports:
         - containerPort: 8080
 ---
@@ -457,7 +457,7 @@ spec:
           requests:
             cpu: "250m"
           limits:
-            cpu: 500m"
+            cpu: "500m"
         ports:
         - containerPort: 8080
 ---
@@ -491,7 +491,7 @@ spec:
           requests:
             cpu: "250m"
           limits:
-            cpu: 500m"
+            cpu: "500m"
         ports:
         - containerPort: 8080
 ---
@@ -525,7 +525,7 @@ spec:
           requests:
             cpu: "250m"
           limits:
-            cpu: 500m"
+            cpu: "500m"
         ports:
         - containerPort: 8080
 ---
@@ -559,7 +559,7 @@ spec:
           requests:
             cpu: "250m"
           limits:
-            cpu: 500m"
+            cpu: "500m"
         ports:
         - containerPort: 8080
 ---
