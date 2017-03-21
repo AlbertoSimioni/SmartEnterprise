@@ -98,6 +98,40 @@ module.exports = function (app) {
 
     });
 
+
+        app.post('/setwares', function (req, res) {
+        
+        var hrstart = process.hrtime();
+        var dt = datetime.create();
+        var datestring = dt.format('Y-m-d H:M:S').replace(' ','T');
+        //SOME WORK
+
+
+        for (i = 0; i < t120; i++) { 
+        }
+
+        
+        var hrend = process.hrtime(hrstart);
+        var msElapsed = hrend[0]*1000 + hrend[1]/1000000;
+        //console.log(msElapsed);
+        var hrstart2 = process.hrtime();
+        console.log(msElapsed);
+
+
+        wampSession.publish('wares',  [], {type: "new" , opID: req.body.opID});
+
+        unirest.post('http://metrics-collector:8080/timingSample')
+        //unirest.post('http://localhost:9080/timingSample')
+        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
+        .type('json')
+        .send({ "simID": req.body.simID, "opID": req.body.opID, "step" : req.body.step+1, 
+            "timing" : msElapsed ,"serviceName": "Wares", "apiName": "POST-/setwares","date":datestring})
+        .end();
+
+
+        res.send("A").end();
+
+    });
     app.put('/ware/:availability_id', function (req, res){
                 
         var hrstart = process.hrtime();
@@ -152,6 +186,34 @@ module.exports = function (app) {
         .type('json')
         .send({ "simID": req.body.simID, "opID": req.body.opID, "step" : req.body.step+1, 
             "timing" : msElapsed ,"serviceName": "Wares", "apiName": "DELETE-/wares","date":datestring})
+        .end();
+
+        res.send("A").end();
+    });
+
+
+
+    app.get('/activewares', function(req,res){
+
+        var hrstart = process.hrtime();
+        var dt = datetime.create();
+        var datestring = dt.format('Y-m-d H:M:S').replace(' ','T');
+        //SOME WORK
+
+        for (i = 0; i < t120; i++) { 
+        }
+        
+        var hrend = process.hrtime(hrstart);
+        var msElapsed = hrend[0]*1000 + hrend[1]/1000000;
+        //console.log(msElapsed);
+        var hrstart2 = process.hrtime();
+        console.log(msElapsed);
+        unirest.post('http://metrics-collector:8080/timingSample')
+        //unirest.post('http://localhost:8080/timingSample')
+        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
+        .type('json')
+        .send({ "simID": req.body.simID, "opID": req.body.opID, "step" : req.body.step+1, 
+            "timing" : msElapsed ,"serviceName": "Wares", "apiName": "GET-/activewares","date":datestring})
         .end();
 
         res.send("A").end();

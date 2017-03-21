@@ -1,0 +1,373 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: addorders
+spec:
+  template:
+    metadata:
+      labels:
+        app: addorders
+    spec:
+      containers:
+      - name: addorders
+        image: asimioni/addorders
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: addorders
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: addorders
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: addpayments
+spec:
+  template:
+    metadata:
+      labels:
+        app: addpayments
+    spec:
+      containers:
+      - name: addpayments
+        image: asimioni/addpayments
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: addpayments
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: addpayments
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: lodorders
+spec:
+  template:
+    metadata:
+      labels:
+        app: lodorders
+    spec:
+      containers:
+      - name: lodorders
+        image: asimioni/lodorders
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lodorders
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: lodorders
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: lodtransports
+spec:
+  template:
+    metadata:
+      labels:
+        app: lodtransports
+    spec:
+      containers:
+      - name: lodtransports
+        image: asimioni/lodtransports
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lodtransports
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: lodtransports
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: lodwarehouses
+spec:
+  template:
+    metadata:
+      labels:
+        app: lodwarehouses
+    spec:
+      containers:
+      - name: lodwarehouses
+        image: asimioni/lodwarehouses
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lodwarehouses
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: lodwarehouses
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: pldplans
+spec:
+  template:
+    metadata:
+      labels:
+        app: pldplans
+    spec:
+      containers:
+      - name: pldplans
+        image: asimioni/pldplans
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pldplans
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: pldplans
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: pudavailabilities
+spec:
+  template:
+    metadata:
+      labels:
+        app: pudavailabilities
+    spec:
+      containers:
+      - name: pudavailabilities
+        image: asimioni/pudavailabilities
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pudavailabilities
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: pudavailabilities
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: pudorders
+spec:
+  template:
+    metadata:
+      labels:
+        app: pudorders
+    spec:
+      containers:
+      - name: pudorders
+        image: asimioni/pudorders
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pudorders
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: pudorders
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sedavailabilities
+spec:
+  template:
+    metadata:
+      labels:
+        app: sedavailabilities
+    spec:
+      containers:
+      - name: sedavailabilities
+        image: asimioni/sedavailabilities
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sedavailabilities
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: sedavailabilities
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sedcatalogs
+spec:
+  template:
+    metadata:
+      labels:
+        app: sedcatalogs
+    spec:
+      containers:
+      - name: sedcatalogs
+        image: asimioni/sedcatalogs
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sedcatalogs
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: sedcatalogs
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sedorders
+spec:
+  template:
+    metadata:
+      labels:
+        app: sedorders
+    spec:
+      containers:
+      - name: sedorders
+        image: asimioni/sedorders
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sedorders
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: sedorders

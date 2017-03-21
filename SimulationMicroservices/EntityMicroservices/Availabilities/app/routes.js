@@ -52,7 +52,7 @@ module.exports = function (app) {
         var hrstart2 = process.hrtime();
         console.log(msElapsed);
         unirest.post('http://metrics-collector:8080/timingSample')
-        //unirest.post('http://localhost:8080/timingSample')
+        //unirest.post('http://localhost:9080/timingSample')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
         .send({ "simID": req.body.simID, "opID": req.body.opID, "step" : req.body.step+1, 
