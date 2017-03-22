@@ -4,13 +4,17 @@ var autobahn = require('autobahn');
 
 var parameters = require('./config/parameters');      // load the database config
 var addresses = require('./config/addresses'); 
+
+var sellers = require('./operators/seller');
+var buyers = require('./operators/buyer');
+
 var connection = new autobahn.Connection({
          url: addresses.crossbarUrl,
          realm: 'realm1'
       });
+//
 
-
-
+/*
         //
         connection.onopen = function (session, details) {
 
@@ -32,7 +36,7 @@ var connection = new autobahn.Connection({
 
         };
 
-        connection.open();
+        connection.open();*/
 
 
 
@@ -56,11 +60,23 @@ timeout()
 
 function timeout() {
     setTimeout(function () {
+
+      if(tickCounter  == 20){
+        connection.onopen = function (session, details) {
+          session.publish("availabilities",["ahah"],{"opID":"dio-"+tickCounter});
+
+        }
+        connection.open();
+      }
+
+
+
+
         // Do Something Here
         // Then recall the parent function to
         // create a recursive loop.
         tickCounter = tickCounter +1;
-
+        /*
         //unirest.get('http://147.162.226.101:30008/availabilities/availability/lol')
         unirest.get('http://localhost:8081/currentavailabilities')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
@@ -68,13 +84,16 @@ function timeout() {
         .end(function(response){
             console.log(response.body);
         });
-
+        */
+        sellers.tick(tickCounter/10);
+        buyers.tick(tickCounter/10);
         if(tickCounter <= parameters.nrTicks){
         	timeout();
         }
         else{
-        	console.log("Terminating simulation");
-        	//connection.close()
+          console.log("Terminating simulation");
+          //connection.close()
         }
+
     }, parameters.tick);
 }

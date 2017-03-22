@@ -62,8 +62,8 @@ metadata:
 spec:
   scaleTargetRef:
     apiVersion: extensions/v1beta1
-    kind: lodwarehouses
-    name: clients
+    kind: Deployment
+    name: lodwarehouses
   minReplicas: 1
   maxReplicas: 4
   targetCPUUtilizationPercentage: 50

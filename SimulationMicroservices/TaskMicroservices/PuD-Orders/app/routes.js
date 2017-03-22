@@ -169,6 +169,7 @@ app.put('/confirmpurchasingorder', function (req, res) {
                 .send({ "simID": req.body.simID, "opID": req.body.opID, "step" : req.body.step+3, 
                     "timing" : msElapsed2 ,"serviceName": "PuD-Orders", "apiName": "PUT-R/confirmpurchasingorder","date":datestring2})
                 .end();
+                wampSession.publish('confirmpurchasingorder',  [], {type: "confirm" , opID: req.body.opID});
                 res.send("A").end();
         });
         
