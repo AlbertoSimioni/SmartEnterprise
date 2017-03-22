@@ -85,7 +85,7 @@ module.exports = function (app) {
     });
 
     // create sampledata and send back all sampledatas after creation
-    app.post('/newTrip', function (req, res) {
+    app.post('/newtrip', function (req, res) {
         
         var hrstart = process.hrtime();
         var dt = datetime.create();
@@ -115,7 +115,7 @@ module.exports = function (app) {
                 .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
                 .type('json')
                 .send({ "simID": req.body.simID, "opID": req.body.opID, "step" : req.body.step+3, 
-                    "timing" : msElapsed2 ,"serviceName": "LoD-Transports", "apiName": "POST-R/newTrip","date":datestring2})
+                    "timing" : msElapsed2 ,"serviceName": "LoD-Transports", "apiName": "POST-R/newtrip","date":datestring2})
                 .end();
                 res.send("A").end();
         });
@@ -129,12 +129,12 @@ module.exports = function (app) {
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
         .send({ "simID": req.body.simID, "opID": req.body.opID, "step" : req.body.step+1, 
-            "timing" : msElapsed ,"serviceName": "LoD-Transports", "apiName": "POST-/newTrip","date":datestring})
+            "timing" : msElapsed ,"serviceName": "LoD-Transports", "apiName": "POST-/newtrip","date":datestring})
         .end();
 
     });
 
-    app.put('/fillTrip/:availability_id', function (req, res){
+    app.put('/filltrip/:availability_id', function (req, res){
          
         var hrstart = process.hrtime();
         var dt = datetime.create();
@@ -164,7 +164,7 @@ module.exports = function (app) {
                 .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
                 .type('json')
                 .send({ "simID": req.body.simID, "opID": req.body.opID, "step" : req.body.step+3, 
-                    "timing" : msElapsed2 ,"serviceName": "LoD-Transports", "apiName": "PUT-R/fillTrip","date":datestring2})
+                    "timing" : msElapsed2 ,"serviceName": "LoD-Transports", "apiName": "PUT-R/filltrip","date":datestring2})
                 .end();
                 res.send("A").end();
         });
@@ -178,7 +178,7 @@ module.exports = function (app) {
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
         .send({ "simID": req.body.simID, "opID": req.body.opID, "step" : req.body.step+1, 
-            "timing" : msElapsed ,"serviceName": "LoD-Transports", "apiName": "PUT-/fillTrip","date":datestring})
+            "timing" : msElapsed ,"serviceName": "LoD-Transports", "apiName": "PUT-/filltrip","date":datestring})
         .end();
     });
 
@@ -232,7 +232,7 @@ module.exports = function (app) {
     });
 
 
-    app.put('/confirmTrip/:availability_id', function (req, res){
+    app.put('/confirmtrip/:availability_id', function (req, res){
          
         var hrstart = process.hrtime();
         var dt = datetime.create();
@@ -272,12 +272,15 @@ module.exports = function (app) {
                     }
                     var hrend3 = process.hrtime(hrstart2);
                     var msElapsed3 = hrend3[0]*1000 + hrend3[1]/1000000;
+
+                    wampSession.publish('confirmtrip',  [], {type: "confirm" , opID: req.body.opID});
+
                     unirest.post('http://metrics-collector:8080/timingSample')
                     //unirest.post('http://localhost:9080/timingSample')
                     .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
                     .type('json')
                     .send({ "simID": req.body.simID, "opID": req.body.opID, "step" : req.body.step+5, 
-                        "timing" : msElapsed3 ,"serviceName": "LoD-Transports", "apiName": "PUT-R/confirmTrip","date":datestring2})
+                        "timing" : msElapsed3 ,"serviceName": "LoD-Transports", "apiName": "PUT-R/confirmtrip","date":datestring2})
                     .end();
                     res.send("A").end();
                 });
@@ -287,7 +290,7 @@ module.exports = function (app) {
                 .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
                 .type('json')
                 .send({ "simID": req.body.simID, "opID": req.body.opID, "step" : req.body.step+3, 
-                    "timing" : msElapsed2 ,"serviceName": "LoD-Transports", "apiName": "PUT-R/confirmTrip","date":datestring2})
+                    "timing" : msElapsed2 ,"serviceName": "LoD-Transports", "apiName": "PUT-R/confirmtrip","date":datestring2})
                 .end();
                 
         });
@@ -301,7 +304,7 @@ module.exports = function (app) {
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
         .send({ "simID": req.body.simID, "opID": req.body.opID, "step" : req.body.step+1, 
-            "timing" : msElapsed ,"serviceName": "LoD-Transports", "apiName": "PUT-/confirmTrip","date":datestring})
+            "timing" : msElapsed ,"serviceName": "LoD-Transports", "apiName": "PUT-/confirmtrip","date":datestring})
         .end();
     });
 

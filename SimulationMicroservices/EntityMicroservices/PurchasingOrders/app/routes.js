@@ -80,7 +80,6 @@ module.exports = function (app) {
         var msElapsed = hrend[0]*1000 + hrend[1]/1000000;
         //console.log(msElapsed);
         var hrstart2 = process.hrtime();
-        console.log(msElapsed);
 
 
         wampSession.publish('purchasingorders',  [], {type: "new" , opID: req.body.opID});

@@ -38,7 +38,7 @@ function Buyer() {
     this._connection.open();
     this._activeOpCounter = 0;
     this._reactOpCounter = 0;
-    this._operationsCounter = 0;
+    this._operationsCounter = (nr*5)%7;
     this._activestep = 0;
 
     //Autonomous operations
@@ -128,6 +128,7 @@ function Buyer() {
 		console.log(buyers[nr]._id);
 
 		function onSalesOrders(args, kwargs) {
+			console.log("ONSALESORDER");
 	    	var opnr = kwargs.opID.split('-')[1];
 	    	if((opnr % lastvalue) == nr){
 		    	unirest.get('http://147.162.226.101:30008/pudorders/currentsalesorders')

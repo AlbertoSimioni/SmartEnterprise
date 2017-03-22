@@ -7,37 +7,7 @@ var addresses = require('./config/addresses');
 
 var sellers = require('./operators/seller');
 var buyers = require('./operators/buyer');
-
-var connection = new autobahn.Connection({
-         url: addresses.crossbarUrl,
-         realm: 'realm1'
-      });
-//
-
-/*
-        //
-        connection.onopen = function (session, details) {
-
-           console.log("Connected");
-
-           // SUBSCRIBE to a topic and receive events
-           //
-           function on_counter (args, kwargs) {
-              console.log(kwargs.opID);
-           }
-           session.subscribe('availabilities', on_counter).then(
-              function (sub) {
-                 console.log('subscribed to topic');
-              },
-              function (err) {
-                 console.log('failed to subscribe to topic', err);
-              }
-           );
-
-        };
-
-        connection.open();*/
-
+var logistics = require('./operators/buyer');
 
 
 var hrstart = process.hrtime();
@@ -61,15 +31,6 @@ timeout()
 function timeout() {
     setTimeout(function () {
 
-      if(tickCounter  == 20){
-        connection.onopen = function (session, details) {
-          session.publish("availabilities",["ahah"],{"opID":"dio-"+tickCounter});
-
-        }
-        connection.open();
-      }
-
-
 
 
         // Do Something Here
@@ -87,6 +48,7 @@ function timeout() {
         */
         sellers.tick(tickCounter/10);
         buyers.tick(tickCounter/10);
+        logistics.tick(tickCounter/10);
         if(tickCounter <= parameters.nrTicks){
         	timeout();
         }

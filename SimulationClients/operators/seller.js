@@ -38,7 +38,7 @@ function Seller() {
     this._connection.open();
     this._activeOpCounter = 0;
     this._reactOpCounter = 0;
-    this._operationsCounter = 0;
+    this._operationsCounter = (nr*6)%11;
     this._activestep = 0;
 
     //Autonomous operations
@@ -128,6 +128,7 @@ function Seller() {
 		console.log(sellers[nr]._id);
 
 	    function onAvailabilities(args, kwargs) {
+	    	console.log("ONAVAILABILITIES");
 	    	var opnr = kwargs.opID.split('-')[1];
 	    	if((opnr % lastvalue) == nr){
 		    	unirest.get('http://147.162.226.101:30008/sedavailabilities/currentavailabilities')
@@ -143,6 +144,7 @@ function Seller() {
 
 
 		function onPurchasingOrders(args, kwargs) {
+			console.log("ONPURCHASINGORDERS")
 	    	var opnr = kwargs.opID.split('-')[1];
 	    	if((opnr % lastvalue) == nr){
 		    	unirest.get('http://147.162.226.101:30008/sedorders/currentpurchasingorders')

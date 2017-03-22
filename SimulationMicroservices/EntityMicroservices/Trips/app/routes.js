@@ -127,6 +127,9 @@ module.exports = function (app) {
         res.send("A").end();
     });
 
+
+
+
     // delete a sampledata
     app.delete('/trip/:trip_id', function (req, res) {
                 
