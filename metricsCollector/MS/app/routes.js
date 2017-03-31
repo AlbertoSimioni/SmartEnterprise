@@ -41,10 +41,13 @@ module.exports = function (app) {
         log.simulationID = req.body.simID;
         log.serviceName = req.body.serviceName;
         log.apiName = req.body.apiName;
-        log.start = req.body.date;
+        log.date = req.body.date;
         log.step = req.body.step;
         log.timing = req.body.timing;
         log.operationID = req.body.opID;
+        log.queueLength = req.body.queueLength;
+        log.queueTiming = req.body.queueTiming;
+
         documents.push(log);
         res.send("ok").end();
 

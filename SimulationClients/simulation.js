@@ -7,8 +7,9 @@ var addresses = require('./config/addresses');
 
 var sellers = require('./operators/seller');
 var buyers = require('./operators/buyer');
-var logistics = require('./operators/buyer');
-
+var logistics = require('./operators/logistic');
+var platforms = require('./operators/platform');
+var timings = require('./timings');
 
 var hrstart = process.hrtime();
 var dt = datetime.create();
@@ -49,10 +50,16 @@ function timeout() {
         sellers.tick(tickCounter/10);
         buyers.tick(tickCounter/10);
         logistics.tick(tickCounter/10);
+        platforms.tick(tickCounter/10);
         if(tickCounter <= parameters.nrTicks){
         	timeout();
         }
         else{
+          sellers.terminate();
+          buyers.terminate();
+          logistics.terminate();
+          platforms.terminate();
+          timings.terminate();
           console.log("Terminating simulation");
           //connection.close()
         }

@@ -5,6 +5,8 @@ var autobahn = require('autobahn');
 var parameters = require('../config/parameters');      // load the database config
 var addresses = require('../config/addresses');
 
+var timings = require('../timings');
+
 
 Math.log = (function() {
   var log = Math.log;
@@ -40,6 +42,7 @@ function Seller() {
     this._reactOpCounter = 0;
     this._operationsCounter = (nr*6)%11;
     this._activestep = 0;
+    this._terminate = false;
 
     //Autonomous operations
     function timeout() {
@@ -47,29 +50,39 @@ function Seller() {
 	    	if(sellers[nr]._operationsCounter % 11 < 8){
 	    		//NEW CATALOG
 	    		if(sellers[nr]._activestep == 0){
+	    			var hrstart = process.hrtime();
+
 		    		unirest.post('http://147.162.226.101:30008/sedcatalogs/newcatalog')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": sellers[nr]._id+'-'+sellers[nr]._activeOpCounter+'-A', "step" : 0})
 			        .end(function(response){
-			            console.log(response.body);
+			        	var hrend = process.hrtime(hrstart);
+        				var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
+			            timings.addTiming("POST-sedcatalogs/newcatalog",msElapsed);
 			        });
 			        sellers[nr]._activestep++;
 		    	}
 		    	else if(sellers[nr]._activestep > 0 && sellers[nr]._activestep <10){
+		    		var hrstart = process.hrtime();
 		    		unirest.put('http://147.162.226.101:30008/sedcatalogs/addcatalog/lol')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": sellers[nr]._id+'-'+sellers[nr]._activeOpCounter+'-A', "step" : 0})
 			        .end(function(response){
-			            console.log(response.body);
+			            var hrend = process.hrtime(hrstart);
+        				var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
+			            timings.addTiming("PUT-sedcatalogs/addcatalog",msElapsed);
 			        });
 			        sellers[nr]._activestep++;
 		    	}
 		    	else{
+		    		var hrstart = process.hrtime();
 		    		unirest.get('http://147.162.226.101:30008/sedcatalogs/currentcatalogs')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": sellers[nr]._id+'-'+sellers[nr]._activeOpCounter+'-A', "step" : 0})
 			        .end(function(response){
-			            console.log(response.body);
+			            var hrend = process.hrtime(hrstart);
+        				var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
+			            timings.addTiming("GET-sedcatalogs/currentcatalogs",msElapsed);
 			        });
 		    		sellers[nr]._activestep = 0;
 		    		sellers[nr]._operationsCounter++;
@@ -78,46 +91,61 @@ function Seller() {
 	    	else{
 	    		//ORDERS
 				if(sellers[nr]._activestep == 0){
+					var hrstart = process.hrtime();
 		    		unirest.post('http://147.162.226.101:30008/sedorders/newsalesorder')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": sellers[nr]._id+'-'+sellers[nr]._activeOpCounter+'-A', "step" : 0})
 			        .end(function(response){
-			            console.log(response.body);
+			            var hrend = process.hrtime(hrstart);
+        				var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
+			            timings.addTiming("POST-sedorders/newsalesorder",msElapsed);
 			        });
 			        sellers[nr]._activestep++;
 		    	}
-		    	else if(sellers[nr]._activestep > 0 && sellers[nr]._activestep <10){
+		    	else if(sellers[nr]._activestep > 0 && sellers[nr]._activestep <9){
+		    		var hrstart = process.hrtime();
 		    		unirest.put('http://147.162.226.101:30008/sedorders/addsalesorder/lol')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": sellers[nr]._id+'-'+sellers[nr]._activeOpCounter+'-A', "step" : 0})
 			        .end(function(response){
-			            console.log(response.body);
+			            var hrend = process.hrtime(hrstart);
+        				var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
+			            timings.addTiming("PUT-sedorderss/addsalesorder",msElapsed);
 			        });
 			        sellers[nr]._activestep++;
 		    	}
 		    	else if(sellers[nr]._activestep == 9){
-		    		unirest.put('http://147.162.226.101:30008/sedorders/confirmsalesorder/lol')
+		    		//console.log("CONFIRM SEL");
+		    		var hrstart = process.hrtime();
+		    		unirest.put('http://147.162.226.101:30008/sedorders/confirmsalesorder')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": sellers[nr]._id+'-'+sellers[nr]._activeOpCounter+'-A', "step" : 0})
 			        .end(function(response){
-			            console.log(response.body);
+			            var hrend = process.hrtime(hrstart);
+        				var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
+			            timings.addTiming("PUT-sedorders/confirmsalesorder",msElapsed);
 			        });
 			        sellers[nr]._activestep++;
 		    	}
 		    	else{
+		    		var hrstart = process.hrtime();
 		    		unirest.get('http://147.162.226.101:30008/sedorders/currentsalesorders')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": sellers[nr]._id+'-'+sellers[nr]._activeOpCounter+'-A', "step" : 0})
 			        .end(function(response){
-			            console.log(response.body);
+			            var hrend = process.hrtime(hrstart);
+        				var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
+			            timings.addTiming("GET-sedorders/currentsalesorders",msElapsed);
 			        });
 		    		sellers[nr]._activestep = 0;
 		    		sellers[nr]._operationsCounter++;
 		    	}
 	    	}
-	    	console.log(sellers[nr]._id+'-'+sellers[nr]._activeOpCounter+'-A');
+	    	//console.log(sellers[nr]._id+'-'+sellers[nr]._activeOpCounter+'-A');
 	        sellers[nr]._activeOpCounter++;
-	        timeout();
+	        if(!sellers[nr]._terminate){
+	        	timeout();
+	    	}
 	    }, parameters.requestsFrequency);
 	}
 
@@ -125,35 +153,35 @@ function Seller() {
 
 	//asynch operations
 	function onOpen(session, details) {
-		console.log(sellers[nr]._id);
+		//console.log(sellers[nr]._id);
 
 	    function onAvailabilities(args, kwargs) {
-	    	console.log("ONAVAILABILITIES");
+	    	////console.log("ONAVAILABILITIES");
 	    	var opnr = kwargs.opID.split('-')[1];
 	    	if((opnr % lastvalue) == nr){
 		    	unirest.get('http://147.162.226.101:30008/sedavailabilities/currentavailabilities')
 		        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 		        .send({ "simID": parameters.simulationID, "opID": sellers[nr]._id+'-'+sellers[nr]._reactOpCounter+'-R', "step" : 0})
 		        .end(function(response){
-		            console.log(response.body);
+		            //console.log(response.body);
 		        });
-		        console.log(sellers[nr]._id+'-'+sellers[nr]._reactOpCounter+'-R');
+		        //console.log(sellers[nr]._id+'-'+sellers[nr]._reactOpCounter+'-R');
 		       	sellers[nr]._reactOpCounter++;
 	    	}
 		};
 
 
 		function onPurchasingOrders(args, kwargs) {
-			console.log("ONPURCHASINGORDERS")
+			////console.log("ONPURCHASINGORDERS")
 	    	var opnr = kwargs.opID.split('-')[1];
 	    	if((opnr % lastvalue) == nr){
 		    	unirest.get('http://147.162.226.101:30008/sedorders/currentpurchasingorders')
 		        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 		        .send({ "simID": parameters.simulationID, "opID": sellers[nr]._id+'-'+sellers[nr]._reactOpCounter+'-R', "step" : 0})
 		        .end(function(response){
-		            console.log(response.body);
+		            //console.log(response.body);
 		        });
-		        console.log(sellers[nr]._id+'-'+sellers[nr]._reactOpCounter+'-R');
+		        //console.log(sellers[nr]._id+'-'+sellers[nr]._reactOpCounter+'-R');
 		       	sellers[nr]._reactOpCounter++;
 	    	}
 		};
@@ -186,7 +214,16 @@ function tick(counter){
 		
 		lastvalue = newvalue;
 	}
-	console.log("sellers = "+counter+" - users = "+lastvalue);
+	////console.log("sellers = "+counter+" - users = "+lastvalue);
 }
 
+
+function terminate(){
+	for (var i = 0; i < sellers.length; i++) {
+		sellers[i]._terminate = true;
+		sellers[i]._connection.close();
+	}
+}
+
+module.exports.terminate = terminate;
 module.exports.tick = tick;

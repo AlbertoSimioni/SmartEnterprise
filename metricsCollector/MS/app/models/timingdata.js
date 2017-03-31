@@ -22,5 +22,7 @@ module.exports = mongoose.model('TimingData', {
     step: Number,
     timing: Number,
     serviceName: String,
-    apiName: String
+    apiName: String,
+    queueLength: Number,
+    queueTiming: Number
 });

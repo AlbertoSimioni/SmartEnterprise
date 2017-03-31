@@ -383,6 +383,54 @@ module.exports = function (app) {
         .end();
     });
 
+    app.put('/confirmloadingplan/:availability_id', function (req, res){
+         
+        var hrstart = process.hrtime();
+        var dt = datetime.create();
+        var datestring = dt.format('Y-m-d H:M:S').replace(' ','T');
+        //SOME WORK
+
+
+        for (i = 0; i < t1; i++) { 
+        }
+
+        unirest.put('http://unloadingplans:8080/unloadingplan/lol')
+        //unirest.get('http://localhost:8090/availability/lol')
+        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
+        .type('json')
+        .send({ "simID": req.body.simID, "opID": req.body.opID, "step" : req.body.step+1})
+        .end(function(response){
+                var hrstart2 = process.hrtime();
+                var dt2 = datetime.create();
+                var datestring2 = dt2.format('Y-m-d H:M:S').replace(' ','T');
+                //SOME WORK
+                for (i = 0; i < t1; i++) { 
+                }
+                var hrend2 = process.hrtime(hrstart2);
+                var msElapsed2 = hrend2[0]*1000 + hrend2[1]/1000000;
+                unirest.post('http://metrics-collector:8080/timingSample')
+                //unirest.post('http://localhost:9080/timingSample')
+                .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
+                .type('json')
+                .send({ "simID": req.body.simID, "opID": req.body.opID, "step" : req.body.step+3, 
+                    "timing" : msElapsed2,"serviceName": "PlD-Plans", "apiName": "PUT-R/confirmloadingplan","date":datestring2})
+                .end();
+                res.send("A").end();
+        });
+        
+        var hrend = process.hrtime(hrstart);
+        var msElapsed = hrend[0]*1000 + hrend[1]/1000000;
+        //console.log(msElapsed);
+        console.log(msElapsed);
+        unirest.post('http://metrics-collector:8080/timingSample')
+        //unirest.post('http://localhost:9080/timingSample')
+        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
+        .type('json')
+        .send({ "simID": req.body.simID, "opID": req.body.opID, "step" : req.body.step+1, 
+            "timing" : msElapsed ,"serviceName": "PlD-Plans", "apiName": "PUT-/confirmloadingplan","date":datestring})
+        .end();
+    });
+
     // delete a sampledata
     app.delete('/unloadingplan/:availability_id', function (req, res) {
          
