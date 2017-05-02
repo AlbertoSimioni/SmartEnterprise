@@ -1,233 +1,124 @@
-var crossbar = require('../config/crossbar'); 
 var datetime = require('node-datetime');
-var autobahn = require('autobahn');
 var unirest = require('unirest');
 
-var connection = new autobahn.Connection({
-         url: crossbar.crossbarUrl,
-         realm: 'realm1'
-      });
+//NEW
+const cluster = require('cluster');
 
-
-
-var wampSession;
-
-connection.open();
-connection.onopen = function (session) {
-
-    wampSession = session;
+//subscription
+for (const id in cluster.workers) {
+  cluster.workers[id].on('message', messageHandler);
 }
 
-connection.onclose = function (reason, details) {
-   connection.open();
-};
 
-var t1 = 10000;
-var t2 = 100000;
-var t15 = 1000000;
-var t120 = 10000000;
-var t1000 = 100000000;
-var t100000 = 1000000000; 
+function messageHandler(msg){
+    if(msg.type == "start"){
+        queueLength--;
+        var request = pendingRequests[msg.idRequest];
+        var hrend = process.hrtime(request.hrstart);
+
+        //TOTAL TIME IN QUEUE
+        var msElapsedQueue = hrend[0]*1000 + hrend[1]/1000000;
+        pendingRequests[msg.idRequest].timeQueue = msElapsedQueue;
+    }
+
+    else if (msg.type == "step1"){
+        //RETRIEVE REQUEST DATA
+        var request = pendingRequests[msg.idRequest];
+
+        //TOTAL ELAPSED TIME
+        var hrend = process.hrtime(request.hrstart);
+        var msElapsed = hrend[0]*1000 + hrend[1]/1000000;
+
+        pendingRequests[msg.idRequest].hrstart =  process.hrtime();
+
+        //DATE COMPLETED
+        var dt = datetime.create();
+        var datestring = dt.format('Y-m-d H:M:S').replace(' ','T');
+        unirest.post('http://metrics-collector:8080/timingSample')
+        //unirest.post('http://localhost:9080/timingSample')
+        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
+        .type('json')
+        .send({ "simID": request.req.body.simID, "opID": request.req.body.opID, "step" : request.req.body.step+1, 
+            "timing" : msElapsed ,"serviceName": "AdD-Orders", "apiName": request.type,"date":datestring,
+            "queueLength": request.queueLength, "queueTiming": request.timeQueue
+
+        })
+        .end();
+    }
+
+    else if (msg.type == "end"){
+        //RETRIEVE REQUEST DATA
+        var request = pendingRequests[msg.idRequest];
+
+        //TOTAL ELAPSED TIME
+        var hrend = process.hrtime(request.hrstart);
+        var msElapsed = hrend[0]*1000 + hrend[1]/1000000;
+        //DATE COMPLETED
+        var dt = datetime.create();
+        var datestring = dt.format('Y-m-d H:M:S').replace(' ','T');
+        unirest.post('http://metrics-collector:8080/timingSample')
+        //unirest.post('http://localhost:9080/timingSample')
+        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
+        .type('json')
+        .send({ "simID": request.req.body.simID, "opID": request.req.body.opID, "step" : request.req.body.step+3, 
+            "timing" : msElapsed ,"serviceName": "AdD-Orders", "apiName": request.type,"date":datestring
+        })
+        .end();
+
+        request.res.send(msg.answer);
+        //delete pendingRequests[msg.idRequest]; DA CONTROLLARE SE METTERE
+        //SEND METRICS TO THE METRICS LOGGER WITH THE LENGTH OF THE QUEUE WHEN REQUEST ARRIVED, TIME ELAPSED, DATE
+    }
+}
+
+var pendingRequests = [];
+var totalRequestsCounter = 0;
+
+var queueLength = 0;
+
+
+function insertQueue(idRequest,req,res){
+    totalRequestsCounter++;
+    var hrstart = process.hrtime();
+    var msg = {};
+    var request = {};
+    msg.idRequest = idRequest +"_" +totalRequestsCounter;
+    msg.opID = req.body.opID;
+    msg.simID = req.body.simID;
+    msg.step = req.body.step;
+    request.type = idRequest;
+    request.req = req;
+    request.res = res;
+    request.queueLength = queueLength; //QUEUE LENGTH
+    request.hrstart = hrstart;
+    pendingRequests[msg.idRequest] = request;
+
+    //SALVARE LUNGHEZZA CODA
+    queueLength++;
+    for (const id in cluster.workers) {
+        cluster.workers[id].send(msg); 
+    }   
+}
+
+//NEW
+
+
 
 
 module.exports = function (app) {
 
     // api ---------------------------------------------------------------------
-    // get all sampledatas
     app.get('/currentcatalogs', function (req, res) {
-
-        var hrstart = process.hrtime();
-        var dt = datetime.create();
-        var datestring = dt.format('Y-m-d H:M:S').replace(' ','T');
-        //SOME WORK
-
-
-        for (i = 0; i < t1; i++) { 
-        }
-
-        unirest.get('http://catalogs:8080/catalog/lol')
-        //unirest.get('http://localhost:8090/availability/lol')
-        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-        .type('json')
-        .send({ "simID": req.body.simID, "opID": req.body.opID, "step" : req.body.step+1})
-        .end(function(response){
-                var hrstart2 = process.hrtime();
-                var dt2 = datetime.create();
-                var datestring2 = dt2.format('Y-m-d H:M:S').replace(' ','T');
-                //SOME WORK
-                for (i = 0; i < t1; i++) { 
-                }
-                var hrend2 = process.hrtime(hrstart2);
-                var msElapsed2 = hrend2[0]*1000 + hrend2[1]/1000000;
-                unirest.post('http://metrics-collector:8080/timingSample')
-                //unirest.post('http://localhost:9080/timingSample')
-                .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-                .type('json')
-                .send({ "simID": req.body.simID, "opID": req.body.opID, "step" : req.body.step+3, 
-                    "timing" : msElapsed2 ,"serviceName": "SeD-Catalogs", "apiName": "GET-R/currentcatalogs","date":datestring2})
-                .end();
-                res.send("A").end();
-        });
-        
-        var hrend = process.hrtime(hrstart);
-        var msElapsed = hrend[0]*1000 + hrend[1]/1000000;
-        //console.log(msElapsed);
-        console.log(msElapsed);
-        unirest.post('http://metrics-collector:8080/timingSample')
-        //unirest.post('http://localhost:9080/timingSample')
-        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-        .type('json')
-        .send({ "simID": req.body.simID, "opID": req.body.opID, "step" : req.body.step+1, 
-            "timing" : msElapsed ,"serviceName": "SeD-catalogs", "apiName": "GET-/currentcatalogs","date":datestring})
-        .end();
-
-
+        insertQueue("GET-/currentcatalogs",req,res);
     });
-
-    // create sampledata and send back all sampledatas after creation
     app.post('/newcatalog', function (req, res) {
-        
-        var hrstart = process.hrtime();
-        var dt = datetime.create();
-        var datestring = dt.format('Y-m-d H:M:S').replace(' ','T');
-        //SOME WORK
-
-
-        for (i = 0; i < t1; i++) { 
-        }
-
-        unirest.post('http://catalogs:8080/catalog')
-        //unirest.get('http://localhost:8090/availability/lol')
-        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-        .type('json')
-        .send({ "simID": req.body.simID, "opID": req.body.opID, "step" : req.body.step+1})
-        .end(function(response){
-                var hrstart2 = process.hrtime();
-                var dt2 = datetime.create();
-                var datestring2 = dt2.format('Y-m-d H:M:S').replace(' ','T');
-                //SOME WORK
-                for (i = 0; i < t1; i++) { 
-                }
-                var hrend2 = process.hrtime(hrstart2);
-                var msElapsed2 = hrend2[0]*1000 + hrend2[1]/1000000;
-                unirest.post('http://metrics-collector:8080/timingSample')
-                //unirest.post('http://localhost:9080/timingSample')
-                .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-                .type('json')
-                .send({ "simID": req.body.simID, "opID": req.body.opID, "step" : req.body.step+3, 
-                    "timing" : msElapsed2 ,"serviceName": "SeD-Catalogs", "apiName": "POST-R/newcatalog","date":datestring2})
-                .end();
-                res.send("A").end();
-        });
-        
-        var hrend = process.hrtime(hrstart);
-        var msElapsed = hrend[0]*1000 + hrend[1]/1000000;
-        //console.log(msElapsed);
-        console.log(msElapsed);
-        unirest.post('http://metrics-collector:8080/timingSample')
-        //unirest.post('http://localhost:9080/timingSample')
-        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-        .type('json')
-        .send({ "simID": req.body.simID, "opID": req.body.opID, "step" : req.body.step+1, 
-            "timing" : msElapsed ,"serviceName": "SeD-Catalogs", "apiName": "POST-/newcatalog","date":datestring})
-        .end();
-
+        insertQueue("POST-/newcatalog",req,res);
     });
-
     app.put('/addcatalog/:availability_id', function (req, res){
-         
-        var hrstart = process.hrtime();
-        var dt = datetime.create();
-        var datestring = dt.format('Y-m-d H:M:S').replace(' ','T');
-        //SOME WORK
-
-
-        for (i = 0; i < t1; i++) { 
-        }
-
-        unirest.put('http://catalogs:8080/catalog/lol')
-        //unirest.get('http://localhost:8090/availability/lol')
-        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-        .type('json')
-        .send({ "simID": req.body.simID, "opID": req.body.opID, "step" : req.body.step+1})
-        .end(function(response){
-                var hrstart2 = process.hrtime();
-                var dt2 = datetime.create();
-                var datestring2 = dt2.format('Y-m-d H:M:S').replace(' ','T');
-                //SOME WORK
-                for (i = 0; i < t1; i++) { 
-                }
-                var hrend2 = process.hrtime(hrstart2);
-                var msElapsed2 = hrend2[0]*1000 + hrend2[1]/1000000;
-                unirest.post('http://metrics-collector:8080/timingSample')
-                //unirest.post('http://localhost:9080/timingSample')
-                .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-                .type('json')
-                .send({ "simID": req.body.simID, "opID": req.body.opID, "step" : req.body.step+3, 
-                    "timing" : msElapsed2 ,"serviceName": "SeD-Catalogs", "apiName": "PUT-R/addcatalog","date":datestring2})
-                .end();
-                res.send("A").end();
-        });
-        
-        var hrend = process.hrtime(hrstart);
-        var msElapsed = hrend[0]*1000 + hrend[1]/1000000;
-        //console.log(msElapsed);
-        console.log(msElapsed);
-        unirest.post('http://metrics-collector:8080/timingSample')
-        //unirest.post('http://localhost:9080/timingSample')
-        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-        .type('json')
-        .send({ "simID": req.body.simID, "opID": req.body.opID, "step" : req.body.step+1, 
-            "timing" : msElapsed ,"serviceName": "SeD-Catalogs", "apiName": "PUT-/addcatalog","date":datestring})
-        .end();
+        insertQueue("PUT-/addcatalog",req,res);
     });
-
-    // delete a sampledata
     app.delete('/catalog/:availability_id', function (req, res) {
-         
-        var hrstart = process.hrtime();
-        var dt = datetime.create();
-        var datestring = dt.format('Y-m-d H:M:S').replace(' ','T');
-        //SOME WORK
-
-
-        for (i = 0; i < t1; i++) { 
-        }
-
-        unirest.delete('http://catalogs:8080/catalog/lol')
-        //unirest.get('http://localhost:8090/availability/lol')
-        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-        .type('json')
-        .send({ "simID": req.body.simID, "opID": req.body.opID, "step" : req.body.step+1})
-        .end(function(response){
-                var hrstart2 = process.hrtime();
-                var dt2 = datetime.create();
-                var datestring2 = dt2.format('Y-m-d H:M:S').replace(' ','T');
-                //SOME WORK
-                for (i = 0; i < t1; i++) { 
-                }
-                var hrend2 = process.hrtime(hrstart2);
-                var msElapsed2 = hrend2[0]*1000 + hrend2[1]/1000000;
-                unirest.post('http://metrics-collector:8080/timingSample')
-                //unirest.post('http://localhost:9080/timingSample')
-                .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-                .type('json')
-                .send({ "simID": req.body.simID, "opID": req.body.opID, "step" : req.body.step+3, 
-                    "timing" : msElapsed2 ,"serviceName": "SeD-Catalogs", "apiName": "DELETE-R/catalog","date":datestring2})
-                .end();
-                res.send("A").end();
-        });
-        
-        var hrend = process.hrtime(hrstart);
-        var msElapsed = hrend[0]*1000 + hrend[1]/1000000;
-        //console.log(msElapsed);
-        console.log(msElapsed);
-        unirest.post('http://metrics-collector:8080/timingSample')
-        //unirest.post('http://localhost:9080/timingSample')
-        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-        .type('json')
-        .send({ "simID": req.body.simID, "opID": req.body.opID, "step" : req.body.step+1, 
-            "timing" : msElapsed ,"serviceName": "SeD-Catalogs", "apiName": "DELETE-/catalogs","date":datestring})
-        .end();
+        insertQueue("DELETE-/catalog",req,res);
     });
+
 };

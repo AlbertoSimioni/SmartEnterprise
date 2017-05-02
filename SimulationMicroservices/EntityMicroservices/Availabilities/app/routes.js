@@ -1,12 +1,10 @@
-var SampleData = require('./models/sampledata');
-var crossbar = require('../config/crossbar'); 
 var datetime = require('node-datetime');
-var autobahn = require('autobahn');
 var unirest = require('unirest');
 
 //NEW
 const cluster = require('cluster');
 
+//subscription
 for (const id in cluster.workers) {
   cluster.workers[id].on('message', messageHandler);
 }
@@ -33,8 +31,8 @@ function messageHandler(msg){
         //DATE COMPLETED
         var dt = datetime.create();
         var datestring = dt.format('Y-m-d H:M:S').replace(' ','T');
-        //unirest.post('http://metrics-collector:8080/timingSample')
-        unirest.post('http://localhost:9080/timingSample')
+        unirest.post('http://metrics-collector:8080/timingSample')
+        //unirest.post('http://localhost:9080/timingSample')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
         .send({ "simID": request.req.body.simID, "opID": request.req.body.opID, "step" : request.req.body.step+1, 
@@ -62,7 +60,7 @@ function insertQueue(idRequest,req,res){
     var msg = {};
     var request = {};
     msg.idRequest = idRequest +"_" +totalRequestsCounter;
-
+    msg.opID = req.body.opID
     request.type = idRequest;
     request.req = req;
     request.res = res;
@@ -79,37 +77,16 @@ function insertQueue(idRequest,req,res){
 
 //NEW
 
-var connection = new autobahn.Connection({
-         url: crossbar.crossbarUrl,
-         realm: 'realm1'
-      });
-
-
-
-var wampSession;
-
-connection.open();
-connection.onopen = function (session) {
-
-    wampSession = session;
-}
-
-connection.onclose = function (reason, details) {
-   connection.open();
-};
-
 
 
 
 module.exports = function (app) {
 
     // api ---------------------------------------------------------------------
-    // get all sampledatas
     app.get('/availability/:availability_id', function (req, res) {
         insertQueue("GET-/availability",req,res);
     });
 
-    // create sampledata and send back all sampledatas after creation
     app.post('/availability', function (req, res) {
         insertQueue("POST-/availability",req,res);
     });
@@ -118,7 +95,7 @@ module.exports = function (app) {
         insertQueue("PUT-/availability",req,res);
     });
 
-    // delete a sampledata
+
     app.delete('/availability/:availability_id', function (req, res) {
         insertQueue("DELETE-/availability",req,res);
     });

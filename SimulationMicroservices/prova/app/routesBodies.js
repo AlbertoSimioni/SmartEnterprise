@@ -1,4 +1,3 @@
-
 module.exports = function (msg) {
 	msg.type = "start";
 	process.send(msg);
@@ -13,7 +12,6 @@ module.exports = function (msg) {
     		console.log('not found');
 	 }
 }
-
 
 function long(msg){
 	 for (var i = 0; i < 100000; i++) 

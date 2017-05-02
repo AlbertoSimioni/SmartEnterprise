@@ -8,7 +8,7 @@ function timeout() {
     setTimeout(function () {
         var ciao = tickCounter;
         if(tickCounter % 3 == 1){
-          unirest.get('http://localhost:8090/availability/lol')
+          unirest.get('http://localhost:8081/currentavailabilities')
               .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
               .send({"step":0,"simID":"asd","opID":"lol"})
               .end(function(response){
@@ -16,7 +16,7 @@ function timeout() {
               });
         }
         else if(tickCounter % 3 == 2){ 
-          unirest.delete('http://localhost:8090/availability/lol')
+          unirest.post('http://localhost:8081/currentavailabilities')
               .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
               .send({"step":0,"simID":"asd","opID":"lol"})
               .end(function(response){
@@ -24,11 +24,11 @@ function timeout() {
               });
         }
         else if(tickCounter % 3 == 0){
-            unirest.get('http://localhost:8090/availabilities')
+            unirest.get('http://localhost:8081/currentavailabilities')
               .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
               .send({"step":0,"simID":"asd","opID":"LOL"})
               .end(function(response){
-                console.log("end short- "+ ciao+" - "+response );
+                console.log(response.body);
               });
         }
         tickCounter = tickCounter +1;
@@ -38,5 +38,5 @@ function timeout() {
         else{
           console.log("NO MORE REQUESTS");
         }
-    }, 10);
+    }, 100);
 }

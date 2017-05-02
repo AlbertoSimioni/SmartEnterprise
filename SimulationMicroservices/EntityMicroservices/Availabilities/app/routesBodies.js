@@ -9,6 +9,30 @@ var t100000 = 1000000000;
 var tenms = 10;
 var thoums = 1000;
 
+var crossbar = require('../config/crossbar'); 
+var autobahn = require('autobahn');
+
+var connection = new autobahn.Connection({
+         url: crossbar.crossbarUrl,
+         realm: 'realm1'
+      });
+
+
+
+var wampSession;
+
+connection.open();
+connection.onopen = function (session) {
+
+    wampSession = session;
+}
+
+connection.onclose = function (reason, details) {
+   connection.open();
+};
+
+
+
 module.exports = function (msg) {
 	msg.type = "start";
 	process.send(msg);
@@ -54,6 +78,7 @@ function postAvailability(msg){
 	 	{}
 	 	msg.answer = "a";
 		msg.type = "end";
+		wampSession.publish('availabilities',  [], {type: "new" , opID: msg.opID});
 		process.send(msg);
 	 },tenms*2)	
 
@@ -93,7 +118,7 @@ function getAvailabilities(msg){
 	 for (var i = 0; i < t1; i++) 
 	 {}
 	 setTimeout(function(){
-	 	for (var i = 0; i < t1; i++) 
+	 	for (var i = 0; i < t120; i++) 
 	 	{}
 	 	msg.answer = "a";
 		msg.type = "end";
