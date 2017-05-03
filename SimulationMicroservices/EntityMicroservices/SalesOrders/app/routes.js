@@ -1,4 +1,4 @@
-vavar datetime = require('node-datetime');
+var datetime = require('node-datetime');
 var unirest = require('unirest');
 
 //NEW
