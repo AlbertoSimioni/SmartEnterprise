@@ -39,7 +39,7 @@ function messageHandler(msg){
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
         .send({ "simID": request.req.body.simID, "opID": request.req.body.opID, "step" : request.req.body.step+1, 
-            "timing" : msElapsed ,"serviceName": "AdD-Orders", "apiName": request.type,"date":datestring,
+            "timing" : msElapsed ,"serviceName": "SeD-Availabilities", "apiName": request.type,"date":datestring,
             "queueLength": request.queueLength, "queueTiming": request.timeQueue
 
         })
@@ -61,7 +61,7 @@ function messageHandler(msg){
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
         .send({ "simID": request.req.body.simID, "opID": request.req.body.opID, "step" : request.req.body.step+3, 
-            "timing" : msElapsed ,"serviceName": "AdD-Orders", "apiName": request.type,"date":datestring
+            "timing" : msElapsed ,"serviceName": "SeD-Availabilities", "apiName": request.type,"date":datestring
         })
         .end();
 
