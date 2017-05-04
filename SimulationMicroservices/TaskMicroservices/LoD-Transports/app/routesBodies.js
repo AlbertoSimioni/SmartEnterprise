@@ -43,19 +43,15 @@ module.exports = function (msg) {
 	    case 'GET-/routes':
 	 	    getRoutes(msg)
 	 		break;
-	switch(msg.idRequest.split("_")[0]){
 	    case 'POST-/newtrip':
 	 	    postNewtrip(msg)
 	 		break;
-	switch(msg.idRequest.split("_")[0]){
 	    case 'PUT-/filltrip':
 	 	    putFilltrip(msg)
 	 		break;
-	switch(msg.idRequest.split("_")[0]){
 	    case 'DELETE-/trip':
 	 	    deleteTrip(msg)
 	 		break;
-	 switch(msg.idRequest.split("_")[0]){
 	    case 'PUT-/confirmtrip':
 	 	    putConfirmTrip(msg)
 	 		break;
