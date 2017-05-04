@@ -46,8 +46,10 @@ function Buyer() {
     //Autonomous operations
     function timeout() {
 	    setTimeout(function () {
+
 	    	if(buyers[nr]._operationsCounter % 7 < 5){
 	    		//NEW CATALOG
+	    		timings.newRequest();
 	    		if(buyers[nr]._activestep == 0){
 	    			var hrstart = process.hrtime();
 		    		unirest.post('http://147.162.226.101:30008/pudavailabilities/newavailability')
@@ -88,6 +90,7 @@ function Buyer() {
 	    	}
 	    	else{
 	    		//ORDERS
+	    		timings.newRequest();
 				if(buyers[nr]._activestep == 0){
 					var hrstart = process.hrtime();
 		    		unirest.post('http://147.162.226.101:30008/pudorders/newpurchasingorder')
@@ -142,6 +145,7 @@ function Buyer() {
 	    	//console.log(buyers[nr]._id+'-'+buyers[nr]._activeOpCounter+'-A');
 	        buyers[nr]._activeOpCounter++;
 	    	if(!buyers[nr]._terminate){
+
 	        	timeout();
 	    	}
 	    }, parameters.requestsFrequency);
@@ -154,7 +158,7 @@ function Buyer() {
 		//console.log(buyers[nr]._id);
 
 		function onSalesOrders(args, kwargs) {
-			////console.log("ONSALESORDER");
+			//console.log("ONSALESORDER");
 	    	var opnr = kwargs.opID.split('-')[1];
 	    	if((opnr % lastvalue) == nr){
 		    	unirest.get('http://147.162.226.101:30008/pudorders/currentsalesorders')

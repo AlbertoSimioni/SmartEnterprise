@@ -43,8 +43,11 @@ function Platform() {
     this._terminate = false;
     //Autonomous operations
     function timeout() {
+
 	    setTimeout(function () {
 	    	if(platforms[nr]._newopernr > 0){
+	    			timings.newRequest();
+	    			console.log("platform:" + nr);
 	    			if(platforms[nr]._activestep == 0){
 		    			var hrstart = process.hrtime();	    				
 	    				unirest.get('http://147.162.226.101:30008/pldplans/currentloadingplans')
@@ -57,7 +60,7 @@ function Platform() {
 				        });
 				        platforms[nr]._activestep++;
 	    			}
-	    			if(platforms[nr]._activestep == 1){
+	    			else if(platforms[nr]._activestep == 1){
 	    				var hrstart = process.hrtime();
 	    				unirest.post('http://147.162.226.101:30008/pldplans/newloadingplan')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
@@ -69,7 +72,7 @@ function Platform() {
 				        });
 	    				platforms[nr]._activestep++;
 	    			}	
-	    			if(platforms[nr]._activestep > 1 && platforms[nr]._activestep < 9 ){
+	    			else if(platforms[nr]._activestep > 1 && platforms[nr]._activestep < 9 ){
 	    				var hrstart = process.hrtime();
 	    				unirest.put('http://147.162.226.101:30008/pldplans/addloadingplan/lol')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
@@ -81,7 +84,7 @@ function Platform() {
 				        });
 						platforms[nr]._activestep++;
 	    			}   
-	    			if(platforms[nr]._activestep == 9){
+	    			else if(platforms[nr]._activestep == 9){
 	    				var hrstart = process.hrtime();
 	    				unirest.put('http://147.162.226.101:30008/pldplans/confirmloadingplan/lol')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
@@ -93,6 +96,9 @@ function Platform() {
 				        });
 	    				platforms[nr]._activestep = 0;
 	    				platforms[nr]._newopernr--;
+	    			}
+	    			else{
+	    				console.log("ERROR: "+"platforms[nr]._activestep" );
 	    			}			    			 			
 	    		platforms[nr]._operationsCounter++;
 	    	}
@@ -110,7 +116,7 @@ function Platform() {
 
 
 		function onConfirmTrip(args, kwargs) {
-			////console.log("ONCONFIRMTRIP")
+			console.log("ONCONFIRMTRIP")
 			var opnr = kwargs.opID.split('-')[1];
 	    	if((opnr % lastvalue) == nr && Math.random() > 0.60){
 	    		//console.log("Added");

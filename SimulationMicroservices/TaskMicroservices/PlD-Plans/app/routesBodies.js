@@ -242,6 +242,8 @@ function putConfirmloadingplan(msg){
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";
+			wampSession.publish('confirmloadingplan',  [], {type: "confirm" , opID: msg.opID});
+
 			process.send(msg);
         });
 }

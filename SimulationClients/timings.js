@@ -3,6 +3,15 @@ const fs = require('fs');
 var parameters = require('./config/parameters'); 
 var timings = {};
 
+
+var totalRequests = 0;
+var requestsReplied = 0;
+
+
+var terminated = false;
+
+
+
 var operationids = [];
 
 
@@ -34,6 +43,12 @@ function getMedianOfArray(numArray){
 
 
 function terminate(){
+	terminated = true;
+
+}
+
+
+function writeToFile(){
 	var csvStream = csv.createWriteStream({headers: true}),
 	    writableStream = fs.createWriteStream(parameters.simulationID+"-results.csv");
 	 
@@ -55,6 +70,7 @@ function terminate(){
 }
 
 function addTiming(operationdID, time){
+	requestsReplied++;
 	if(!timings[operationdID]) { 
 		timings[operationdID] = [time];
 		operationids.push(operationdID);
@@ -62,8 +78,20 @@ function addTiming(operationdID, time){
 	else{
 		timings[operationdID].push(time);
 	}
+	console.log(totalRequests+ " - " +requestsReplied);
+	if(terminated && (requestsReplied == totalRequests)){
+		writeToFile();
+		console.log("WRITTEN");
+	}
+}
+
+
+function newRequest(){
+	totalRequests++;
 }
 
 
 module.exports.terminate = terminate;
 module.exports.addTiming = addTiming;
+
+module.exports.newRequest = newRequest;

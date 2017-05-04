@@ -123,6 +123,8 @@ function putConfirmpurchasingorder(msg){
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";
+			wampSession.publish('confirmpurchasingorder',  [], {type: "confirm" , opID: msg.opID});
+
 			process.send(msg);
         });
 }

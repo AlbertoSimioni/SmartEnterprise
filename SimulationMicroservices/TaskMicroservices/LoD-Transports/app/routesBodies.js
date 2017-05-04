@@ -169,6 +169,8 @@ function putConfirmTrip(msg){
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";
+			wampSession.publish('confirmtrip',  [], {type: "new" , opID: msg.opID});
+
 			process.send(msg);
         });
 }

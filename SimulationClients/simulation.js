@@ -38,15 +38,7 @@ function timeout() {
         // Then recall the parent function to
         // create a recursive loop.
         tickCounter = tickCounter +1;
-        /*
-        //unirest.get('http://147.162.226.101:30008/availabilities/availability/lol')
-        unirest.get('http://localhost:8081/currentavailabilities')
-        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-        .send({ "simID": "sim1", "opID": "op"+tickCounter, "step" : 0})
-        .end(function(response){
-            console.log(response.body);
-        });
-        */
+
         sellers.tick(tickCounter/10);
         buyers.tick(tickCounter/10);
         logistics.tick(tickCounter/10);

@@ -48,6 +48,8 @@ function Logistic() {
 	    setTimeout(function () {
 	    	if(logistics[nr]._po + logistics[nr]._so > 0){
 	    		if(logistics[nr]._po > 0 && logistics[nr]._active != "so"){
+	    			timings.newRequest();
+	    			console.log("logistic so:" + nr);
 	    			//console.log("so"+logistics[nr]._id);
 	    			if(logistics[nr]._activestep == 0){
 	    				var hrstart = process.hrtime();
@@ -62,7 +64,7 @@ function Logistic() {
 				        logistics[nr]._activestep++;
 				        logistics[nr]._active = "po";
 	    			}
-	    			if(logistics[nr]._activestep == 1){
+	    			else if(logistics[nr]._activestep == 1){
 	    				var hrstart = process.hrtime();
 	    				unirest.post('http://147.162.226.101:30008/lodtransports/newtrip')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
@@ -74,7 +76,7 @@ function Logistic() {
 				        });
 	    				logistics[nr]._activestep++;
 	    			}	
-	    			if(logistics[nr]._activestep > 1 && logistics[nr]._activestep < 11 ){
+	    			else if(logistics[nr]._activestep > 1 && logistics[nr]._activestep < 11 ){
 	    				var hrstart = process.hrtime();
 	    				unirest.put('http://147.162.226.101:30008/lodtransports/filltrip/lol')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
@@ -86,7 +88,7 @@ function Logistic() {
 				        });
 						logistics[nr]._activestep++;
 	    			}   
-	    			if(logistics[nr]._activestep == 11){
+	    			else if(logistics[nr]._activestep == 11){
 	    				var hrstart = process.hrtime();
 	    				unirest.put('http://147.162.226.101:30008/lodtransports/confirmtrip/lol')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
@@ -98,7 +100,7 @@ function Logistic() {
 				        });
 	    				logistics[nr]._activestep++;
 	    			}
-	    			if(logistics[nr]._activestep == 12){
+	    			else if(logistics[nr]._activestep == 12){
 	    				var hrstart = process.hrtime();
 	    				unirest.get('http://147.162.226.101:30008/lodwarehouses/currentwarehousesstate')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
@@ -111,10 +113,14 @@ function Logistic() {
 	    				logistics[nr]._activestep = 0;
 	    				logistics[nr]._po--;
 	    				logistics[nr]._active = "";
-	    			}			    			 			
+	    			}	
+	    			else{
+	    				console.log("ERROR: "+"logistics[nr]._activestep PO" );
+	    			}		    			 			
 	    		}
 	    		else if(logistics[nr]._so > 0 && logistics[nr]._active != "po"){
-	    			//console.log("po"+logistics[nr]._id);
+	    			timings.newRequest();
+	    			console.log("logistic po:" + nr);
 	    			if(logistics[nr]._activestep == 0){
 	    				var hrstart = process.hrtime();
 	    				unirest.get('http://147.162.226.101:30008/lodorders/currentsalesorders')
@@ -128,7 +134,7 @@ function Logistic() {
 				        logistics[nr]._activestep++;
 				        logistics[nr]._active = "so";
 	    			}
-	    			if(logistics[nr]._activestep == 1){
+	    			else if(logistics[nr]._activestep == 1){
 	    				var hrstart = process.hrtime();
 	    				unirest.post('http://147.162.226.101:30008/lodtransports/newtrip')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
@@ -140,7 +146,7 @@ function Logistic() {
 				        });
 	    				logistics[nr]._activestep++;
 	    			}	
-	    			if(logistics[nr]._activestep > 1 && logistics[nr]._activestep < 11 ){
+	    			else if(logistics[nr]._activestep > 1 && logistics[nr]._activestep < 11 ){
 	    				var hrstart = process.hrtime();
 	    				unirest.put('http://147.162.226.101:30008/lodtransports/filltrip/lol')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
@@ -152,7 +158,7 @@ function Logistic() {
 				        });
 						logistics[nr]._activestep++;
 	    			}   
-	    			if(logistics[nr]._activestep == 11){
+	    			else if(logistics[nr]._activestep == 11){
 	    				var hrstart = process.hrtime();
 	    				//console.log("CONFIRMING");
 	    				unirest.put('http://147.162.226.101:30008/lodtransports/confirmtrip/lol')
@@ -165,7 +171,7 @@ function Logistic() {
 				        });
 	    				logistics[nr]._activestep++;
 	    			}
-	    			if(logistics[nr]._activestep == 12){
+	    			else if(logistics[nr]._activestep == 12){
 	    				var hrstart = process.hrtime();
 	    				unirest.get('http://147.162.226.101:30008/lodwarehouses/currentwarehousesstate')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
@@ -178,6 +184,9 @@ function Logistic() {
 	    				logistics[nr]._activestep = 0;
 	    				logistics[nr]._so--;
 	    				logistics[nr]._active = "";
+	    			}
+	    			else{
+	    				console.log("ERROR: "+"logistics[nr]._activestep SO" );
 	    			}		
 
 	    		}
@@ -196,7 +205,7 @@ function Logistic() {
 		//console.log(logistics[nr]._id);
 
 		function onConfirmSalesOrder(args, kwargs) {
-			////console.log("ONCONFIRMSALESORDER");
+			console.log("ONCONFIRMSALESORDER");
 			var opnr = kwargs.opID.split('-')[1];
 	    	if((opnr % lastvalue) == nr){
 	    		logistics[nr]._so++;
@@ -204,7 +213,7 @@ function Logistic() {
 		};
 
 		function onConfirmPurchasingOrder(args, kwargs) {
-			////console.log("ONCONFIRMPURCHASINGORDER")
+			console.log("ONCONFIRMPURCHASINGORDER")
 			var opnr = kwargs.opID.split('-')[1];
 	    	if((opnr % lastvalue) == nr){
 	    		logistics[nr]._po++;

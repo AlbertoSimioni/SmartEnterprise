@@ -47,8 +47,10 @@ function Seller() {
     //Autonomous operations
     function timeout() {
 	    setTimeout(function () {
+    	timings.newRequest();	    	
 	    	if(sellers[nr]._operationsCounter % 11 < 8){
 	    		//NEW CATALOG
+	    		timings.newRequest();
 	    		if(sellers[nr]._activestep == 0){
 	    			var hrstart = process.hrtime();
 
@@ -90,6 +92,7 @@ function Seller() {
 	    	}
 	    	else{
 	    		//ORDERS
+	    		timings.newRequest();
 				if(sellers[nr]._activestep == 0){
 					var hrstart = process.hrtime();
 		    		unirest.post('http://147.162.226.101:30008/sedorders/newsalesorder')
@@ -156,7 +159,7 @@ function Seller() {
 		//console.log(sellers[nr]._id);
 
 	    function onAvailabilities(args, kwargs) {
-	    	////console.log("ONAVAILABILITIES");
+	    	//console.log("ONAVAILABILITIES");
 	    	var opnr = kwargs.opID.split('-')[1];
 	    	if((opnr % lastvalue) == nr){
 		    	unirest.get('http://147.162.226.101:30008/sedavailabilities/currentavailabilities')
@@ -172,7 +175,7 @@ function Seller() {
 
 
 		function onPurchasingOrders(args, kwargs) {
-			////console.log("ONPURCHASINGORDERS")
+			//console.log("ONPURCHASINGORDERS")
 	    	var opnr = kwargs.opID.split('-')[1];
 	    	if((opnr % lastvalue) == nr){
 		    	unirest.get('http://147.162.226.101:30008/sedorders/currentpurchasingorders')
