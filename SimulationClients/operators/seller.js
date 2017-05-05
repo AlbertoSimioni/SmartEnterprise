@@ -118,7 +118,7 @@ function Seller() {
 			        sellers[nr]._activestep++;
 		    	}
 		    	else if(sellers[nr]._activestep == 9){
-		    		//console.log("CONFIRM SEL");
+		    		////console.log("CONFIRM SEL");
 		    		var hrstart = process.hrtime();
 		    		unirest.put('http://147.162.226.101:30008/sedorders/confirmsalesorder')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
@@ -144,7 +144,7 @@ function Seller() {
 		    		sellers[nr]._operationsCounter++;
 		    	}
 	    	}
-	    	//console.log(sellers[nr]._id+'-'+sellers[nr]._activeOpCounter+'-A');
+	    	////console.log(sellers[nr]._id+'-'+sellers[nr]._activeOpCounter+'-A');
 	        sellers[nr]._activeOpCounter++;
 	        if(!sellers[nr]._terminate){
 	        	timeout();
@@ -156,35 +156,35 @@ function Seller() {
 
 	//asynch operations
 	function onOpen(session, details) {
-		//console.log(sellers[nr]._id);
+		////console.log(sellers[nr]._id);
 
 	    function onAvailabilities(args, kwargs) {
-	    	//console.log("ONAVAILABILITIES");
+	    	////console.log("ONAVAILABILITIES");
 	    	var opnr = kwargs.opID.split('-')[1];
 	    	if((opnr % lastvalue) == nr){
 		    	unirest.get('http://147.162.226.101:30008/sedavailabilities/currentavailabilities')
 		        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 		        .send({ "simID": parameters.simulationID, "opID": sellers[nr]._id+'-'+sellers[nr]._reactOpCounter+'-R', "step" : 0})
 		        .end(function(response){
-		            //console.log(response.body);
+		            ////console.log(response.body);
 		        });
-		        //console.log(sellers[nr]._id+'-'+sellers[nr]._reactOpCounter+'-R');
+		        ////console.log(sellers[nr]._id+'-'+sellers[nr]._reactOpCounter+'-R');
 		       	sellers[nr]._reactOpCounter++;
 	    	}
 		};
 
 
 		function onPurchasingOrders(args, kwargs) {
-			//console.log("ONPURCHASINGORDERS")
+			////console.log("ONPURCHASINGORDERS")
 	    	var opnr = kwargs.opID.split('-')[1];
 	    	if((opnr % lastvalue) == nr){
 		    	unirest.get('http://147.162.226.101:30008/sedorders/currentpurchasingorders')
 		        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 		        .send({ "simID": parameters.simulationID, "opID": sellers[nr]._id+'-'+sellers[nr]._reactOpCounter+'-R', "step" : 0})
 		        .end(function(response){
-		            //console.log(response.body);
+		            ////console.log(response.body);
 		        });
-		        //console.log(sellers[nr]._id+'-'+sellers[nr]._reactOpCounter+'-R');
+		        ////console.log(sellers[nr]._id+'-'+sellers[nr]._reactOpCounter+'-R');
 		       	sellers[nr]._reactOpCounter++;
 	    	}
 		};
@@ -217,7 +217,7 @@ function tick(counter){
 		
 		lastvalue = newvalue;
 	}
-	////console.log("sellers = "+counter+" - users = "+lastvalue);
+	//////console.log("sellers = "+counter+" - users = "+lastvalue);
 }
 
 

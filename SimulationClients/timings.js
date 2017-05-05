@@ -16,18 +16,32 @@ var operationids = [];
 
 
 function getMaxOfArray(numArray) {
-  return Math.max.apply(null, numArray);
+	var max = -1;
+	for (var i = 0; i < numArray.length; i++) {
+		if(max < numArray[i].time)
+			max = numArray[i].time;
+
+	}
+	return max;
+  //return Math.max.apply(null, numArray);
 }
 
 function getMinOfArray(numArray) {
-  return Math.min.apply(null, numArray);
+	var min = numArray[0].time;
+	for (var i = 1; i < numArray.length; i++) {
+		if(min > numArray[i].time)
+			min = numArray[i].time;
+
+	}
+	return min
+  //return Math.min.apply(null, numArray);
 }
 
 
 function getAvgOfArray(numArray) {
 	var total = 0;
 	for(var i = 0; i < numArray.length; i++) {
-	    total += Number(numArray[i]);
+	    total += Number(numArray[i].time);
 	}
 	var avg = total / numArray.length;
 	return avg;
@@ -35,7 +49,7 @@ function getAvgOfArray(numArray) {
 
 
 function getMedianOfArray(numArray){
-	return numArray[Math.floor((numArray.length)/2)];
+	return numArray[Math.floor((numArray.length)/2)].time;
 }
 
 
@@ -67,16 +81,32 @@ function writeToFile(){
 		csvStream.write({"id": id,"min":min,"max":max,"avg":avg,"med":med,"counter":counter});
 	}
 	csvStream.end();
+
+	var csvStream2 = csv.createWriteStream({headers: true}),
+	writableStream2 = fs.createWriteStream(parameters.simulationID+"-results-complete.csv");
+	 
+	writableStream2.on("finish", function(){
+	  console.log("DONE!");
+	});
+	csvStream2.pipe(writableStream2);
+	for (var i = 0; i < operationids.length; i++) {
+		var current_timings = timings[operationids[i]];
+		var id = operationids[i];
+		for(var j = 0; j < current_timings.length; j++){
+			csvStream2.write({"id": id,"time":current_timings[j].time,"operationdID":current_timings[j].requestID});
+		}
+	}
+	csvStream2.end();
 }
 
-function addTiming(operationdID, time){
+function addTiming(operationdID, time,requestID){
 	requestsReplied++;
 	if(!timings[operationdID]) { 
-		timings[operationdID] = [time];
+		timings[operationdID] = [{"time":time,"requestID":requestID}];
 		operationids.push(operationdID);
 	}
 	else{
-		timings[operationdID].push(time);
+		timings[operationdID].push({"time":time,"requestID":requestID});
 	}
 	console.log(totalRequests+ " - " +requestsReplied);
 	if(terminated && (requestsReplied == totalRequests)){

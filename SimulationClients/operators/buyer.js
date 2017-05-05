@@ -46,19 +46,20 @@ function Buyer() {
     //Autonomous operations
     function timeout() {
 	    setTimeout(function () {
-
+	    	var requestID = buyers[nr]._id+'-'+buyers[nr]._activeOpCounter+'-A';
 	    	if(buyers[nr]._operationsCounter % 7 < 5){
 	    		//NEW CATALOG
 	    		timings.newRequest();
+
 	    		if(buyers[nr]._activestep == 0){
 	    			var hrstart = process.hrtime();
 		    		unirest.post('http://147.162.226.101:30008/pudavailabilities/newavailability')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-			        .send({ "simID": parameters.simulationID, "opID": buyers[nr]._id+'-'+buyers[nr]._activeOpCounter+'-A', "step" : 0})
+			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 			        .end(function(response){
 			            var hrend = process.hrtime(hrstart);
 	        			var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
-				        timings.addTiming("POST-pudavailabilities/newavailability",msElapsed);
+				        timings.addTiming("POST-pudavailabilities/newavailability",msElapsed,requestID);
 			        });
 			        buyers[nr]._activestep++;
 		    	}
@@ -66,11 +67,11 @@ function Buyer() {
 		    		var hrstart = process.hrtime();
 		    		unirest.put('http://147.162.226.101:30008/pudavailabilities/addavailability/lol')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-			        .send({ "simID": parameters.simulationID, "opID": buyers[nr]._id+'-'+buyers[nr]._activeOpCounter+'-A', "step" : 0})
+			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 			        .end(function(response){
 			            var hrend = process.hrtime(hrstart);
 	        			var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
-				        timings.addTiming("PUT-pudavailabilities/addavailability",msElapsed);
+				        timings.addTiming("PUT-pudavailabilities/addavailability",msElapsed,requestID);
 			        });
 			        buyers[nr]._activestep++;
 		    	}
@@ -78,11 +79,11 @@ function Buyer() {
 		    		var hrstart = process.hrtime();
 		    		unirest.get('http://147.162.226.101:30008/pudavailabilities/currentavailabilities')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-			        .send({ "simID": parameters.simulationID, "opID": buyers[nr]._id+'-'+buyers[nr]._activeOpCounter+'-A', "step" : 0})
+			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 			        .end(function(response){
 			            var hrend = process.hrtime(hrstart);
 	        			var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
-				        timings.addTiming("GET-pudavailabilities/currentavailabilities",msElapsed);
+				        timings.addTiming("GET-pudavailabilities/currentavailabilities",msElapsed,requestID);
 			        });
 		    		buyers[nr]._activestep = 0;
 		    		buyers[nr]._operationsCounter++;
@@ -95,11 +96,11 @@ function Buyer() {
 					var hrstart = process.hrtime();
 		    		unirest.post('http://147.162.226.101:30008/pudorders/newpurchasingorder')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-			        .send({ "simID": parameters.simulationID, "opID": buyers[nr]._id+'-'+buyers[nr]._activeOpCounter+'-A', "step" : 0})
+			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 			        .end(function(response){
 			            var hrend = process.hrtime(hrstart);
 	        			var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
-				        timings.addTiming("POST-pudorders/newpurchasingorder",msElapsed);
+				        timings.addTiming("POST-pudorders/newpurchasingorder",msElapsed,requestID);
 			        });
 			        buyers[nr]._activestep++;
 		    	}
@@ -107,24 +108,24 @@ function Buyer() {
 		    		var hrstart = process.hrtime();
 		    		unirest.put('http://147.162.226.101:30008/pudorders/addpurchasingorder/lol')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-			        .send({ "simID": parameters.simulationID, "opID": buyers[nr]._id+'-'+buyers[nr]._activeOpCounter+'-A', "step" : 0})
+			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 			        .end(function(response){
 			            var hrend = process.hrtime(hrstart);
 	        			var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
-				        timings.addTiming("PUT-pudorders/addpurchasingorder",msElapsed);
+				        timings.addTiming("PUT-pudorders/addpurchasingorder",msElapsed,requestID);
 			        });
 			        buyers[nr]._activestep++;
 		    	}
 		    	else if(buyers[nr]._activestep == 9){
 		    		var hrstart = process.hrtime();
-		    		//console.log("CONFIRM PUD");
+		    		////console.log("CONFIRM PUD");
 		    		unirest.put('http://147.162.226.101:30008/pudorders/confirmpurchasingorder')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-			        .send({ "simID": parameters.simulationID, "opID": buyers[nr]._id+'-'+buyers[nr]._activeOpCounter+'-A', "step" : 0})
+			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 			        .end(function(response){
 			            var hrend = process.hrtime(hrstart);
 	        			var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
-				        timings.addTiming("PUT-pudorders/confirmpurchasingorder",msElapsed);
+				        timings.addTiming("PUT-pudorders/confirmpurchasingorder",msElapsed,requestID);
 			        });
 			        buyers[nr]._activestep++;
 		    	}
@@ -132,17 +133,17 @@ function Buyer() {
 		    		var hrstart = process.hrtime();
 		    		unirest.get('http://147.162.226.101:30008/pudorders/currentpurchasingorders')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-			        .send({ "simID": parameters.simulationID, "opID": buyers[nr]._id+'-'+buyers[nr]._activeOpCounter+'-A', "step" : 0})
+			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 			        .end(function(response){
 			            var hrend = process.hrtime(hrstart);
 	        			var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
-				        timings.addTiming("GET-pudorders/currentpurchasingorders",msElapsed);
+				        timings.addTiming("GET-pudorders/currentpurchasingorders",msElapsed,requestID);
 			        });
 		    		buyers[nr]._activestep = 0;
 		    		buyers[nr]._operationsCounter++;
 		    	}
 	    	}
-	    	//console.log(buyers[nr]._id+'-'+buyers[nr]._activeOpCounter+'-A');
+	    	////console.log(buyers[nr]._id+'-'+buyers[nr]._activeOpCounter+'-A');
 	        buyers[nr]._activeOpCounter++;
 	    	if(!buyers[nr]._terminate){
 
@@ -155,19 +156,19 @@ function Buyer() {
 
 	//asynch operations
 	function onOpen(session, details) {
-		//console.log(buyers[nr]._id);
+		////console.log(buyers[nr]._id);
 
 		function onSalesOrders(args, kwargs) {
-			//console.log("ONSALESORDER");
+			////console.log("ONSALESORDER");
 	    	var opnr = kwargs.opID.split('-')[1];
 	    	if((opnr % lastvalue) == nr){
 		    	unirest.get('http://147.162.226.101:30008/pudorders/currentsalesorders')
 		        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 		        .send({ "simID": parameters.simulationID, "opID": buyers[nr]._id+'-'+buyers[nr]._reactOpCounter+'-R', "step" : 0})
 		        .end(function(response){
-		            //console.log(response.body);
+		            ////console.log(response.body);
 		        });
-		        //console.log(buyers[nr]._id+'-'+buyers[nr]._reactOpCounter+'-R');
+		        ////console.log(buyers[nr]._id+'-'+buyers[nr]._reactOpCounter+'-R');
 		       	buyers[nr]._reactOpCounter++;
 	    	}
 		};
@@ -199,7 +200,7 @@ function tick(counter){
 		
 		lastvalue = newvalue;
 	}
-	////console.log("buyers = "+counter+" - users = "+lastvalue);
+	//////console.log("buyers = "+counter+" - users = "+lastvalue);
 }
 
 function terminate(){

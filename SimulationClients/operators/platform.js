@@ -54,6 +54,7 @@ function Platform() {
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": platforms[nr]._id+'-'+platforms[nr]._operationsCounter+'-A', "step" : 0})
 				        .end(function(response){
+				        	console.log("response");
 				            var hrend = process.hrtime(hrstart);
 	        				var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
 				            timings.addTiming("GET-pldplans/currentloadingplans",msElapsed);
@@ -66,6 +67,7 @@ function Platform() {
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": platforms[nr]._id+'-'+platforms[nr]._operationsCounter+'-A', "step" : 0})
 				        .end(function(response){
+
 				            var hrend = process.hrtime(hrstart);
 	        				var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
 				            timings.addTiming("POST-pldplans/newloadingplan",msElapsed);
@@ -78,6 +80,7 @@ function Platform() {
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": platforms[nr]._id+'-'+platforms[nr]._operationsCounter+'-A', "step" : 0})
 				        .end(function(response){
+				        	console.log("response");
 				            var hrend = process.hrtime(hrstart);
 	        				var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
 				            timings.addTiming("PUT-pldplans/addloadingplan",msElapsed);
@@ -112,14 +115,14 @@ function Platform() {
 
 	//asynch operations
 	function onOpen(session, details) {
-		//console.log(platforms[nr]._id);
+		////console.log(platforms[nr]._id);
 
 
 		function onConfirmTrip(args, kwargs) {
-			console.log("ONCONFIRMTRIP")
+			//console.log("ONCONFIRMTRIP")
 			var opnr = kwargs.opID.split('-')[1];
 	    	if((opnr % lastvalue) == nr && Math.random() > 0.60){
-	    		//console.log("Added");
+	    		////console.log("Added");
 	    		platforms[nr]._newopernr++;
 	    	}
 		};	
@@ -151,7 +154,7 @@ function tick(counter){
 		
 		lastvalue = newvalue;
 	}
-	////console.log("platforms = "+counter+" - users = "+lastvalue);
+	//////console.log("platforms = "+counter+" - users = "+lastvalue);
 }
 
 

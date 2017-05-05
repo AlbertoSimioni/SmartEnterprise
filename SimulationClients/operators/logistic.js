@@ -49,8 +49,8 @@ function Logistic() {
 	    	if(logistics[nr]._po + logistics[nr]._so > 0){
 	    		if(logistics[nr]._po > 0 && logistics[nr]._active != "so"){
 	    			timings.newRequest();
-	    			console.log("logistic so:" + nr);
-	    			//console.log("so"+logistics[nr]._id);
+	    			//console.log("logistic so:" + nr);
+	    			////console.log("so"+logistics[nr]._id);
 	    			if(logistics[nr]._activestep == 0){
 	    				var hrstart = process.hrtime();
 	    				unirest.get('http://147.162.226.101:30008/lodorders/currentpurchasingorders')
@@ -120,7 +120,7 @@ function Logistic() {
 	    		}
 	    		else if(logistics[nr]._so > 0 && logistics[nr]._active != "po"){
 	    			timings.newRequest();
-	    			console.log("logistic po:" + nr);
+	    			//console.log("logistic po:" + nr);
 	    			if(logistics[nr]._activestep == 0){
 	    				var hrstart = process.hrtime();
 	    				unirest.get('http://147.162.226.101:30008/lodorders/currentsalesorders')
@@ -160,7 +160,7 @@ function Logistic() {
 	    			}   
 	    			else if(logistics[nr]._activestep == 11){
 	    				var hrstart = process.hrtime();
-	    				//console.log("CONFIRMING");
+	    				////console.log("CONFIRMING");
 	    				unirest.put('http://147.162.226.101:30008/lodtransports/confirmtrip/lol')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": logistics[nr]._id+'-'+logistics[nr]._operationsCounter+'-A', "step" : 0})
@@ -202,10 +202,10 @@ function Logistic() {
 
 	//asynch operations
 	function onOpen(session, details) {
-		//console.log(logistics[nr]._id);
+		////console.log(logistics[nr]._id);
 
 		function onConfirmSalesOrder(args, kwargs) {
-			console.log("ONCONFIRMSALESORDER");
+			//console.log("ONCONFIRMSALESORDER");
 			var opnr = kwargs.opID.split('-')[1];
 	    	if((opnr % lastvalue) == nr){
 	    		logistics[nr]._so++;
@@ -213,7 +213,7 @@ function Logistic() {
 		};
 
 		function onConfirmPurchasingOrder(args, kwargs) {
-			console.log("ONCONFIRMPURCHASINGORDER")
+			//console.log("ONCONFIRMPURCHASINGORDER")
 			var opnr = kwargs.opID.split('-')[1];
 	    	if((opnr % lastvalue) == nr){
 	    		logistics[nr]._po++;
@@ -248,7 +248,7 @@ function tick(counter){
 		
 		lastvalue = newvalue;
 	}
-	////console.log("logistics = "+counter+" - users = "+lastvalue);
+	//////console.log("logistics = "+counter+" - users = "+lastvalue);
 }
 
 function terminate(){
