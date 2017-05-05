@@ -39,18 +39,18 @@ function timeout() {
         // create a recursive loop.
         tickCounter = tickCounter +1;
 
-        sellers.tick(tickCounter/10);
+        //sellers.tick(tickCounter/10);
         buyers.tick(tickCounter/10);
-        logistics.tick(tickCounter/10);
-        platforms.tick(tickCounter/10);
+        //logistics.tick(tickCounter/10);
+        //platforms.tick(tickCounter/10);
         if(tickCounter <= parameters.nrTicks){
         	timeout();
         }
         else{
-          sellers.terminate();
+          //sellers.terminate();
           buyers.terminate();
-          logistics.terminate();
-          platforms.terminate();
+          //logistics.terminate();
+          //platforms.terminate();
           timings.terminate();
           console.log("Terminating simulation");
           //connection.close()
