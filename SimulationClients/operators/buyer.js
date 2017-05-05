@@ -34,7 +34,6 @@ function Buyer() {
          realm: 'realm1'
       });
 
-
 	this._connection = connection;
 	this._connection.onopen = onOpen;
     this._connection.open();
@@ -53,7 +52,7 @@ function Buyer() {
 
 	    		if(buyers[nr]._activestep == 0){
 	    			var hrstart = process.hrtime();
-		    		unirest.post('http://147.162.226.101:30008/pudavailabilities/newavailability')
+		    		unirest.post(addresses.gateway+ '/pudavailabilities/newavailability')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 			        .end(function(response){
@@ -65,7 +64,7 @@ function Buyer() {
 		    	}
 		    	else if(buyers[nr]._activestep > 0 && buyers[nr]._activestep <10){
 		    		var hrstart = process.hrtime();
-		    		unirest.put('http://147.162.226.101:30008/pudavailabilities/addavailability/lol')
+		    		unirest.put(addresses.gateway+ '/pudavailabilities/addavailability/lol')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 			        .end(function(response){
@@ -77,7 +76,7 @@ function Buyer() {
 		    	}
 		    	else{
 		    		var hrstart = process.hrtime();
-		    		unirest.get('http://147.162.226.101:30008/pudavailabilities/currentavailabilities')
+		    		unirest.get(addresses.gateway+ '/pudavailabilities/currentavailabilities')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 			        .end(function(response){
@@ -94,7 +93,7 @@ function Buyer() {
 	    		timings.newRequest();
 				if(buyers[nr]._activestep == 0){
 					var hrstart = process.hrtime();
-		    		unirest.post('http://147.162.226.101:30008/pudorders/newpurchasingorder')
+		    		unirest.post(addresses.gateway+ '/pudorders/newpurchasingorder')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 			        .end(function(response){
@@ -106,7 +105,7 @@ function Buyer() {
 		    	}
 		    	else if(buyers[nr]._activestep > 0 && buyers[nr]._activestep <9){
 		    		var hrstart = process.hrtime();
-		    		unirest.put('http://147.162.226.101:30008/pudorders/addpurchasingorder/lol')
+		    		unirest.put(addresses.gateway+ '/pudorders/addpurchasingorder/lol')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 			        .end(function(response){
@@ -119,7 +118,7 @@ function Buyer() {
 		    	else if(buyers[nr]._activestep == 9){
 		    		var hrstart = process.hrtime();
 		    		////console.log("CONFIRM PUD");
-		    		unirest.put('http://147.162.226.101:30008/pudorders/confirmpurchasingorder')
+		    		unirest.put(addresses.gateway+ '/pudorders/confirmpurchasingorder')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 			        .end(function(response){
@@ -131,7 +130,7 @@ function Buyer() {
 		    	}
 		    	else{
 		    		var hrstart = process.hrtime();
-		    		unirest.get('http://147.162.226.101:30008/pudorders/currentpurchasingorders')
+		    		unirest.get(addresses.gateway+ '/pudorders/currentpurchasingorders')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 			        .end(function(response){
@@ -162,7 +161,7 @@ function Buyer() {
 			////console.log("ONSALESORDER");
 	    	var opnr = kwargs.opID.split('-')[1];
 	    	if((opnr % lastvalue) == nr){
-		    	unirest.get('http://147.162.226.101:30008/pudorders/currentsalesorders')
+		    	unirest.get(addresses.gateway+ '/pudorders/currentsalesorders')
 		        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 		        .send({ "simID": parameters.simulationID, "opID": buyers[nr]._id+'-'+buyers[nr]._reactOpCounter+'-R', "step" : 0})
 		        .end(function(response){
