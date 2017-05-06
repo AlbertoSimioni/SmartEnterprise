@@ -4,6 +4,8 @@ var unirest = require('unirest');
 //NEW
 const cluster = require('cluster');
 
+
+
 //subscription
 for (const id in cluster.workers) {
   cluster.workers[id].on('message', messageHandler);
@@ -64,6 +66,7 @@ function messageHandler(msg){
             "timing" : msElapsed ,"serviceName": "PuD-Availabilities", "apiName": request.type,"date":datestring
         })
         .end();
+        //pendingRequests[msg.idRequest] = null;
         delete pendingRequests[msg.idRequest];
 
         request.res.send(msg.answer);
@@ -72,7 +75,7 @@ function messageHandler(msg){
     }
 }
 
-var pendingRequests = [];
+var pendingRequests = {};
 var totalRequestsCounter = 0;
 
 var queueLength = 0;
