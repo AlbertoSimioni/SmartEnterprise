@@ -44,7 +44,6 @@ function Seller() {
     //Autonomous operations
     function timeout() {
 	    setTimeout(function () {
-    		timings.newRequest();
     		var requestID = sellers[nr]._id+'-'+sellers[nr]._activeOpCounter+'-A';
 	    	
 	    	if(sellers[nr]._operationsCounter % 11 < 8){
@@ -112,7 +111,7 @@ function Seller() {
 			        .end(function(response){
 			            var hrend = process.hrtime(hrstart);
         				var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
-			            timings.addTiming("PUT-sedorderss/addsalesorder",msElapsed,requestID);
+			            timings.addTiming("PUT-sedorders/addsalesorder",msElapsed,requestID);
 			        });
 			        sellers[nr]._activestep++;
 		    	}
