@@ -64,6 +64,7 @@ function messageHandler(msg){
             "timing" : msElapsed ,"serviceName": "PuD-Availabilities", "apiName": request.type,"date":datestring
         })
         .end();
+        delete pendingRequests[msg.idRequest];
 
         request.res.send(msg.answer);
         //delete pendingRequests[msg.idRequest]; DA CONTROLLARE SE METTERE

@@ -41,7 +41,7 @@ function messageHandler(msg){
 
         })
         .end();
-
+        delete pendingRequests[msg.idRequest];
         request.res.send(msg.answer);
         //delete pendingRequests[msg.idRequest];
         //SEND METRICS TO THE METRICS LOGGER WITH THE LENGTH OF THE QUEUE WHEN REQUEST ARRIVED, TIME ELAPSED, DATE
