@@ -18,8 +18,9 @@ var operationids = [];
 function getMaxOfArray(numArray) {
 	var max = -1;
 	for (var i = 0; i < numArray.length; i++) {
-		if(max < numArray[i].time)
-			max = numArray[i].time;
+		var num = Number(numArray[i].time);
+		if(max < num)
+			max = num;
 
 	}
 	return max;
@@ -27,10 +28,11 @@ function getMaxOfArray(numArray) {
 }
 
 function getMinOfArray(numArray) {
-	var min = numArray[0].time;
+	var min = Number(numArray[0].time);
 	for (var i = 1; i < numArray.length; i++) {
-		if(min > numArray[i].time)
-			min = numArray[i].time;
+		var num = Number(numArray[i].time);
+		if(min > num)
+			min = num;
 
 	}
 	return min

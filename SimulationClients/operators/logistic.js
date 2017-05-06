@@ -47,68 +47,70 @@ function Logistic() {
     function timeout() {
 	    setTimeout(function () {
 	    	if(logistics[nr]._po + logistics[nr]._so > 0){
+
+	    		var requestID = logistics[nr]._id+'-'+logistics[nr]._operationsCounter+'-A';
 	    		if(logistics[nr]._po > 0 && logistics[nr]._active != "so"){
 	    			timings.newRequest();
 	    			//console.log("logistic so:" + nr);
 	    			////console.log("so"+logistics[nr]._id);
 	    			if(logistics[nr]._activestep == 0){
 	    				var hrstart = process.hrtime();
-	    				unirest.get('http://147.162.226.101:30008/lodorders/currentpurchasingorders')
+	    				unirest.get(addresses.gateway+'/lodorders/currentpurchasingorders')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-				        .send({ "simID": parameters.simulationID, "opID": logistics[nr]._id+'-'+logistics[nr]._operationsCounter+'-A', "step" : 0})
+				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 				        .end(function(response){
 				            var hrend = process.hrtime(hrstart);
 	        				var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
-				            timings.addTiming("GET-lodorders/currentpurchasingorders",msElapsed);
+				            timings.addTiming("GET-lodorders/currentpurchasingorders",msElapsed,requestID);
 				        });
 				        logistics[nr]._activestep++;
 				        logistics[nr]._active = "po";
 	    			}
 	    			else if(logistics[nr]._activestep == 1){
 	    				var hrstart = process.hrtime();
-	    				unirest.post('http://147.162.226.101:30008/lodtransports/newtrip')
+	    				unirest.post(addresses.gateway+'/lodtransports/newtrip')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-				        .send({ "simID": parameters.simulationID, "opID": logistics[nr]._id+'-'+logistics[nr]._operationsCounter+'-A', "step" : 0})
+				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 				        .end(function(response){
 				            var hrend = process.hrtime(hrstart);
 	        				var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
-				            timings.addTiming("POST-lodtransports/newtrip",msElapsed);
+				            timings.addTiming("POST-lodtransports/newtrip",msElapsed,requestID);
 				        });
 	    				logistics[nr]._activestep++;
 	    			}	
 	    			else if(logistics[nr]._activestep > 1 && logistics[nr]._activestep < 11 ){
 	    				var hrstart = process.hrtime();
-	    				unirest.put('http://147.162.226.101:30008/lodtransports/filltrip/lol')
+	    				unirest.put(addresses.gateway+'/lodtransports/filltrip/lol')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-				        .send({ "simID": parameters.simulationID, "opID": logistics[nr]._id+'-'+logistics[nr]._operationsCounter+'-A', "step" : 0})
+				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 				        .end(function(response){
 				            var hrend = process.hrtime(hrstart);
 	        				var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
-				            timings.addTiming("PUT-lodtransports/filltrip",msElapsed);
+				            timings.addTiming("PUT-lodtransports/filltrip",msElapsed,requestID);
 				        });
 						logistics[nr]._activestep++;
 	    			}   
 	    			else if(logistics[nr]._activestep == 11){
 	    				var hrstart = process.hrtime();
-	    				unirest.put('http://147.162.226.101:30008/lodtransports/confirmtrip/lol')
+	    				unirest.put(addresses.gateway+'/lodtransports/confirmtrip/lol')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-				        .send({ "simID": parameters.simulationID, "opID": logistics[nr]._id+'-'+logistics[nr]._operationsCounter+'-A', "step" : 0})
+				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 				        .end(function(response){
 				            var hrend = process.hrtime(hrstart);
 	        				var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
-				            timings.addTiming("PUT-lodtransports/confirmtrip",msElapsed);
+				            timings.addTiming("PUT-lodtransports/confirmtrip",msElapsed,requestID);
 				        });
 	    				logistics[nr]._activestep++;
 	    			}
 	    			else if(logistics[nr]._activestep == 12){
 	    				var hrstart = process.hrtime();
-	    				unirest.get('http://147.162.226.101:30008/lodwarehouses/currentwarehousesstate')
+	    				unirest.get(addresses.gateway+'/lodwarehouses/currentwarehousesstate')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-				        .send({ "simID": parameters.simulationID, "opID": logistics[nr]._id+'-'+logistics[nr]._operationsCounter+'-A', "step" : 0})
+				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 				        .end(function(response){
 				            var hrend = process.hrtime(hrstart);
 	        				var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
-				            timings.addTiming("GET-lodwarehouses/currentwarehousesstate",msElapsed);
+				            timings.addTiming("GET-lodwarehouses/currentwarehousesstate",msElapsed,requestID);
 				        });
 	    				logistics[nr]._activestep = 0;
 	    				logistics[nr]._po--;
@@ -123,63 +125,63 @@ function Logistic() {
 	    			//console.log("logistic po:" + nr);
 	    			if(logistics[nr]._activestep == 0){
 	    				var hrstart = process.hrtime();
-	    				unirest.get('http://147.162.226.101:30008/lodorders/currentsalesorders')
+	    				unirest.get(addresses.gateway+'/lodorders/currentsalesorders')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-				        .send({ "simID": parameters.simulationID, "opID": logistics[nr]._id+'-'+logistics[nr]._operationsCounter+'-A', "step" : 0})
+				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 				        .end(function(response){
 				            var hrend = process.hrtime(hrstart);
 	        				var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
-				            timings.addTiming("GET-lodorders/currentsalesorders",msElapsed);
+				            timings.addTiming("GET-lodorders/currentsalesorders",msElapsed,requestID);
 				        });
 				        logistics[nr]._activestep++;
 				        logistics[nr]._active = "so";
 	    			}
 	    			else if(logistics[nr]._activestep == 1){
 	    				var hrstart = process.hrtime();
-	    				unirest.post('http://147.162.226.101:30008/lodtransports/newtrip')
+	    				unirest.post(addresses.gateway+'/lodtransports/newtrip')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-				        .send({ "simID": parameters.simulationID, "opID": logistics[nr]._id+'-'+logistics[nr]._operationsCounter+'-A', "step" : 0})
+				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 				        .end(function(response){
 				            var hrend = process.hrtime(hrstart);
 	        				var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
-				            timings.addTiming("POST-lodtransports/newtrip",msElapsed);
+				            timings.addTiming("POST-lodtransports/newtrip",msElapsed,requestID);
 				        });
 	    				logistics[nr]._activestep++;
 	    			}	
 	    			else if(logistics[nr]._activestep > 1 && logistics[nr]._activestep < 11 ){
 	    				var hrstart = process.hrtime();
-	    				unirest.put('http://147.162.226.101:30008/lodtransports/filltrip/lol')
+	    				unirest.put(addresses.gateway+'/lodtransports/filltrip/lol')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-				        .send({ "simID": parameters.simulationID, "opID": logistics[nr]._id+'-'+logistics[nr]._operationsCounter+'-A', "step" : 0})
+				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 				        .end(function(response){
 				            var hrend = process.hrtime(hrstart);
 	        				var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
-				            timings.addTiming("PUT-lodtransports/filltrip",msElapsed);
+				            timings.addTiming("PUT-lodtransports/filltrip",msElapsed,requestID);
 				        });
 						logistics[nr]._activestep++;
 	    			}   
 	    			else if(logistics[nr]._activestep == 11){
 	    				var hrstart = process.hrtime();
 	    				////console.log("CONFIRMING");
-	    				unirest.put('http://147.162.226.101:30008/lodtransports/confirmtrip/lol')
+	    				unirest.put(addresses.gateway+'/lodtransports/confirmtrip/lol')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-				        .send({ "simID": parameters.simulationID, "opID": logistics[nr]._id+'-'+logistics[nr]._operationsCounter+'-A', "step" : 0})
+				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 				        .end(function(response){
 				            var hrend = process.hrtime(hrstart);
 	        				var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
-				            timings.addTiming("PUT-lodtransports/confirmtrip",msElapsed);
+				            timings.addTiming("PUT-lodtransports/confirmtrip",msElapsed,requestID);
 				        });
 	    				logistics[nr]._activestep++;
 	    			}
 	    			else if(logistics[nr]._activestep == 12){
 	    				var hrstart = process.hrtime();
-	    				unirest.get('http://147.162.226.101:30008/lodwarehouses/currentwarehousesstate')
+	    				unirest.get(addresses.gateway+'/lodwarehouses/currentwarehousesstate')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-				        .send({ "simID": parameters.simulationID, "opID": logistics[nr]._id+'-'+logistics[nr]._operationsCounter+'-A', "step" : 0})
+				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 				        .end(function(response){
 				            var hrend = process.hrtime(hrstart);
 	        				var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
-				            timings.addTiming("GET-lodwarehouses/currentwarehousesstate",msElapsed);
+				            timings.addTiming("GET-lodwarehouses/currentwarehousesstate",msElapsed,requestID);
 				        });
 	    				logistics[nr]._activestep = 0;
 	    				logistics[nr]._so--;
