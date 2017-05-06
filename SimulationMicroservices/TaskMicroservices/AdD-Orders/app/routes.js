@@ -62,14 +62,14 @@ function messageHandler(msg){
             "timing" : msElapsed ,"serviceName": "AdD-Orders", "apiName": request.type,"date":datestring
         })
         .end();
-
+        delete pendingRequests[msg.idRequest];
         request.res.send(msg.answer);
         //delete pendingRequests[msg.idRequest]; DA CONTROLLARE SE METTERE
         //SEND METRICS TO THE METRICS LOGGER WITH THE LENGTH OF THE QUEUE WHEN REQUEST ARRIVED, TIME ELAPSED, DATE
     }
 }
 
-var pendingRequests = [];
+var pendingRequests = {};
 var totalRequestsCounter = 0;
 
 var queueLength = 0;

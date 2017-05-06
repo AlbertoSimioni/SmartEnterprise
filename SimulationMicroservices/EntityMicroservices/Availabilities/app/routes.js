@@ -48,7 +48,7 @@ function messageHandler(msg){
     }
 }
 
-var pendingRequests = [];
+var pendingRequests = {};
 var totalRequestsCounter = 0;
 
 var queueLength = 0;
