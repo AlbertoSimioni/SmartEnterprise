@@ -17,7 +17,7 @@ function timeout() {
 
         switch(tickCounter % 4) {
             case 0:
-                //sellers.tick(tickCounter);
+                sellers.tick(tickCounter);
                 break;
             case 1:
                 buyers.tick(tickCounter);
