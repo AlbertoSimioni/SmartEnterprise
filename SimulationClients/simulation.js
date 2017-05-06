@@ -37,7 +37,7 @@ function timeout() {
         	timeout(); //RECURSIVE LOOP
         }
         else{
-          //sellers.terminate();
+          sellers.terminate();
           buyers.terminate();
           //logistics.terminate();
           //platforms.terminate();
