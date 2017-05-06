@@ -111,7 +111,8 @@ function addTiming(operationdID, time,requestID){
 		timings[operationdID].push({"time":time,"requestID":requestID});
 	}
 	console.log(totalRequests+ " - " +requestsReplied);
-	if(terminated && (requestsReplied == totalRequests)){
+	//if(terminated && (requestsReplied == totalRequests)){
+	if(requestsReplied == totalRequests)
 		writeToFile();
 		console.log("WRITTEN");
 	}
