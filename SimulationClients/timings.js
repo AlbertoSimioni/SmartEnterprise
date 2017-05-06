@@ -112,7 +112,7 @@ function addTiming(operationdID, time,requestID){
 	}
 	console.log(totalRequests+ " - " +requestsReplied);
 	//if(terminated && (requestsReplied == totalRequests)){
-	if(requestsReplied == totalRequests){
+	if(terminated){
 		writeToFile();
 		console.log("WRITTEN");
 	}
