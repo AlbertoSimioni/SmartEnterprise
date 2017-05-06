@@ -39,10 +39,21 @@ function timeout() {
         // create a recursive loop.
         tickCounter = tickCounter +1;
 
-        //sellers.tick(tickCounter/10);
-        buyers.tick(tickCounter/10);
-        //logistics.tick(tickCounter/10);
-        //platforms.tick(tickCounter/10);
+        if((tickCounter % 4) == 0){
+        //sellers.tick(tickCounter);
+        }
+        else if((tickCounter % 4) == 1){
+          buyers.tick(tickCounter);
+        }
+        else if((tickCounter % 4) == 2){
+          //logistics.tick(tickCounter);
+        }
+        else{
+          //platforms.tick(tickCounter);
+        }
+        
+        
+        
         if(tickCounter <= parameters.nrTicks){
         	timeout();
         }
