@@ -64,7 +64,17 @@ function terminate(){
 }
 
 
+var wrote = false;
+process.on('beforeExit', (code) => {
+	if(!wrote){
+  		writeToFile();
+  		wrote = true;
+	}
+});
+
+
 function writeToFile(){
+
 	var csvStream = csv.createWriteStream({headers: true}),
 	    writableStream = fs.createWriteStream(parameters.simulationID+"-results.csv");
 	 
@@ -112,10 +122,10 @@ function addTiming(operationdID, time,requestID){
 	}
 	console.log(totalRequests+ " - " +requestsReplied);
 	//if(terminated && (requestsReplied == totalRequests)){
-	if(terminated){
+	/*if(terminated){
 		writeToFile();
 		console.log("WRITTEN");
-	}
+	}*/
 }
 
 
