@@ -1,8 +1,8 @@
 module.exports = {
-	type: 'exp', //lin log exp
-	b : 2, // y=b*x , y = b^x  , y = log[b](x)
-	tick: 500, //ms
-	nrTicks: 400, //nrTicks * tick = simulation loop time
-	requestsFrequency: 40,
+	type: 'lin', //lin log exp
+	b : 1.5, // y=b*x , y = b^x  , y = log[b](x)
+	tick: 3000, //ms
+	nrTicks: 550, //nrTicks * tick = simulation loop time
+	requestsFrequency: 200,
 	simulationID : 'buyertest'
 };
