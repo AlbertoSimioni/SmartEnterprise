@@ -26,7 +26,7 @@ function timeout() {
                 logistics.tick(tickCounter);
                 break;
             case 3:
-                //platforms.tick(tickCounter);
+                platforms.tick(tickCounter);
                 break;
             default:
                 throw "ERROR % 4";
@@ -40,7 +40,7 @@ function timeout() {
           sellers.terminate();
           buyers.terminate();
           logistics.terminate();
-          //platforms.terminate();
+          platforms.terminate();
           timings.terminate();
           console.log("Terminating simulation");
         }
