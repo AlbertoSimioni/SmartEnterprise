@@ -23,7 +23,7 @@ function timeout() {
                 buyers.tick(tickCounter);
                 break;
             case 2:
-                //logistics.tick(tickCounter);
+                logistics.tick(tickCounter);
                 break;
             case 3:
                 //platforms.tick(tickCounter);
@@ -39,7 +39,7 @@ function timeout() {
         else{
           sellers.terminate();
           buyers.terminate();
-          //logistics.terminate();
+          logistics.terminate();
           //platforms.terminate();
           timings.terminate();
           console.log("Terminating simulation");
