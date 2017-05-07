@@ -77,7 +77,7 @@ function getCurrentpurchasingorders(msg){
         .type('json')
         .send({ "simID": msg.simID, "opID": msg.opID, "step" : msg.step+1})
         .end(function(response){
-        	for (var i = 0; i < t120; i++) 
+        	for (var i = 0; i < t15; i++) 
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";
@@ -98,7 +98,7 @@ function getCurrentsalesorders(msg){
         .type('json')
         .send({ "simID": msg.simID, "opID": msg.opID, "step" : msg.step+1})
         .end(function(response){
-        	for (var i = 0; i < t120; i++) 
+        	for (var i = 0; i < t15; i++) 
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";
@@ -119,7 +119,7 @@ function putConfirmsalesorder(msg){
         .type('json')
         .send({ "simID": msg.simID, "opID": msg.opID, "step" : msg.step+1})
         .end(function(response){
-        	for (var i = 0; i < t120; i++) 
+        	for (var i = 0; i < t1; i++) 
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";
@@ -142,7 +142,7 @@ function postNewsalesorder(msg){
         .type('json')
         .send({ "simID": msg.simID, "opID": msg.opID, "step" : msg.step+1})
         .end(function(response){
-        	for (var i = 0; i < t120; i++) 
+        	for (var i = 0; i < t1; i++) 
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";
@@ -163,7 +163,7 @@ function putAddsalesorder(msg){
         .type('json')
         .send({ "simID": msg.simID, "opID": msg.opID, "step" : msg.step+1})
         .end(function(response){
-        	for (var i = 0; i < t120; i++) 
+        	for (var i = 0; i < t1; i++) 
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";
@@ -184,7 +184,7 @@ function deleteSalesorder(msg){
         .type('json')
         .send({ "simID": msg.simID, "opID": msg.opID, "step" : msg.step+1})
         .end(function(response){
-        	for (var i = 0; i < t120; i++) 
+        	for (var i = 0; i < t1; i++) 
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";
