@@ -51,7 +51,8 @@ function Seller() {
 	    		timings.newRequest();
 	    		if(sellers[nr]._activestep == 0){
 	    			var hrstart = process.hrtime();
-
+	    			timings.makeRequest(requestID,hrstart);
+	    			
 		    		unirest.post(addresses.gateway+'/sedcatalogs/newcatalog')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
@@ -64,6 +65,7 @@ function Seller() {
 		    	}
 		    	else if(sellers[nr]._activestep > 0 && sellers[nr]._activestep <10){
 		    		var hrstart = process.hrtime();
+	    			
 		    		unirest.put(addresses.gateway+'/sedcatalogs/addcatalog/lol')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
@@ -76,6 +78,7 @@ function Seller() {
 		    	}
 		    	else{
 		    		var hrstart = process.hrtime();
+	    			
 		    		unirest.get(addresses.gateway+'/sedcatalogs/currentcatalogs')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
@@ -93,6 +96,7 @@ function Seller() {
 	    		timings.newRequest();
 				if(sellers[nr]._activestep == 0){
 					var hrstart = process.hrtime();
+	    			timings.makeRequest(requestID,hrstart);
 		    		unirest.post(addresses.gateway+'/sedorders/newsalesorder')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
@@ -105,6 +109,7 @@ function Seller() {
 		    	}
 		    	else if(sellers[nr]._activestep > 0 && sellers[nr]._activestep <9){
 		    		var hrstart = process.hrtime();
+	    			
 		    		unirest.put(addresses.gateway+'/sedorders/addsalesorder/lol')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
@@ -118,6 +123,7 @@ function Seller() {
 		    	else if(sellers[nr]._activestep == 9){
 		    		////console.log("CONFIRM SEL");
 		    		var hrstart = process.hrtime();
+	    			timings.makeRequest(requestID,hrstart);
 		    		unirest.put(addresses.gateway+'/sedorders/confirmsalesorder')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
@@ -130,6 +136,7 @@ function Seller() {
 		    	}
 		    	else{
 		    		var hrstart = process.hrtime();
+	    			
 		    		unirest.get(addresses.gateway+'/sedorders/currentsalesorders')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
@@ -153,19 +160,18 @@ function Seller() {
 
 	//asynch operations
 	function onOpen(session, details) {
-		////console.log(sellers[nr]._id);
 
 	    function onAvailabilities(args, kwargs) {
 	    	////console.log("ONAVAILABILITIES");
 	    	var opnr = kwargs.opID.split('-')[1];
 	    	if((opnr % lastvalue) == nr){
+	    		timings.reactiveRequest(kwargs.opID);
 		    	unirest.get('http://147.162.226.101:30008/sedavailabilities/currentavailabilities')
 		        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 		        .send({ "simID": parameters.simulationID, "opID": sellers[nr]._id+'-'+sellers[nr]._reactOpCounter+'-R', "step" : 0})
 		        .end(function(response){
 		            ////console.log(response.body);
 		        });
-		        ////console.log(sellers[nr]._id+'-'+sellers[nr]._reactOpCounter+'-R');
 		       	sellers[nr]._reactOpCounter++;
 	    	}
 		};
@@ -175,13 +181,13 @@ function Seller() {
 			////console.log("ONPURCHASINGORDERS")
 	    	var opnr = kwargs.opID.split('-')[1];
 	    	if((opnr % lastvalue) == nr){
+	    		timings.reactiveRequest(kwargs.opID);
 		    	unirest.get('http://147.162.226.101:30008/sedorders/currentpurchasingorders')
 		        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 		        .send({ "simID": parameters.simulationID, "opID": sellers[nr]._id+'-'+sellers[nr]._reactOpCounter+'-R', "step" : 0})
 		        .end(function(response){
 		            ////console.log(response.body);
 		        });
-		        ////console.log(sellers[nr]._id+'-'+sellers[nr]._reactOpCounter+'-R');
 		       	sellers[nr]._reactOpCounter++;
 	    	}
 		};
@@ -214,7 +220,6 @@ function tick(counter){
 		
 		lastvalue = newvalue;
 	}
-	//////console.log("sellers = "+counter+" - users = "+lastvalue);
 }
 
 

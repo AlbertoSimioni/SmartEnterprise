@@ -52,6 +52,7 @@ function Buyer() {
 
 	    		if(buyers[nr]._activestep == 0){
 	    			var hrstart = process.hrtime();
+	    			timings.makeRequest(requestID,hrstart);
 		    		unirest.post(addresses.gateway+ '/pudavailabilities/newavailability')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
@@ -64,6 +65,7 @@ function Buyer() {
 		    	}
 		    	else if(buyers[nr]._activestep > 0 && buyers[nr]._activestep <10){
 		    		var hrstart = process.hrtime();
+	    			
 		    		unirest.put(addresses.gateway+ '/pudavailabilities/addavailability/lol')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
@@ -76,6 +78,7 @@ function Buyer() {
 		    	}
 		    	else{
 		    		var hrstart = process.hrtime();
+	    			
 		    		unirest.get(addresses.gateway+ '/pudavailabilities/currentavailabilities')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
@@ -93,6 +96,7 @@ function Buyer() {
 	    		timings.newRequest();
 				if(buyers[nr]._activestep == 0){
 					var hrstart = process.hrtime();
+	    			timings.makeRequest(requestID,hrstart);
 		    		unirest.post(addresses.gateway+ '/pudorders/newpurchasingorder')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
@@ -105,6 +109,7 @@ function Buyer() {
 		    	}
 		    	else if(buyers[nr]._activestep > 0 && buyers[nr]._activestep <9){
 		    		var hrstart = process.hrtime();
+	    			
 		    		unirest.put(addresses.gateway+ '/pudorders/addpurchasingorder/lol')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
@@ -117,6 +122,7 @@ function Buyer() {
 		    	}
 		    	else if(buyers[nr]._activestep == 9){
 		    		var hrstart = process.hrtime();
+	    			timings.makeRequest(requestID,hrstart);
 		    		////console.log("CONFIRM PUD");
 		    		unirest.put(addresses.gateway+ '/pudorders/confirmpurchasingorder')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
@@ -130,6 +136,7 @@ function Buyer() {
 		    	}
 		    	else{
 		    		var hrstart = process.hrtime();
+	    			
 		    		unirest.get(addresses.gateway+ '/pudorders/currentpurchasingorders')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
@@ -161,6 +168,7 @@ function Buyer() {
 			////console.log("ONSALESORDER");
 	    	var opnr = kwargs.opID.split('-')[1];
 	    	if((opnr % lastvalue) == nr){
+	    		timings.reactiveRequest(kwargs.opID);
 		    	unirest.get(addresses.gateway+ '/pudorders/currentsalesorders')
 		        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 		        .send({ "simID": parameters.simulationID, "opID": buyers[nr]._id+'-'+buyers[nr]._reactOpCounter+'-R', "step" : 0})

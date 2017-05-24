@@ -55,6 +55,7 @@ function Logistic() {
 	    			////console.log("so"+logistics[nr]._id);
 	    			if(logistics[nr]._activestep == 0){
 	    				var hrstart = process.hrtime();
+	    			
 	    				unirest.get(addresses.gateway+'/lodorders/currentpurchasingorders')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
@@ -68,6 +69,7 @@ function Logistic() {
 	    			}
 	    			else if(logistics[nr]._activestep == 1){
 	    				var hrstart = process.hrtime();
+	    				timings.makeRequest(requestID,hrstart);
 	    				unirest.post(addresses.gateway+'/lodtransports/newtrip')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
@@ -80,6 +82,7 @@ function Logistic() {
 	    			}	
 	    			else if(logistics[nr]._activestep > 1 && logistics[nr]._activestep < 11 ){
 	    				var hrstart = process.hrtime();
+	    				
 	    				unirest.put(addresses.gateway+'/lodtransports/filltrip/lol')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
@@ -92,6 +95,7 @@ function Logistic() {
 	    			}   
 	    			else if(logistics[nr]._activestep == 11){
 	    				var hrstart = process.hrtime();
+	    			timings.makeRequest(requestID,hrstart);
 	    				unirest.put(addresses.gateway+'/lodtransports/confirmtrip/lol')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
@@ -104,6 +108,7 @@ function Logistic() {
 	    			}
 	    			else if(logistics[nr]._activestep == 12){
 	    				var hrstart = process.hrtime();
+	    			
 	    				unirest.get(addresses.gateway+'/lodwarehouses/currentwarehousesstate')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
@@ -125,6 +130,7 @@ function Logistic() {
 	    			//console.log("logistic po:" + nr);
 	    			if(logistics[nr]._activestep == 0){
 	    				var hrstart = process.hrtime();
+	    			
 	    				unirest.get(addresses.gateway+'/lodorders/currentsalesorders')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
@@ -138,6 +144,7 @@ function Logistic() {
 	    			}
 	    			else if(logistics[nr]._activestep == 1){
 	    				var hrstart = process.hrtime();
+	    				timings.makeRequest(requestID,hrstart);
 	    				unirest.post(addresses.gateway+'/lodtransports/newtrip')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
@@ -150,6 +157,7 @@ function Logistic() {
 	    			}	
 	    			else if(logistics[nr]._activestep > 1 && logistics[nr]._activestep < 11 ){
 	    				var hrstart = process.hrtime();
+	    			
 	    				unirest.put(addresses.gateway+'/lodtransports/filltrip/lol')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
@@ -162,6 +170,7 @@ function Logistic() {
 	    			}   
 	    			else if(logistics[nr]._activestep == 11){
 	    				var hrstart = process.hrtime();
+	    			timings.makeRequest(requestID,hrstart);
 	    				////console.log("CONFIRMING");
 	    				unirest.put(addresses.gateway+'/lodtransports/confirmtrip/lol')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
@@ -175,6 +184,7 @@ function Logistic() {
 	    			}
 	    			else if(logistics[nr]._activestep == 12){
 	    				var hrstart = process.hrtime();
+	    			
 	    				unirest.get(addresses.gateway+'/lodwarehouses/currentwarehousesstate')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
@@ -210,6 +220,7 @@ function Logistic() {
 			//console.log("ONCONFIRMSALESORDER");
 			var opnr = kwargs.opID.split('-')[1];
 	    	if((opnr % lastvalue) == nr){
+	    		timings.reactiveRequest(kwargs.opID);
 	    		logistics[nr]._so++;
 	    	}
 		};
@@ -218,6 +229,7 @@ function Logistic() {
 			//console.log("ONCONFIRMPURCHASINGORDER")
 			var opnr = kwargs.opID.split('-')[1];
 	    	if((opnr % lastvalue) == nr){
+	    		timings.reactiveRequest(kwargs.opID);
 	    		logistics[nr]._po++;
 	    	}
 		};	

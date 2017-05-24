@@ -49,14 +49,13 @@ function Platform() {
 	    			var requestID = platforms[nr]._id+'-'+platforms[nr]._operationsCounter+'-A';
 
 	    			timings.newRequest();
-	    			console.log("platform:" + nr);
 	    			if(platforms[nr]._activestep == 0){
-		    			var hrstart = process.hrtime();	    				
+		    			var hrstart = process.hrtime();
+	    			  				
 	    				unirest.get(addresses.gateway+'/pldplans/currentloadingplans')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 				        .end(function(response){
-				        	console.log("response");
 				            var hrend = process.hrtime(hrstart);
 	        				var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
 				            timings.addTiming("GET-pldplans/currentloadingplans",msElapsed,requestID);
@@ -65,6 +64,7 @@ function Platform() {
 	    			}
 	    			else if(platforms[nr]._activestep == 1){
 	    				var hrstart = process.hrtime();
+	    				timings.makeRequest(requestID,hrstart);
 	    				unirest.post(addresses.gateway+'/pldplans/newloadingplan')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
@@ -78,11 +78,11 @@ function Platform() {
 	    			}	
 	    			else if(platforms[nr]._activestep > 1 && platforms[nr]._activestep < 9 ){
 	    				var hrstart = process.hrtime();
+	    			
 	    				unirest.put(addresses.gateway+'/pldplans/addloadingplan/lol')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 				        .end(function(response){
-				        	console.log("response");
 				            var hrend = process.hrtime(hrstart);
 	        				var msElapsed = (hrend[0]*1000 + hrend[1]/1000000).toFixed(2);
 				            timings.addTiming("PUT-pldplans/addloadingplan",msElapsed,requestID);
@@ -91,6 +91,7 @@ function Platform() {
 	    			}   
 	    			else if(platforms[nr]._activestep == 9){
 	    				var hrstart = process.hrtime();
+	    			timings.makeRequest(requestID,hrstart);
 	    				unirest.put(addresses.gateway+'/pldplans/confirmloadingplan/lol')
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
@@ -123,8 +124,9 @@ function Platform() {
 		function onConfirmTrip(args, kwargs) {
 			//console.log("ONCONFIRMTRIP")
 			var opnr = kwargs.opID.split('-')[1];
-	    	if((opnr % lastvalue) == nr && Math.random() > 0.60){
+	    	if((opnr % lastvalue) == nr && (Math.random() > 0.60)){
 	    		////console.log("Added");
+	    		timings.reactiveRequest(kwargs.opID);
 	    		platforms[nr]._newopernr++;
 	    	}
 		};	
@@ -156,7 +158,6 @@ function tick(counter){
 		
 		lastvalue = newvalue;
 	}
-	//////console.log("platforms = "+counter+" - users = "+lastvalue);
 }
 
 

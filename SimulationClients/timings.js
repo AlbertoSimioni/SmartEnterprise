@@ -67,13 +67,14 @@ function terminate(){
 var wrote = false;
 process.on('beforeExit', (code) => {
 	if(!wrote){
-  		writeToFile();
+  		writeToFileActive();
+  		writeToFileReactive();
   		wrote = true;
 	}
 });
 
 
-function writeToFile(){
+function writeToFileActive(){
 
 	var csvStream = csv.createWriteStream({headers: true}),
 	    writableStream = fs.createWriteStream(parameters.simulationID+"-results.csv");
@@ -109,7 +110,43 @@ function writeToFile(){
 		}
 	}
 	csvStream2.end();
+
 }
+
+function writeToFileReactive(){
+
+	var csvStream3 = csv.createWriteStream({headers: true}),
+	writableStream3 = fs.createWriteStream(parameters.simulationID+"-reactive-complete-results.csv");
+	 
+	writableStream3.on("finish", function(){
+	  console.log("DONE!");
+	});
+	csvStream3.pipe(writableStream3);
+	for (var i = 0; i < operationsTimesResults.length; i++) {
+		var current_result = operationsTimesResults[i];
+		csvStream3.write({"id": current_result.opID,"time":current_result.time});	
+	}
+	csvStream3.end();
+
+
+
+	var csvStream = csv.createWriteStream({headers: true}),
+	writableStream = fs.createWriteStream(parameters.simulationID+"-reactive-results.csv");
+	 
+	writableStream.on("finish", function(){
+	  console.log("DONE!");
+	});
+	 
+	csvStream.pipe(writableStream);
+	var min = getMinOfArray(operationsTimesResults);
+	var max = getMaxOfArray(operationsTimesResults);
+	var avg = getAvgOfArray(operationsTimesResults);
+	var med = getMedianOfArray(operationsTimesResults);
+	var counter = operationsTimesResults.length
+	csvStream.write({"min":min,"max":max,"avg":avg,"med":med,"counter":counter});
+	csvStream.end();
+}
+
 
 function addTiming(operationdID, time,requestID){
 	requestsReplied++;
@@ -121,13 +158,28 @@ function addTiming(operationdID, time,requestID){
 		timings[operationdID].push({"time":time,"requestID":requestID});
 	}
 	console.log(totalRequests+ " - " +requestsReplied);
-	//if(terminated && (requestsReplied == totalRequests)){
-	/*if(terminated){
-		writeToFile();
-		console.log("WRITTEN");
-	}*/
 }
 
+
+var operationsTimes = {};
+var operationsTimesResults = [];
+
+
+function makeRequest(opID, timestart){
+	operationsTimes[opID] = timestart;
+	//console.log(JSON.stringify(timestart));
+}
+
+function reactiveRequest(opID){
+	var hrstart =  operationsTimes[opID];
+	var hrend = process.hrtime(hrstart);
+    var msElapsed = hrend[0]*1000 + hrend[1]/1000000;
+    //console.log(JSON.stringify(hrstart));
+    operationsTimesResults.push({"opID":opID,"time":msElapsed});
+    console.log(opID);
+    console.log(msElapsed);
+    delete operationsTimes[opID];
+}
 
 function newRequest(){
 	totalRequests++;
@@ -138,3 +190,7 @@ module.exports.terminate = terminate;
 module.exports.addTiming = addTiming;
 
 module.exports.newRequest = newRequest;
+
+module.exports.makeRequest = makeRequest;
+
+module.exports.reactiveRequest = reactiveRequest;
