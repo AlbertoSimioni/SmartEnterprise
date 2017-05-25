@@ -118,14 +118,11 @@ function Platform() {
 
 	//asynch operations
 	function onOpen(session, details) {
-		////console.log(platforms[nr]._id);
 
 
 		function onConfirmTrip(args, kwargs) {
-			//console.log("ONCONFIRMTRIP")
 			var opnr = kwargs.opID.split('-')[1];
-	    	if((opnr % lastvalue) == nr && (Math.random() > 0.60)){
-	    		////console.log("Added");
+	    	if((opnr % platforms.length) == nr && (Math.random() > 0.60)){
 	    		timings.reactiveRequest(kwargs.opID);
 	    		platforms[nr]._newopernr++;
 	    	}
@@ -134,29 +131,19 @@ function Platform() {
 	    platforms[nr]._session = session;
 	};
 
-
-
 }
 
 
 var platforms = [];
-var lastvalue = 0;
 
-function tick(counter){
-	var newvalue;
-	if(parameters.type == "lin")
-		newvalue = Math.floor(counter*parameters.b);
-	else if(parameters.type == "log")
-		newvalue = Math.floor(Math.log(counter,parameters.b));
-	else if(parameters.type == "exp")
-		newvalue = Math.floor(Math.pow(parameters.b,counter));
-	var newusers = newvalue - lastvalue;
-	if(newusers > 0 && lastvalue <  maxUsers){
-		for (var i = 0; i < newusers  && lastvalue + i < maxUsers; i++) {
-			platforms.push(new Platform());
-		}
-		
-		lastvalue = newvalue;
+function tick(){
+
+	if(platforms.length <  maxUsers){
+		platforms.push(new Platform());
+		return true;
+	}
+	else{
+		return false;
 	}
 }
 

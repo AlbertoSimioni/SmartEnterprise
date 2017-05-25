@@ -51,8 +51,6 @@ function Logistic() {
 	    		var requestID = logistics[nr]._id+'-'+logistics[nr]._operationsCounter+'-A';
 	    		if(logistics[nr]._po > 0 && logistics[nr]._active != "so"){
 	    			timings.newRequest();
-	    			//console.log("logistic so:" + nr);
-	    			////console.log("so"+logistics[nr]._id);
 	    			if(logistics[nr]._activestep == 0){
 	    				var hrstart = process.hrtime();
 	    			
@@ -127,7 +125,6 @@ function Logistic() {
 	    		}
 	    		else if(logistics[nr]._so > 0 && logistics[nr]._active != "po"){
 	    			timings.newRequest();
-	    			//console.log("logistic po:" + nr);
 	    			if(logistics[nr]._activestep == 0){
 	    				var hrstart = process.hrtime();
 	    			
@@ -214,21 +211,18 @@ function Logistic() {
 
 	//asynch operations
 	function onOpen(session, details) {
-		////console.log(logistics[nr]._id);
 
 		function onConfirmSalesOrder(args, kwargs) {
-			//console.log("ONCONFIRMSALESORDER");
 			var opnr = kwargs.opID.split('-')[1];
-	    	if((opnr % lastvalue) == nr){
+	    	if((opnr % logistics.length) == nr){
 	    		timings.reactiveRequest(kwargs.opID);
 	    		logistics[nr]._so++;
 	    	}
 		};
 
 		function onConfirmPurchasingOrder(args, kwargs) {
-			//console.log("ONCONFIRMPURCHASINGORDER")
 			var opnr = kwargs.opID.split('-')[1];
-	    	if((opnr % lastvalue) == nr){
+	    	if((opnr % logistics.length) == nr){
 	    		timings.reactiveRequest(kwargs.opID);
 	    		logistics[nr]._po++;
 	    	}
@@ -244,25 +238,16 @@ function Logistic() {
 
 
 var logistics = [];
-var lastvalue = 0;
 
-function tick(counter){
-	var newvalue;
-	if(parameters.type == "lin")
-		newvalue = Math.floor(counter*parameters.b);
-	else if(parameters.type == "log")
-		newvalue = Math.floor(Math.log(counter,parameters.b));
-	else if(parameters.type == "exp")
-		newvalue = Math.floor(Math.pow(parameters.b,counter));
-	var newusers = newvalue - lastvalue;
-	if(newusers > 0 && lastvalue <  maxUsers){
-		for (var i = 0; i < newusers  && lastvalue + i < maxUsers; i++) {
-			logistics.push(new Logistic());
-		}
-		
-		lastvalue = newvalue;
+function tick(){
+
+	if(logistics.length <  maxUsers){
+		logistics.push(new Logistic());
+		return true;
 	}
-	//////console.log("logistics = "+counter+" - users = "+lastvalue);
+	else{
+		return false;
+	}
 }
 
 function terminate(){

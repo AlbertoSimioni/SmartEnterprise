@@ -8,6 +8,8 @@ var timings = require('./timings');
 
 var tickCounter = 0;
 
+var lastvalue = 0;
+
 timeout()
 
 function timeout() {
@@ -15,35 +17,77 @@ function timeout() {
 
         tickCounter = tickCounter +1;
 
-        switch(tickCounter % 4) {
-            case 0:
-                sellers.tick(tickCounter);
-                break;
-            case 1:
-                buyers.tick(tickCounter);
-                break;
-            case 2:
-                logistics.tick(tickCounter);
-                break;
-            case 3:
-                platforms.tick(tickCounter);
-                break;
-            default:
-                throw "ERROR % 4";
-        }
+
+
+        var newvalue;
+        if(parameters.type == "lin")
+            newvalue = Math.floor(tickCounter*parameters.b);
+        else if(parameters.type == "log")
+            newvalue = Math.floor(Math.log(tickCounter,parameters.b));
+        else if(parameters.type == "exp")
+            newvalue = Math.floor(Math.pow(parameters.b,tickCounter));
         
+        var newusers = newvalue - lastvalue;
+        
+        lastvalue = newvalue;
+
+        for (var i = 0; moreUsersNeeded() && i < newusers ; i++) {
+            sendTick();
+        }
+
         
         if(tickCounter <= parameters.nrTicks){
         	timeout(); //RECURSIVE LOOP
         }
+
         else{
-          sellers.terminate();
-          buyers.terminate();
-          logistics.terminate();
-          platforms.terminate();
-          timings.terminate();
-          console.log("Terminating simulation");
+          terminateSimulation();
         }
 
     }, parameters.tick);
+}
+
+
+var log_needed = true;
+var plat_needed = true;
+var buy_needed = true;
+var sel_needed = true;
+
+
+function moreUsersNeeded(){
+    return (log_needed || plat_needed || buy_needed || sel_needed);
+
+}
+
+
+var usersCounter = 0;
+
+function sendTick(){
+
+    switch(usersCounter % 4){
+    case 0:
+        sel_needed = sellers.tick();
+        break;
+    case 1:
+        buy_needed = buyers.tick();
+        break;
+    case 2:
+        log_needed = logistics.tick();
+        break;
+    case 3:
+        plat_needed = platforms.tick();
+        break;
+    default:
+        throw "ERROR % 4";                  
+        }
+    usersCounter++;
+}
+
+function terminateSimulation(){
+    sellers.terminate();
+    buyers.terminate();
+    logistics.terminate();
+    platforms.terminate();
+    timings.terminate();
+    console.log("Terminating simulation");
 }

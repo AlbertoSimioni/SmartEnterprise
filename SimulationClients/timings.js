@@ -24,7 +24,6 @@ function getMaxOfArray(numArray) {
 
 	}
 	return max;
-  //return Math.max.apply(null, numArray);
 }
 
 function getMinOfArray(numArray) {
@@ -36,7 +35,6 @@ function getMinOfArray(numArray) {
 
 	}
 	return min
-  //return Math.min.apply(null, numArray);
 }
 
 
@@ -85,6 +83,7 @@ function writeToFileActive(){
 	 
 	csvStream.pipe(writableStream);
 	for (var i = 0; i < operationids.length; i++) {
+		console.log(operationids[i]);
 		var min = getMinOfArray(timings[operationids[i]]);
 		var id = operationids[i];
 		var max = getMaxOfArray(timings[operationids[i]]);
@@ -157,7 +156,9 @@ function addTiming(operationdID, time,requestID){
 	else{
 		timings[operationdID].push({"time":time,"requestID":requestID});
 	}
-	console.log(totalRequests+ " - " +requestsReplied);
+	if((requestsReplied % 150) ==1){
+		console.log(totalRequests+ " - " +requestsReplied);
+	}
 }
 
 
@@ -167,17 +168,13 @@ var operationsTimesResults = [];
 
 function makeRequest(opID, timestart){
 	operationsTimes[opID] = timestart;
-	//console.log(JSON.stringify(timestart));
 }
 
 function reactiveRequest(opID){
 	var hrstart =  operationsTimes[opID];
 	var hrend = process.hrtime(hrstart);
     var msElapsed = hrend[0]*1000 + hrend[1]/1000000;
-    //console.log(JSON.stringify(hrstart));
     operationsTimesResults.push({"opID":opID,"time":msElapsed});
-    console.log(opID);
-    console.log(msElapsed);
     delete operationsTimes[opID];
 }
 
