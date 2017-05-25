@@ -123,7 +123,6 @@ function Buyer() {
 		    	else if(buyers[nr]._activestep == 9){
 		    		var hrstart = process.hrtime();
 	    			timings.makeRequest(requestID,hrstart);
-		    		////console.log("CONFIRM PUD");
 		    		unirest.put(addresses.gateway+ '/pudorders/confirmpurchasingorder')
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
@@ -149,7 +148,6 @@ function Buyer() {
 		    		buyers[nr]._operationsCounter++;
 		    	}
 	    	}
-	    	////console.log(buyers[nr]._id+'-'+buyers[nr]._activeOpCounter+'-A');
 	        buyers[nr]._activeOpCounter++;
 	    	if(!buyers[nr]._terminate){
 
@@ -162,20 +160,16 @@ function Buyer() {
 
 	//asynch operations
 	function onOpen(session, details) {
-		////console.log(buyers[nr]._id);
 
 		function onSalesOrders(args, kwargs) {
-			////console.log("ONSALESORDER");
 	    	var opnr = kwargs.opID.split('-')[1];
-	    	if((opnr % lastvalue) == nr){
+	    	if((opnr % buyers.length) == nr){
 	    		timings.reactiveRequest(kwargs.opID);
 		    	unirest.get(addresses.gateway+ '/pudorders/currentsalesorders')
 		        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 		        .send({ "simID": parameters.simulationID, "opID": buyers[nr]._id+'-'+buyers[nr]._reactOpCounter+'-R', "step" : 0})
 		        .end(function(response){
-		            ////console.log(response.body);
 		        });
-		        ////console.log(buyers[nr]._id+'-'+buyers[nr]._reactOpCounter+'-R');
 		       	buyers[nr]._reactOpCounter++;
 	    	}
 		};
@@ -189,25 +183,15 @@ function Buyer() {
 
 
 var buyers = [];
-var lastvalue = 0;
 
-function tick(counter){
-	var newvalue;
-	if(parameters.type == "lin")
-		newvalue = Math.floor(counter*parameters.b);
-	else if(parameters.type == "log")
-		newvalue = Math.floor(Math.log(counter,parameters.b));
-	else if(parameters.type == "exp")
-		newvalue = Math.floor(Math.pow(parameters.b,counter));
-	var newusers = newvalue - lastvalue;
-	if(newusers > 0 && lastvalue <  maxUsers){
-		for (var i = 0; i < newusers  && lastvalue + i < maxUsers; i++) {
-			buyers.push(new Buyer());
-		}
-		
-		lastvalue = newvalue;
+function tick(){
+	if(buyers.length  < maxUsers){
+		buyers.push(new Buyer());
+		return true;
 	}
-	//////console.log("buyers = "+counter+" - users = "+lastvalue);
+	else{
+		return false;
+	}
 }
 
 function terminate(){
