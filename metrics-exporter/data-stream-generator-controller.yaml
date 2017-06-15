@@ -6,14 +6,14 @@ metadata:
   labels:
     name: metrics-exporter
 spec:
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
         name: metrics-exporter
     spec:
       containers:
-      - name: oplog-admin
+      - name: metrics-exporter
         image: 10.67.20.19:5000/metrics-exporter
         ports:
         - name: http-server
