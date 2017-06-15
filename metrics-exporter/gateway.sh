@@ -1,0 +1,1 @@
+curl -i -X POST --url http://10.67.20.32:30001/apis/  --data 'name=metrics-exporter' --data 'upstream_url=http://metrics-exporter.default.svc.cluster.local:8080/'  --data 'request_path=/metrics-exporter/'  --data 'strip_request_path=true'
