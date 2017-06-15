@@ -23,29 +23,12 @@
 <!-- SET THE CONTROLLER -->
 <body>
 	<div class="container">
-		<button id="button_1" value="val_1" name="but1">button 1</button>
+		<a href="api/timingdata" class="button">Go to Google</a>
 	</div>
 
 </body>
 
 <script type="text/javascript">
-	
-$("button").click(function(e) {
-	console.log("button");
-    e.preventDefault();
-    $.ajax({
-        type: "GET",
-        url: "api/timingdata",
-        data: {},
-        success: function(result) {
-            console.log("OK");
-            console.log(result);
-        },
-        error: function(result) {
-            console.log("ERROR");
-        }
-    });
-});
 
 </script>
 

@@ -12,27 +12,11 @@ function getTimingData(res) {
         }
 
          var result = json2csv({ data: timingdata, fields: fields });
+         
+        res.setHeader('Content-disposition', 'attachment; filename=testing.csv');
+          res.set('Content-Type', 'text/csv');
+          res.status(200).send(result);
 
-         var fs = require('fs');
-        fs.writeFile("/tmp/test.csv", result, function(err) {
-            if(err) {
-                return console.log(err);
-            }
-            console.log("The file was saved!");
-        }); 
-
-
-    res.download('/tmp/test.csv'); 
-        //res.sendFile("/tmp/test", function (err) {
-        /*res.attachment('/tmp/test.csv',function (err){
-            if (err) {
-              next(err);
-            } else {
-              console.log('Sent:', "/tmp/test");
-            }
-          });*/
-         //console.log(result);
-        //res.json(timingdata); // return all timingdatas in JSON format
     });
 };
 
