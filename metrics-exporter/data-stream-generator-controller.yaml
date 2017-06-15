@@ -1,0 +1,21 @@
+---
+kind: ReplicationController
+apiVersion: v1
+metadata:
+  name: metrics-exporter
+  labels:
+    name: metrics-exporter
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        name: metrics-exporter
+    spec:
+      containers:
+      - name: oplog-admin
+        image: 10.67.20.19:5000/metrics-exporter
+        ports:
+        - name: http-server
+          containerPort: 8080
+  

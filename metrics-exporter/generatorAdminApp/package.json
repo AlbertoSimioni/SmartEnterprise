@@ -1,0 +1,15 @@
+{
+  "name": "MongoDB-Stream-Generator",
+  "version": "0.0.1",
+  "description": "Application that manages the generation of the data stream by reading the new data inside MongoDB",
+  "main": "server.js",
+  "author": "Alberto Simioni",
+  "dependencies": {
+    "body-parser": "^1.4.3",
+    "express": "^4.13.4",
+    "method-override": "^2.1.3",
+    "mongoose": "^4.4.12",
+    "morgan": "^1.1.1",
+    "json2csv": "3.7.3"
+  }
+}
