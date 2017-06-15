@@ -30,14 +30,14 @@ function timeout() {
         var newusers = newvalue - lastvalue;
         
         lastvalue = newvalue;
-
+        //IF MORE USERS NEEDED - IT CREATES "newusers" users
         for (var i = 0; moreUsersNeeded() && i < newusers ; i++) {
-            sendTick();
+            sendTick(); //creates one user of a type, rotating between the types
         }
 
-        
+        //ITERATES UNTIL THE nrTicks are ended
         if(tickCounter <= parameters.nrTicks){
-        	timeout(); //RECURSIVE LOOP
+        	timeout(); //RECURSIVE LOOP 
         }
 
         else{

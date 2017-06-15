@@ -11,7 +11,8 @@
      "unirest":"0.5.1",
      "autobahn":"0.11.2",
      "node-datetime": "1.0.0",
-     "fast-csv": "2.4.0"
+     "fast-csv": "2.4.0",
+     "node-datetime": "1.0.0"
   }
 }
 

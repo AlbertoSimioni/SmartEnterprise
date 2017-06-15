@@ -2,7 +2,7 @@ var csv = require("fast-csv");
 const fs = require('fs');
 var parameters = require('./config/parameters'); 
 var timings = {};
-
+var datetime = require('node-datetime');
 
 var totalRequests = 0;
 var requestsReplied = 0;
@@ -105,7 +105,7 @@ function writeToFileActive(){
 		var current_timings = timings[operationids[i]];
 		var id = operationids[i];
 		for(var j = 0; j < current_timings.length; j++){
-			csvStream2.write({"id": id,"time":current_timings[j].time,"operationdID":current_timings[j].requestID});
+			csvStream2.write({"id": id,"time":current_timings[j].time,"operationdID":current_timings[j].requestID, "date": current_timings[j].date});
 		}
 	}
 	csvStream2.end();
@@ -146,22 +146,24 @@ function writeToFileReactive(){
 	csvStream.end();
 }
 
-
+//ACTIVE REQUESTS
 function addTiming(operationdID, time,requestID){
 	requestsReplied++;
+	var dt = datetime.create();
+    var datestring = dt.format('Y-m-d H:M:S').replace(' ','T');
 	if(!timings[operationdID]) { 
-		timings[operationdID] = [{"time":time,"requestID":requestID}];
+		timings[operationdID] = [{"time":time,"requestID":requestID, "date": datestring}];
 		operationids.push(operationdID);
 	}
 	else{
-		timings[operationdID].push({"time":time,"requestID":requestID});
+		timings[operationdID].push({"time":time,"requestID":requestID, "date": datestring});
 	}
 	if((requestsReplied % 150) ==1){
 		console.log(totalRequests+ " - " +requestsReplied);
 	}
 }
 
-
+//REACTIVE REQUESTS
 var operationsTimes = {};
 var operationsTimesResults = [];
 
