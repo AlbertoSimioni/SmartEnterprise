@@ -2,6 +2,7 @@ var unirest = require('unirest');
 
 
 var t01 = 1000;
+var t05 = 10000;
 var t1 = 50000;
 var t2 = 100000;
 var t15 = 1000000;
@@ -83,7 +84,7 @@ function getRoutes(msg){
 
 
 function postNewtrip(msg){
-	for (var i = 0; i < t1; i++) 
+	for (var i = 0; i < t05; i++) 
 	{}
 
 	msg.type = "step1";
@@ -95,7 +96,7 @@ function postNewtrip(msg){
         .type('json')
         .send({ "simID": msg.simID, "opID": msg.opID, "step" : msg.step+1})
         .end(function(response){
-        	for (var i = 0; i < t1; i++) 
+        	for (var i = 0; i < t05; i++) 
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";
@@ -105,7 +106,7 @@ function postNewtrip(msg){
 
 
 function putFilltrip(msg){
-	for (var i = 0; i < t1; i++) 
+	for (var i = 0; i < t05; i++) 
 	{}
 
 	msg.type = "step1";
@@ -117,7 +118,7 @@ function putFilltrip(msg){
         .type('json')
         .send({ "simID": msg.simID, "opID": msg.opID, "step" : msg.step+1})
         .end(function(response){
-        	for (var i = 0; i < t1; i++) 
+        	for (var i = 0; i < t05; i++) 
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";

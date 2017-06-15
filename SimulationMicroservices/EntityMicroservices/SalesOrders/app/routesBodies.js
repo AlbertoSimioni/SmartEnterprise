@@ -2,6 +2,7 @@ var t01 = 1000;
 var t1 = 50000;
 var t2 = 100000;
 var t15 = 1000000;
+var t25 = 2000000;
 var t120 = 10000000;
 var t1000 = 100000000;
 var t100000 = 1000000000; 
@@ -119,7 +120,7 @@ function getSalesorders(msg){
 	 for (var i = 0; i < t1; i++) 
 	 {}
 	 setTimeout(function(){
-	 	for (var i = 0; i < t120/2; i++) 
+	 	for (var i = 0; i < t15; i++) 
 	 	{}
 	 	msg.answer = "a";
 		msg.type = "end";
