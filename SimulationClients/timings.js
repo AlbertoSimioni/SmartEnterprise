@@ -61,6 +61,17 @@ function terminate(){
 
 }
 
+process.on('SIGINT', function() {
+    console.log("Caught interrupt signal");
+    if(!wrote){
+	  	writeToFileActive();
+	  	writeToFileReactive();
+	  	wrote = true;
+	    process.exit();
+	}
+});
+
+
 
 var wrote = false;
 process.on('beforeExit', (code) => {
