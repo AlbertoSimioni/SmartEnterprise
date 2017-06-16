@@ -1,4 +1,5 @@
 var t01 = 1000;
+var t05 = 10000;
 var t1 = 50000;
 var t2 = 100000;
 var t15 = 1000000;
@@ -58,7 +59,7 @@ module.exports = function (msg) {
 }
 
 function getAvailability(msg){
-	 for (var i = 0; i < t1; i++) 
+	 for (var i = 0; i < t01; i++) 
 	 {}
 	 setTimeout(function(){
 	 	for (var i = 0; i < t1; i++) 
@@ -71,10 +72,10 @@ function getAvailability(msg){
 }
 
 function postAvailability(msg){
-	 for (var i = 0; i < t1; i++) 
+	 for (var i = 0; i < t05; i++) 
 	 {}
 	 setTimeout(function(){
-	 	for (var i = 0; i < t1; i++) 
+	 	for (var i = 0; i < t05; i++) 
 	 	{}
 	 	msg.answer = "a";
 		msg.type = "end";
@@ -86,10 +87,10 @@ function postAvailability(msg){
 
 
 function putAvailability(msg){
-	 for (var i = 0; i < t1; i++) 
+	 for (var i = 0; i < t05; i++) 
 	 {}
 	 setTimeout(function(){
-	 	for (var i = 0; i < t1; i++) 
+	 	for (var i = 0; i < t05; i++) 
 	 	{}
 	 	msg.answer = "a";
 		msg.type = "end";
@@ -101,7 +102,7 @@ function putAvailability(msg){
 
 
 function deleteAvailability(msg){
-	 for (var i = 0; i < t1; i++) 
+	 for (var i = 0; i < t05; i++) 
 	 {}
 	 setTimeout(function(){
 	 	for (var i = 0; i < t1; i++) 
@@ -118,7 +119,7 @@ function getAvailabilities(msg){
 	 for (var i = 0; i < t1; i++) 
 	 {}
 	 setTimeout(function(){
-	 	for (var i = 0; i < t120; i++) 
+	 	for (var i = 0; i < t15; i++) 
 	 	{}
 	 	msg.answer = "a";
 		msg.type = "end";

@@ -102,7 +102,7 @@ function postNewavailability(msg){
 
 
 function putAddavailability(msg){
-	for (var i = 0; i < t1; i++) 
+	for (var i = 0; i < t1/5; i++) 
 	{}
 
 	msg.type = "step1";
@@ -114,7 +114,7 @@ function putAddavailability(msg){
         .type('json')
         .send({ "simID": msg.simID, "opID": msg.opID, "step" : msg.step+1})
         .end(function(response){
-        	for (var i = 0; i < t1; i++) 
+        	for (var i = 0; i < t1/5; i++) 
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";

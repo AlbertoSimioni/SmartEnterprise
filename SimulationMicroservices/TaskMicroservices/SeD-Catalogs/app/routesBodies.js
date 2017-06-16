@@ -71,7 +71,7 @@ function getCurrentcatalogs(msg){
         .type('json')
         .send({ "simID": msg.simID, "opID": msg.opID, "step" : msg.step+1})
         .end(function(response){
-        	for (var i = 0; i < t15; i++) 
+        	for (var i = 0; i < t15/3; i++) 
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";
@@ -81,7 +81,7 @@ function getCurrentcatalogs(msg){
 
 
 function postNewcatalog(msg){
-	for (var i = 0; i < t1; i++) 
+	for (var i = 0; i < t01; i++) 
 	{}
 
 	msg.type = "step1";
@@ -93,7 +93,7 @@ function postNewcatalog(msg){
         .type('json')
         .send({ "simID": msg.simID, "opID": msg.opID, "step" : msg.step+1})
         .end(function(response){
-        	for (var i = 0; i < t1; i++) 
+        	for (var i = 0; i < t1/2; i++) 
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";
@@ -104,7 +104,7 @@ function postNewcatalog(msg){
 
 
 function putAddcatalog(msg){
-	for (var i = 0; i < t1; i++) 
+	for (var i = 0; i < t01; i++) 
 	{}
 
 	msg.type = "step1";
@@ -116,7 +116,7 @@ function putAddcatalog(msg){
         .type('json')
         .send({ "simID": msg.simID, "opID": msg.opID, "step" : msg.step+1})
         .end(function(response){
-        	for (var i = 0; i < t1; i++) 
+        	for (var i = 0; i < t1/2; i++) 
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";

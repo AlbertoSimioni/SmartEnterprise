@@ -2,6 +2,7 @@ var unirest = require('unirest');
 
 
 var t01 = 1000;
+var t05 = 10000;
 var t1 = 50000;
 var t2 = 100000;
 var t15 = 1000000;
@@ -105,7 +106,7 @@ function postNewloadingplan(msg){
         .type('json')
         .send({ "simID": msg.simID, "opID": msg.opID, "step" : msg.step+1})
         .end(function(response){
-        	for (var i = 0; i < t1; i++) 
+        	for (var i = 0; i < t01; i++) 
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";
@@ -115,7 +116,7 @@ function postNewloadingplan(msg){
 
 
 function putAddloadingplan(msg){
-	for (var i = 0; i < t1; i++) 
+	for (var i = 0; i < t05; i++) 
 	{}
 
 	msg.type = "step1";
@@ -127,7 +128,7 @@ function putAddloadingplan(msg){
         .type('json')
         .send({ "simID": msg.simID, "opID": msg.opID, "step" : msg.step+1})
         .end(function(response){
-        	for (var i = 0; i < t1; i++) 
+        	for (var i = 0; i < t01; i++) 
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";
@@ -138,7 +139,7 @@ function putAddloadingplan(msg){
 
 
 function deleteLoadingplan(msg){
-	for (var i = 0; i < t1; i++) 
+	for (var i = 0; i < t05; i++) 
 	{}
 
 	msg.type = "step1";
@@ -150,7 +151,7 @@ function deleteLoadingplan(msg){
         .type('json')
         .send({ "simID": msg.simID, "opID": msg.opID, "step" : msg.step+1})
         .end(function(response){
-        	for (var i = 0; i < t1; i++) 
+        	for (var i = 0; i < t01; i++) 
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";
@@ -194,7 +195,7 @@ function postNewunloadingplan(msg){
         .type('json')
         .send({ "simID": msg.simID, "opID": msg.opID, "step" : msg.step+1})
         .end(function(response){
-        	for (var i = 0; i < t1; i++) 
+        	for (var i = 0; i < t01; i++) 
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";
@@ -204,7 +205,7 @@ function postNewunloadingplan(msg){
 
 
 function putAddunloadingplan(msg){
-	for (var i = 0; i < t1; i++) 
+	for (var i = 0; i < t05; i++) 
 	{}
 
 	msg.type = "step1";
@@ -216,7 +217,7 @@ function putAddunloadingplan(msg){
         .type('json')
         .send({ "simID": msg.simID, "opID": msg.opID, "step" : msg.step+1})
         .end(function(response){
-        	for (var i = 0; i < t1; i++) 
+        	for (var i = 0; i < t01; i++) 
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";
@@ -226,7 +227,7 @@ function putAddunloadingplan(msg){
 
 
 function putConfirmloadingplan(msg){
-	for (var i = 0; i < t1; i++) 
+	for (var i = 0; i < t05; i++) 
 	{}
 
 	msg.type = "step1";
@@ -238,7 +239,7 @@ function putConfirmloadingplan(msg){
         .type('json')
         .send({ "simID": msg.simID, "opID": msg.opID, "step" : msg.step+1})
         .end(function(response){
-        	for (var i = 0; i < t1; i++) 
+        	for (var i = 0; i < t05; i++) 
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";
@@ -250,7 +251,7 @@ function putConfirmloadingplan(msg){
 
 
 function deleteUnloadingplan(msg){
-	for (var i = 0; i < t1; i++) 
+	for (var i = 0; i < t05; i++) 
 	{}
 
 	msg.type = "step1";
@@ -262,7 +263,7 @@ function deleteUnloadingplan(msg){
         .type('json')
         .send({ "simID": msg.simID, "opID": msg.opID, "step" : msg.step+1})
         .end(function(response){
-        	for (var i = 0; i < t1; i++) 
+        	for (var i = 0; i < t01; i++) 
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";

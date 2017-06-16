@@ -84,7 +84,7 @@ function getRoutes(msg){
 
 
 function postNewtrip(msg){
-	for (var i = 0; i < t05; i++) 
+	for (var i = 0; i < t01; i++) 
 	{}
 
 	msg.type = "step1";
@@ -106,7 +106,7 @@ function postNewtrip(msg){
 
 
 function putFilltrip(msg){
-	for (var i = 0; i < t05; i++) 
+	for (var i = 0; i < t01; i++) 
 	{}
 
 	msg.type = "step1";
@@ -128,7 +128,7 @@ function putFilltrip(msg){
 
 
 function deleteTrip(msg){
-	for (var i = 0; i < t1; i++) 
+	for (var i = 0; i < t01; i++) 
 	{}
 
 	msg.type = "step1";

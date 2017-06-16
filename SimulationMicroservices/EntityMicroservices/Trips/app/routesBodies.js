@@ -1,4 +1,5 @@
 var t01 = 1000;
+var t05 = 10000;
 var t1 = 50000;
 var t2 = 100000;
 var t15 = 1000000;
@@ -59,7 +60,7 @@ module.exports = function (msg) {
 }
 
 function getTrip(msg){
-	 for (var i = 0; i < t1; i++) 
+	 for (var i = 0; i < t01; i++) 
 	 {}
 	 setTimeout(function(){
 	 	for (var i = 0; i < t1; i++) 
@@ -72,10 +73,10 @@ function getTrip(msg){
 }
 
 function postTrip(msg){
-	 for (var i = 0; i < t1; i++) 
+	 for (var i = 0; i < t05; i++) 
 	 {}
 	 setTimeout(function(){
-	 	for (var i = 0; i < t1; i++) 
+	 	for (var i = 0; i < t01; i++) 
 	 	{}
 	 	msg.answer = "a";
 		msg.type = "end";
@@ -87,10 +88,10 @@ function postTrip(msg){
 
 
 function putTrip(msg){
-	 for (var i = 0; i < t1; i++) 
+	 for (var i = 0; i < t05; i++) 
 	 {}
 	 setTimeout(function(){
-	 	for (var i = 0; i < t1; i++) 
+	 	for (var i = 0; i < t01; i++) 
 	 	{}
 	 	msg.answer = "a";
 		msg.type = "end";
@@ -102,10 +103,10 @@ function putTrip(msg){
 
 
 function deleteTrip(msg){
-	 for (var i = 0; i < t1; i++) 
+	 for (var i = 0; i < t05; i++) 
 	 {}
 	 setTimeout(function(){
-	 	for (var i = 0; i < t1; i++) 
+	 	for (var i = 0; i < t01; i++) 
 	 	{}
 	 	msg.answer = "a";
 		msg.type = "end";
@@ -119,7 +120,7 @@ function getTrips(msg){
 	 for (var i = 0; i < t1; i++) 
 	 {}
 	 setTimeout(function(){
-	 	for (var i = 0; i < t120; i++) 
+	 	for (var i = 0; i < t15; i++) 
 	 	{}
 	 	msg.answer = "a";
 		msg.type = "end";
