@@ -68,7 +68,9 @@ process.on('SIGINT', function() {
 	  	writeToFileReactive();
 	  	wrote = true;
 	}
-	//process.exit();
+	 setTimeout(function () {
+		process.exit();
+	},8000);
 });
 
 
