@@ -14,10 +14,10 @@ function timeout() {
     }
     timeout();
 
-    }, 5000);
+    }, 15000);
 }
 
-
+//IDEA AUMENTARE INTERVALLO E TOGLIERE RISPOSTA
 
 function insertDB(){
     TimingData.collection.insert(documents, 
@@ -52,7 +52,7 @@ module.exports = function (app) {
         }
 
         documents.push(log);
-        res.send("ok").end();
+        res.end();
 
 
     });
