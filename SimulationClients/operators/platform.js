@@ -14,7 +14,7 @@ Math.log = (function() {
   };
 })();
 
-var poolOption = { maxSockets: 10 }
+var poolOption = { maxSockets: 100 }
 
 var method = Platform.prototype;
 var usersCounter = 0;
