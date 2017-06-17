@@ -20,7 +20,7 @@ var usersCounter = 0;
 var maxUsers = 20;
 
 
-
+var poolOption = { maxSockets: 100 }
 
 
 function Logistic() {
@@ -55,6 +55,7 @@ function Logistic() {
 	    				var hrstart = process.hrtime();
 	    			
 	    				unirest.get(addresses.gateway+'/lodorders/currentpurchasingorders')
+	    				.pool(poolOption)
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 				        .end(function(response){
@@ -69,6 +70,7 @@ function Logistic() {
 	    				var hrstart = process.hrtime();
 	    				timings.makeRequest(requestID,hrstart);
 	    				unirest.post(addresses.gateway+'/lodtransports/newtrip')
+	    				.pool(poolOption)
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 				        .end(function(response){
@@ -82,6 +84,7 @@ function Logistic() {
 	    				var hrstart = process.hrtime();
 	    				
 	    				unirest.put(addresses.gateway+'/lodtransports/filltrip/lol')
+	    				.pool(poolOption)
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 				        .end(function(response){
@@ -95,6 +98,7 @@ function Logistic() {
 	    				var hrstart = process.hrtime();
 	    			timings.makeRequest(requestID,hrstart);
 	    				unirest.put(addresses.gateway+'/lodtransports/confirmtrip/lol')
+	    				.pool(poolOption)
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 				        .end(function(response){
@@ -108,6 +112,7 @@ function Logistic() {
 	    				var hrstart = process.hrtime();
 	    			
 	    				unirest.get(addresses.gateway+'/lodwarehouses/currentwarehousesstate')
+	    				.pool(poolOption)
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 				        .end(function(response){
@@ -129,6 +134,7 @@ function Logistic() {
 	    				var hrstart = process.hrtime();
 	    			
 	    				unirest.get(addresses.gateway+'/lodorders/currentsalesorders')
+	    				.pool(poolOption)
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 				        .end(function(response){
@@ -143,6 +149,7 @@ function Logistic() {
 	    				var hrstart = process.hrtime();
 	    				timings.makeRequest(requestID,hrstart);
 	    				unirest.post(addresses.gateway+'/lodtransports/newtrip')
+	    				.pool(poolOption)
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 				        .end(function(response){
@@ -156,6 +163,7 @@ function Logistic() {
 	    				var hrstart = process.hrtime();
 	    			
 	    				unirest.put(addresses.gateway+'/lodtransports/filltrip/lol')
+	    				.pool(poolOption)
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 				        .end(function(response){
@@ -170,6 +178,7 @@ function Logistic() {
 	    			timings.makeRequest(requestID,hrstart);
 	    				////console.log("CONFIRMING");
 	    				unirest.put(addresses.gateway+'/lodtransports/confirmtrip/lol')
+	    				.pool(poolOption)
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 				        .end(function(response){
@@ -183,6 +192,7 @@ function Logistic() {
 	    				var hrstart = process.hrtime();
 	    			
 	    				unirest.get(addresses.gateway+'/lodwarehouses/currentwarehousesstate')
+	    				.pool(poolOption)
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 				        .end(function(response){
