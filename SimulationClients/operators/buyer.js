@@ -20,7 +20,7 @@ var method = Buyer.prototype;
 var usersCounter = 0;
 var maxUsers = 15;
 
-var poolOption = { maxSockets: 100 }
+var poolOption = { maxSockets: 10 }
 
 
 
