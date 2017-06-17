@@ -21,7 +21,7 @@ var connection = new autobahn.Connection({
       });
 
 
-var poolOption = { maxSockets: 100 }
+
 var wampSession;
 
 connection.open();
@@ -56,7 +56,6 @@ function getCurrentAvailabilities(msg){
 	process.send(msg);
 
 	 unirest.get('http://availabilities:8080/availability/lol')
-	 .pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')

@@ -21,7 +21,7 @@ var connection = new autobahn.Connection({
       });
 
 
-var poolOption = { maxSockets: 100 }
+
 var wampSession;
 
 connection.open();
@@ -56,7 +56,6 @@ function getCurrentwarehousesstate(msg){
 	process.send(msg);
 
     unirest.get('http://warehouses:8080/warehouses')
-    .pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
@@ -68,7 +67,6 @@ function getCurrentwarehousesstate(msg){
 			process.send(msg);
 
 		 	unirest.get('http://wares:8080/activewares')
-		 	.pool(poolOption)
 		 	    .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 		        .type('json')
 		        .send({ "simID": msg.simID, "opID": msg.opID, "step" : msg.step+3})

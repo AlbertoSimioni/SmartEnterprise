@@ -21,7 +21,7 @@ var connection = new autobahn.Connection({
          realm: 'realm1'
       });
 
-var poolOption = { maxSockets: 100 }
+
 
 var wampSession;
 
@@ -80,7 +80,6 @@ function getCurrentloadingplans(msg){
 	process.send(msg);
 
      unirest.get('http://loadingplans:8080/loadingplan/lol')
-     .pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
@@ -102,7 +101,6 @@ function postNewloadingplan(msg){
 	process.send(msg);
 
     unirest.post('http://loadingplans:8080/loadingplan')
-    .pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
@@ -125,7 +123,6 @@ function putAddloadingplan(msg){
 	process.send(msg);
 
 	 unirest.put('http://loadingplans:8080/loadingplan/lol')
-	 .pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
@@ -149,7 +146,6 @@ function deleteLoadingplan(msg){
 	process.send(msg);
 
 	unirest.delete('http://loadingplans:8080/loadingplan/lol')
-	.pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
@@ -172,7 +168,6 @@ function getCurrentunloadingplans(msg){
 	process.send(msg);
 
 	unirest.get('http://unloadingplans:8080/unloadingplan/lol')
-	.pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
@@ -195,7 +190,6 @@ function postNewunloadingplan(msg){
 	process.send(msg);
 
 	unirest.post('http://unloadingplans:8080/unloadingplan')
-	.pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
@@ -218,7 +212,6 @@ function putAddunloadingplan(msg){
 	process.send(msg);
 
 	unirest.put('http://unloadingplans:8080/unloadingplan/lol')
-	.pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
@@ -241,7 +234,6 @@ function putConfirmloadingplan(msg){
 	process.send(msg);
 
 	unirest.put('http://unloadingplans:8080/unloadingplan/lol')
-	.pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
@@ -266,7 +258,6 @@ function deleteUnloadingplan(msg){
 	process.send(msg);
 
 	unirest.delete('http://unloadingplans:8080/unloadingplan/lol')
-	.pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
