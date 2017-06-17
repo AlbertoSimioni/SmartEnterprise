@@ -1,5 +1,5 @@
 var t01 = 1000;
-var t1 = 50000;
+var t1 = 20000;
 var t2 = 100000;
 var t15 = 1000000;
 var t120 = 10000000;
@@ -120,7 +120,7 @@ function getLoadingplans(msg){
 	 for (var i = 0; i < t1; i++) 
 	 {}
 	 setTimeout(function(){
-	 	for (var i = 0; i < t15; i++) 
+	 	for (var i = 0; i < t15/4; i++) 
 	 	{}
 	 	msg.answer = "a";
 		msg.type = "end";
