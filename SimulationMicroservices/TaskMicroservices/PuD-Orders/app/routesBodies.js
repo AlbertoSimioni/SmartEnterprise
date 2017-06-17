@@ -2,6 +2,7 @@ var unirest = require('unirest');
 
 
 var t01 = 1000;
+var t05 = 10000;
 var t1 = 50000;
 var t2 = 100000;
 var t15 = 1000000;
@@ -65,7 +66,7 @@ module.exports = function (msg) {
 }
 
 function getCurrentpurchasingorders(msg){
-	for (var i = 0; i < t1; i++) 
+	for (var i = 0; i < t01; i++) 
 	{}
 
 	msg.type = "step1";
@@ -77,7 +78,7 @@ function getCurrentpurchasingorders(msg){
         .type('json')
         .send({ "simID": msg.simID, "opID": msg.opID, "step" : msg.step+1})
         .end(function(response){
-        	for (var i = 0; i < t15; i++) 
+        	for (var i = 0; i < t15/3; i++) 
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";
@@ -86,7 +87,7 @@ function getCurrentpurchasingorders(msg){
 }
 
 function getCurrentsalesorders(msg){
-	for (var i = 0; i < t1; i++) 
+	for (var i = 0; i < t01; i++) 
 	{}
 
 	msg.type = "step1";
@@ -98,7 +99,7 @@ function getCurrentsalesorders(msg){
         .type('json')
         .send({ "simID": msg.simID, "opID": msg.opID, "step" : msg.step+1})
         .end(function(response){
-        	for (var i = 0; i < t15; i++) 
+        	for (var i = 0; i < t15/3; i++) 
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";
@@ -107,7 +108,7 @@ function getCurrentsalesorders(msg){
 }
 
 function putConfirmpurchasingorder(msg){
-	for (var i = 0; i < t1; i++) 
+	for (var i = 0; i < t01; i++) 
 	{}
 
 	msg.type = "step1";
@@ -131,7 +132,7 @@ function putConfirmpurchasingorder(msg){
 
 
 function postNewpurchasingorder(msg){
-	for (var i = 0; i < t1; i++) 
+	for (var i = 0; i < t05; i++) 
 	{}
 
 	msg.type = "step1";
@@ -143,7 +144,7 @@ function postNewpurchasingorder(msg){
         .type('json')
         .send({ "simID": msg.simID, "opID": msg.opID, "step" : msg.step+1})
         .end(function(response){
-        	for (var i = 0; i < t1; i++) 
+        	for (var i = 0; i < t05; i++) 
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";
@@ -152,7 +153,7 @@ function postNewpurchasingorder(msg){
 }
 
 function putAddpurchasingorder(msg){
-	for (var i = 0; i < t1; i++) 
+	for (var i = 0; i < t05; i++) 
 	{}
 
 	msg.type = "step1";
@@ -164,7 +165,7 @@ function putAddpurchasingorder(msg){
         .type('json')
         .send({ "simID": msg.simID, "opID": msg.opID, "step" : msg.step+1})
         .end(function(response){
-        	for (var i = 0; i < t1; i++) 
+        	for (var i = 0; i < t05; i++) 
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";
@@ -173,7 +174,7 @@ function putAddpurchasingorder(msg){
 }
 
 function deletePurchasingorder(msg){
-	for (var i = 0; i < t1; i++) 
+	for (var i = 0; i < t05; i++) 
 	{}
 
 	msg.type = "step1";
@@ -185,7 +186,7 @@ function deletePurchasingorder(msg){
         .type('json')
         .send({ "simID": msg.simID, "opID": msg.opID, "step" : msg.step+1})
         .end(function(response){
-        	for (var i = 0; i < t1; i++) 
+        	for (var i = 0; i < t05; i++) 
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";

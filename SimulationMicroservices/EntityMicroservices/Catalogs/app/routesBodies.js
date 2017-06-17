@@ -81,7 +81,7 @@ function postCatalog(msg){
 		msg.type = "end";
 		wampSession.publish('catalogs',  [], {type: "new" , opID: msg.opID});
 		process.send(msg);
-	 },tenms*2)	
+	 },tenms)	
 
 }
 
@@ -95,7 +95,7 @@ function putCatalog(msg){
 	 	msg.answer = "a";
 		msg.type = "end";
 		process.send(msg);
-	 },tenms*2)	
+	 },tenms/2)	
 
 }
 
@@ -110,7 +110,7 @@ function deleteCatalog(msg){
 	 	msg.answer = "a";
 		msg.type = "end";
 		process.send(msg);
-	 },tenms*5)	
+	 },tenms)	
 
 }
 
@@ -124,5 +124,5 @@ function getCatalogs(msg){
 	 	msg.answer = "a";
 		msg.type = "end";
 		process.send(msg);
-	 },thoums*6)	
+	 },thoums)	
 }

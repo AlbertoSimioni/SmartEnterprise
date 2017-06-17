@@ -70,7 +70,7 @@ function getCurrentAvailabilities(msg){
         .type('json')
         .send({ "simID": msg.simID, "opID": msg.opID, "step" : msg.step+1})
         .end(function(response){
-        	for (var i = 0; i < t15; i++) 
+        	for (var i = 0; i < t15/4; i++) 
 		 	{}
 		 	msg.answer = "a";
 			msg.type = "end";
