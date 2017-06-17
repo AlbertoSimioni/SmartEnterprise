@@ -1,4 +1,4 @@
-var poolOption = { maxSockets: 100 }var datetime = require('node-datetime');
+var datetime = require('node-datetime');
 var unirest = require('unirest');
 
 //NEW
@@ -9,7 +9,7 @@ for (const id in cluster.workers) {
   cluster.workers[id].on('message', messageHandler);
 }
 
-var poolOption = { maxSockets: 100 }
+
 function messageHandler(msg){
     if(msg.type == "start"){
         queueLength--;
@@ -32,7 +32,6 @@ function messageHandler(msg){
         var dt = datetime.create();
         var datestring = dt.format('Y-m-d H:M:S').replace(' ','T');
         unirest.post('http://metrics-collector:8080/timingSample')
-        .pool(poolOption)
         //unirest.post('http://localhost:9080/timingSample')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
