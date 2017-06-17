@@ -16,7 +16,7 @@ Math.log = (function() {
 })();
 
 
-var poolOption = { maxSockets: 100 }
+var poolOption = { maxSockets: 10 }
 var method = Seller.prototype;
 var usersCounter = 0;
 var maxUsers = 30;
