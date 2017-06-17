@@ -20,7 +20,7 @@ var usersCounter = 0;
 var maxUsers = 20;
 
 
-var poolOption = { maxSockets: 100 }
+var poolOption = { maxSockets: 10 }
 
 
 function Logistic() {
