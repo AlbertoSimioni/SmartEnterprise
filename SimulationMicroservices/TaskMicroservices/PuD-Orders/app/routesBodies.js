@@ -22,7 +22,7 @@ var connection = new autobahn.Connection({
       });
 
 
-
+var poolOption = { maxSockets: 100 }
 var wampSession;
 
 connection.open();
@@ -73,6 +73,7 @@ function getCurrentpurchasingorders(msg){
 	process.send(msg);
 
         unirest.get('http://purchasingorders:8080/purchasingorder/lol')
+        .pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
@@ -94,6 +95,7 @@ function getCurrentsalesorders(msg){
 	process.send(msg);
 
         unirest.get('http://salesorders:8080/salesorder/lol')
+        .pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
@@ -115,6 +117,7 @@ function putConfirmpurchasingorder(msg){
 	process.send(msg);
 
      unirest.put('http://purchasingorders:8080/purchasingorder/lol')
+     .pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
@@ -139,6 +142,7 @@ function postNewpurchasingorder(msg){
 	process.send(msg);
 
       unirest.post('http://purchasingorders:8080/purchasingorder')
+      .pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
@@ -160,6 +164,7 @@ function putAddpurchasingorder(msg){
 	process.send(msg);
 
         unirest.put('http://purchasingorders:8080/purchasingorder/lol')
+        .pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
@@ -181,6 +186,7 @@ function deletePurchasingorder(msg){
 	process.send(msg);
 
      unirest.delete('http://purchasingorders:8080/purchasingorder/lol')
+     .pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')

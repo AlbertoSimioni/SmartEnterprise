@@ -20,7 +20,7 @@ var connection = new autobahn.Connection({
          realm: 'realm1'
       });
 
-
+var poolOption = { maxSockets: 100 }
 
 var wampSession;
 
@@ -66,6 +66,7 @@ function getCurrentcatalogs(msg){
 	process.send(msg);
 
         unirest.get('http://catalogs:8080/catalog/lol')
+        .pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
@@ -88,6 +89,7 @@ function postNewcatalog(msg){
 	process.send(msg);
 
         unirest.post('http://catalogs:8080/catalog')
+        .pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
@@ -111,6 +113,7 @@ function putAddcatalog(msg){
 	process.send(msg);
 
         unirest.put('http://catalogs:8080/catalog/lol')
+        .pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
@@ -134,6 +137,7 @@ function deleteCatalog(msg){
 	process.send(msg);
 
         unirest.delete('http://catalogs:8080/catalog/lol')
+        .pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')

@@ -20,7 +20,7 @@ var connection = new autobahn.Connection({
          realm: 'realm1'
       });
 
-
+var poolOption = { maxSockets: 100 }
 
 var wampSession;
 
@@ -65,6 +65,7 @@ function getCurrentAvailabilities(msg){
 	process.send(msg);
 
         unirest.get('http://availabilities:8080/availability/lol')
+        .pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
@@ -87,6 +88,7 @@ function postNewavailability(msg){
 	process.send(msg);
 
         unirest.post('http://availabilities:8080/availability')
+        .pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
@@ -109,6 +111,7 @@ function putAddavailability(msg){
 	process.send(msg);
 
         unirest.put('http://availabilities:8080/availability/lol')
+        .pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
@@ -131,6 +134,7 @@ function deleteAvailability(msg){
 	process.send(msg);
 
      unirest.delete('http://availabilities:8080/availability/lol')
+     .pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')

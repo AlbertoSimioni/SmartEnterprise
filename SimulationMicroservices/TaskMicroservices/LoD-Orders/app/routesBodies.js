@@ -20,7 +20,7 @@ var connection = new autobahn.Connection({
          realm: 'realm1'
       });
 
-
+var poolOption = { maxSockets: 100 }
 
 var wampSession;
 
@@ -59,6 +59,7 @@ function getCurrentPurchasingOrders(msg){
 	process.send(msg);
 
      unirest.get('http://purchasingorders:8080/purchasingorder/lol')
+     .pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
@@ -81,6 +82,7 @@ function getCurrentSalesOrders(msg){
 	process.send(msg);
 
         unirest.get('http://salesorders:8080/salesorder/lol')
+        .pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')

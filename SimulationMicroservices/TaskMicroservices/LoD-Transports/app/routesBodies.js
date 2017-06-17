@@ -21,7 +21,7 @@ var connection = new autobahn.Connection({
          realm: 'realm1'
       });
 
-
+var poolOption = { maxSockets: 100 }
 
 var wampSession;
 
@@ -69,6 +69,7 @@ function getRoutes(msg){
 	process.send(msg);
 
      unirest.get('http://routes:8080/routes')
+     .pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
@@ -91,6 +92,7 @@ function postNewtrip(msg){
 	process.send(msg);
 
      unirest.post('http://trips:8080/trip')
+     .pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
@@ -113,6 +115,7 @@ function putFilltrip(msg){
 	process.send(msg);
 
     unirest.put('http://trips:8080/trip/lol')
+    .pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
@@ -135,6 +138,7 @@ function deleteTrip(msg){
 	process.send(msg);
 
      unirest.delete('http://trips:8080/trip/lol')
+     .pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
@@ -157,6 +161,7 @@ function putConfirmTrip(msg){
 	process.send(msg);
 
      unirest.put('http://trips:8080/trip/lol')
+     .pool(poolOption)
 	 //unirest.get('http://localhost:8090/availability/lol')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .type('json')
