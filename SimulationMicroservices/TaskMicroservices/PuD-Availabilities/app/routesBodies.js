@@ -1,13 +1,13 @@
 var unirest = require('unirest');
-var t01 = 10000;
-var t05 = 100000;
-var t1 = 500000;
-var t2 = 1000000;
-var t15 = 10000000;
-var t120 = 100000000;
-var t1000 = 1000000000;
-var t100000 = 10000000000; 
 
+
+var t01 = 1000;
+var t1 = 50000;
+var t2 = 100000;
+var t15 = 1000000;
+var t120 = 10000000;
+var t1000 = 100000000;
+var t100000 = 1000000000; 
 
 var tenms = 10;
 var thoums = 1000;
