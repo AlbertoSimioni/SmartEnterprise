@@ -16,7 +16,7 @@ Math.log = (function() {
 })();
 
 
-var poolOption = { maxSockets: 100 }
+var poolOption = { maxSockets: 1000 }
 var method = Seller.prototype;
 var usersCounter = 0;
 var maxUsers = 30;
@@ -55,7 +55,7 @@ function Seller() {
 	    			timings.makeRequest(requestID,hrstart);
 	    			
 		    		unirest.post(addresses.gateway+'/sedcatalogs/newcatalog')
-		    		.pool(poolOption)
+		    		.forever(true).pool(poolOption)
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 			        .end(function(response){
@@ -69,7 +69,7 @@ function Seller() {
 		    		var hrstart = process.hrtime();
 	    			
 		    		unirest.put(addresses.gateway+'/sedcatalogs/addcatalog/lol')
-		    		.pool(poolOption)
+		    		.forever(true).pool(poolOption)
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 			        .end(function(response){
@@ -83,7 +83,7 @@ function Seller() {
 		    		var hrstart = process.hrtime();
 	    			
 		    		unirest.get(addresses.gateway+'/sedcatalogs/currentcatalogs')
-		    		.pool(poolOption)
+		    		.forever(true).pool(poolOption)
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 			        .end(function(response){
@@ -102,7 +102,7 @@ function Seller() {
 					var hrstart = process.hrtime();
 	    			timings.makeRequest(requestID,hrstart);
 		    		unirest.post(addresses.gateway+'/sedorders/newsalesorder')
-		    		.pool(poolOption)
+		    		.forever(true).pool(poolOption)
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 			        .end(function(response){
@@ -116,7 +116,7 @@ function Seller() {
 		    		var hrstart = process.hrtime();
 	    			
 		    		unirest.put(addresses.gateway+'/sedorders/addsalesorder/lol')
-		    		.pool(poolOption)
+		    		.forever(true).pool(poolOption)
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 			        .end(function(response){
@@ -130,7 +130,7 @@ function Seller() {
 		    		var hrstart = process.hrtime();
 	    			timings.makeRequest(requestID,hrstart);
 		    		unirest.put(addresses.gateway+'/sedorders/confirmsalesorder')
-		    		.pool(poolOption)
+		    		.forever(true).pool(poolOption)
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 			        .end(function(response){
@@ -144,7 +144,7 @@ function Seller() {
 		    		var hrstart = process.hrtime();
 	    			
 		    		unirest.get(addresses.gateway+'/sedorders/currentsalesorders')
-		    		.pool(poolOption)
+		    		.forever(true).pool(poolOption)
 			        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 			        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 			        .end(function(response){
@@ -173,7 +173,7 @@ function Seller() {
 	    	if((opnr % sellers.length) == nr){
 	    		timings.reactiveRequest(kwargs.opID);
 		    	unirest.get('http://147.162.226.101:30008/sedavailabilities/currentavailabilities')
-		    	.pool(poolOption)
+		    	.forever(true).pool(poolOption)
 		        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 		        .send({ "simID": parameters.simulationID, "opID": sellers[nr]._id+'-'+sellers[nr]._reactOpCounter+'-R', "step" : 0})
 		        .end(function(response){
@@ -188,7 +188,7 @@ function Seller() {
 	    	if((opnr % sellers.length) == nr){
 	    		timings.reactiveRequest(kwargs.opID);
 		    	unirest.get('http://147.162.226.101:30008/sedorders/currentpurchasingorders')
-		    	.pool(poolOption)
+		    	.forever(true).pool(poolOption)
 		        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 		        .send({ "simID": parameters.simulationID, "opID": sellers[nr]._id+'-'+sellers[nr]._reactOpCounter+'-R', "step" : 0})
 		        .end(function(response){

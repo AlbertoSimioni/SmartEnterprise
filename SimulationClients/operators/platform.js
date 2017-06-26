@@ -14,7 +14,7 @@ Math.log = (function() {
   };
 })();
 
-var poolOption = { maxSockets: 100 }
+var poolOption = { maxSockets: 1000 }
 
 var method = Platform.prototype;
 var usersCounter = 0;
@@ -54,7 +54,7 @@ function Platform() {
 		    			var hrstart = process.hrtime();
 	    			  				
 	    				unirest.get(addresses.gateway+'/pldplans/currentloadingplans')
-	    				.pool(poolOption)
+	    				.forever(true).pool(poolOption)
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 				        .end(function(response){
@@ -68,7 +68,7 @@ function Platform() {
 	    				var hrstart = process.hrtime();
 	    				timings.makeRequest(requestID,hrstart);
 	    				unirest.post(addresses.gateway+'/pldplans/newloadingplan')
-	    				.pool(poolOption)
+	    				.forever(true).pool(poolOption)
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 				        .end(function(response){
@@ -83,7 +83,7 @@ function Platform() {
 	    				var hrstart = process.hrtime();
 	    			
 	    				unirest.put(addresses.gateway+'/pldplans/addloadingplan/lol')
-	    				.pool(poolOption)
+	    				.forever(true).pool(poolOption)
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 				        .end(function(response){
@@ -97,7 +97,7 @@ function Platform() {
 	    				var hrstart = process.hrtime();
 	    			timings.makeRequest(requestID,hrstart);
 	    				unirest.put(addresses.gateway+'/pldplans/confirmloadingplan/lol')
-	    				.pool(poolOption)
+	    				.forever(true).pool(poolOption)
 				        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
 				        .send({ "simID": parameters.simulationID, "opID": requestID, "step" : 0})
 				        .end(function(response){
