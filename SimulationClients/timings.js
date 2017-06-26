@@ -136,7 +136,7 @@ function writeToFileReactive(){
 	csvStream3.pipe(writableStream3);
 	for (var i = 0; i < operationsTimesResults.length; i++) {
 		var current_result = operationsTimesResults[i];
-		csvStream3.write({"id": current_result.opID,"time":current_result.time});	
+		csvStream3.write({"id": current_result.opID,"time":current_result.time,"date":current_result.date});	
 	}
 	csvStream3.end();
 
@@ -188,8 +188,10 @@ function makeRequest(opID, timestart){
 function reactiveRequest(opID){
 	var hrstart =  operationsTimes[opID];
 	var hrend = process.hrtime(hrstart);
+	var dt = datetime.create();
+    var datestring = dt.format('Y-m-d H:M:S').replace(' ','T');
     var msElapsed = hrend[0]*1000 + hrend[1]/1000000;
-    operationsTimesResults.push({"opID":opID,"time":msElapsed});
+    operationsTimesResults.push({"opID":opID,"time":msElapsed,"date": datestring});
     delete operationsTimes[opID];
 }
 
