@@ -9,6 +9,20 @@ for (const id in cluster.workers) {
   cluster.workers[id].on('message', messageHandler);
 }
 
+var dtm = datetime.create();
+var datestringm = dtm.format('Y-m-d H:M:S').replace(' ','T');
+unirest.post('http://metrics-collector:8080/timingSample')
+//unirest.post('http://localhost:9080/timingSample')
+.headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
+.type('json')
+.send({ "simID": "id", "opID": "Started", "step" : 1, 
+   "timing" : 1 ,"serviceName": "SeD-Catalogs", "apiName": "none","date":datestringm,
+            "queueLength": 0, "queueTiming": 1
+
+    })
+.end();
+
+
 
 function messageHandler(msg){
     if(msg.type == "start"){
