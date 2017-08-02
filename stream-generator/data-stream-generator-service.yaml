@@ -20,11 +20,7 @@ spec:
   ports:
   - port: 3000
     targetPort: zeromq
-    nodePort: 30010
     name: zeromq
   selector:
     name: data-stream-generator
   sessionAffinity: ClientIP
-  type: NodePort
-  externalIPs:
-    - 147.162.226.101
